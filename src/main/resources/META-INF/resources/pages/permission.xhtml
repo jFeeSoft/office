@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/templates/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        #{msg['page.permission.title']}
+    </ui:define>
+
+	<ui:define name="description">
+        #{msg['page.permission.description']}
+    </ui:define>
+
+	<ui:define name="body">
+		<h:form id="permission">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<p:dataTable id="permissionTable" var="permission"
+						value="#{permissionView.genericLazyModel}" paginator="true"
+						rows="25" widgetVar="permissionTable" paginatorPosition="bottom"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						rowsPerPageTemplate="25,50,100" lazy="true"
+						draggableColumns="true" resizableColumns="true">
+					
+						<p:column headerText="#{msg['permission.table.header.name']}"
+							sortBy="#{permission.name}" filterBy="#{permission.name}">
+							<h:outputText value="#{permission.name}" />
+							<p:spacer height="2" />
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.component']}"
+							sortBy="#{permission.component}"
+							filterBy="#{permission.component}">
+							<h:outputText value="#{permission.component}" />
+						</p:column>
+						<p:column style="text-align: right">
+							<p:commandButton id="edit" value="#{msg['button.editDetails']}"
+								process="@this" action="#{permissionView.edit(permission)}"
+								resetValues="true" update="permission:newPermissionPanel"
+								oncomplete="PF('newPermissionDialog').show()" styleClass="btn-primary"/>
+								<p:spacer width="10"/>
+							<p:commandButton id="delete" value="#{msg['button.delete']}"
+								process="@this" action="#{permissionView.delete(permission)}"
+								update="permission:permissionTable" styleClass="btn-info" >
+								<p:confirm header="#{msg['confirmation.header']}" message="#{msg['confirmation.delete']}" icon="ui-icon-alert"/>
+							</p:commandButton>
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton id="perAddButton" action="#{permissionView.add}"
+								update="permission:newPermissionPanel" process="@this"
+								oncomplete="PF('newPermissionDialog').show()" icon="fa fa-plus"
+								value="#{msg['button.add']}" styleClass="btn-primary"
+								resetValues="true" style="float:right"/>
+							
+						</f:facet>
+					</p:dataTable>
+
+					<p:dialog id="perDial" header="#{msg['permission.new']}"
+						showEffect="fade" widgetVar="newPermissionDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="newPermissionPanel">
+							<div class="box-body">
+								<div class="form-group">
+
+									<p:outputLabel for="perName" value="#{msg['permission.table.header.name']}:" />
+									<p:inputText id="perName" class="form-control"
+										value="#{permissionView.newEntity.name}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="perNameMsg" for="perName" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel value="#{msg['permission.table.header.component']}:"
+										for="perComp" />
+
+									<p:inputText id="perComp" class="form-control"
+										value="#{permissionView.newEntity.component}"
+										required="true" requiredMessage="#{msg['required.empty']}" />
+
+									<p:message id="perCompMsg" for="perComp" />
+
+								</div>
+
+							</div>
+
+
+							<p:separator />
+							<div id="save-buttons" class="hidden-sm hidden-xs">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
+									styleClass="btn-danger btn-primary"
+									process="permission:newPermissionPanel"
+									update="permission:permissionTable,permission:newPermissionPanel"
+									action="#{permissionView.save}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newPermissionDialog').hide()"/>
+								<p:spacer width="10" />
+								<p:commandButton icon="fa fa-eraser"
+									value="#{msg['button.clear']}" styleClass="btn-info"
+									process="@this" update="permission:newPermissionPanel"
+									resetValues="true" actionListener="#{permissionView.add}" />
+								<p:spacer width="10" />
+								<p:commandButton oncomplete="PF('newPermissionDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.cancel']}"
+									styleClass="btn-default" />
+							</div>
+
+						</p:outputPanel>
+					</p:dialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-warning">
+                        <p:commandButton value="#{msg['button.yes']}" type="button" styleClass="btn-primary ui-confirmdialog-yes"
+                                         icon="fa fa-check"/>
+                        <p:commandButton value="#{msg['button.no']}" type="button" styleClass="btn-danger ui-confirmdialog-no"
+                                         icon="fa fa-close"/>
+                    </p:confirmDialog>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

@@ -2,7 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/pages/templates/template.xhtml"
+                template="/pages/template/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
 
@@ -26,8 +26,8 @@
     <ui:define name="body">
 		<h:form id="role">
 			<div class="box box-primary">
-				<div class="box-header with-border">
-					<p:dataTable id="roleTable" var="role"
+				
+					<p:dataTable id="roleTable" var="role" class="table table-bordered table-striped"
 						value="#{roleView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="roleTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -123,7 +123,7 @@
                                          icon="fa fa-close"/>
                     </p:confirmDialog>
 				</div>
-			</div>
+			
 		</h:form>
 	</ui:define>
 

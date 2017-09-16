@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Office</title>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/adminlte/AdminLTE.min.css" />
+<link rel="stylesheet"
+	href="/css/adminlte/skins/skin-purple-light.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+</head>
+
+<body class="hold-transition skin-purple-light sidebar-mini">
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<header class="main-header">
+			<ui:insert name="header">
+				<ui:include src="/pages/template/header.xhtml" />
+			</ui:insert>
+		</header>
+
+		<aside class="main-sidebar">
+			<ui:insert name="left-panel">
+				<ui:include src="/pages/template/left-panel.xhtml" />
+			</ui:insert>
+		</aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					<ui:insert name="title" />
+					<small><ui:insert name="description" /></small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+					<li class="active">Here</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content container-fluid">
+				<ui:insert name="body" />
+			</section>
+			<!-- /.content -->
+		</div>
+
+		<footer class="main-footer">
+			<ui:insert name="footer">
+				<ui:include src="/pages/template/footer.xhtml" />
+			</ui:insert>
+		</footer>
+
+		<aside class="control-sidebar control-sidebar-dark">
+			<ui:insert name="right-panel">
+				<ui:include src="/pages/template/right-panel.xhtml" />
+			</ui:insert>
+		</aside>
+		<div class="control-sidebar-bg"></div>
+	</div>
+	<script src="/js/jquery/jquery.min.js"></script>
+	<script src="/js/bootstrap/bootstrap.min.js"></script>
+	<script src="/js/adminlte.min.js"></script>
+</body>
+</html>

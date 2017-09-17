@@ -26,8 +26,8 @@
     <ui:define name="body">
 		<h:form id="role">
 			<div class="box box-primary">
-				<div>
-					<p:dataTable id="roleTable" var="role" class="table table-bordered table-striped"
+				<div class="box-header with-border">
+					<p:dataTable id="roleTable" var="role"
 						value="#{roleView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="roleTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"

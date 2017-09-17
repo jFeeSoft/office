@@ -41,13 +41,10 @@ public class JsfConfiguration extends WebMvcConfigurerAdapter implements Servlet
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-		// servletContext.setInitParameter("primefaces.THEME", "admin");
-		// servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION",
-		// Boolean.TRUE.toString());
-		// servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS",
-		// Boolean.TRUE.toString());
-		// servletContext.setInitParameter("primefaces.FONT_AWESOME",
-		// Boolean.TRUE.toString());
-		// servletContext.setInitParameter("primefaces.UPLOADER", "commons");
+		servletContext.setInitParameter("primefaces.THEME", "admin");
+		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
+		servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
+		servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
+		servletContext.setInitParameter("primefaces.UPLOADER", "commons");
 	}
 }

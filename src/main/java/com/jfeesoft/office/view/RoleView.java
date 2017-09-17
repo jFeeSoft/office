@@ -67,7 +67,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		newEntity.getPermissions().clear();
 		newEntity.getPermissions().addAll(permissions.getTarget());
 		newEntity = (Role) genericSerivice.save(newEntity);
-		Utils.addDetailMessage(messagesBundle.getString("role.info.edit"), FacesMessage.SEVERITY_INFO);
+		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 }

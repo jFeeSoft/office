@@ -16,6 +16,9 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 
 	public PermissionView(PermissionService genericService) {
 		super(genericService);
+		newEntity = new Permission();
+		newEntity.setComponent("asdf");
+		newEntity.setName("sd");
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class SystemUser extends GenericEntity {
 	private Integer passwordAttemptCount;
 
 	@Column(name = "first_name", length = 64)
-	private String fisrstName;
+	private String firstName;
 
 	@Column(name = "second_name", length = 64)
 	private String secondName;
@@ -90,12 +90,12 @@ public class SystemUser extends GenericEntity {
 		this.passwordAttemptCount = passwordAttemptCount;
 	}
 
-	public String getFisrstName() {
-		return fisrstName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFisrstName(String fisrstName) {
-		this.fisrstName = fisrstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getSecondName() {

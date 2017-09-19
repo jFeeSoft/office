@@ -30,39 +30,46 @@
 					<p:dataTable id="permissionTable" var="permission"
 						value="#{permissionView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="permissionTable" paginatorPosition="bottom"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
 						rowsPerPageTemplate="25,50,100" lazy="true"
 						draggableColumns="true" resizableColumns="true">
-					
+
 						<p:column headerText="#{msg['permission.table.header.name']}"
 							sortBy="#{permission.name}" filterBy="#{permission.name}">
 							<h:outputText value="#{permission.name}" />
-							<p:spacer height="2" />
 						</p:column>
 						<p:column headerText="#{msg['permission.table.header.component']}"
 							sortBy="#{permission.component}"
 							filterBy="#{permission.component}">
 							<h:outputText value="#{permission.component}" />
 						</p:column>
-						<p:column style="text-align: right">
+						<p:column style="text-align: right" exportable="false">
 							<p:commandButton id="edit" value="#{msg['button.editDetails']}"
 								process="@this" action="#{permissionView.edit(permission)}"
 								resetValues="true" update="permission:newPermissionPanel"
-								oncomplete="PF('newPermissionDialog').show()" styleClass="btn-primary"/>
-								<p:spacer width="10"/>
+								oncomplete="PF('newPermissionDialog').show()"
+								styleClass="btn-primary" />
+							<p:spacer width="10" />
 							<p:commandButton id="delete" value="#{msg['button.delete']}"
 								process="@this" action="#{permissionView.delete(permission)}"
-								update="permission:permissionTable" styleClass="btn-info" >
-								<p:confirm header="#{msg['confirmation.header']}" message="#{msg['confirmation.delete']}" icon="ui-icon-alert"/>
+								update="permission:permissionTable" styleClass="btn-info">
+								<p:confirm header="#{msg['confirmation.header']}"
+									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 							</p:commandButton>
 						</p:column>
+						<f:facet name="{Exporters}">
+				            <h:commandLink>
+				                <p:graphicImage name="/images/pdf.png" width="24" />
+				                <p:dataExporter type="pdf" target="permissionTable" fileName="permissions"/>
+				            </h:commandLink>
+				        </f:facet>
 						<f:facet name="footer">
 							<p:commandButton id="perAddButton" action="#{permissionView.add}"
 								update="permission:newPermissionPanel" process="@this"
 								oncomplete="PF('newPermissionDialog').show()" icon="fa fa-plus"
 								value="#{msg['button.add']}" styleClass="btn-primary"
-								resetValues="true" style="float:right"/>
-							
+								resetValues="true" style="float:right" />
+
 						</f:facet>
 					</p:dataTable>
 
@@ -73,19 +80,21 @@
 							<div class="box-body">
 								<div class="form-group">
 
-									<p:outputLabel for="perName" value="#{msg['permission.table.header.name']}:" />
+									<p:outputLabel for="perName"
+										value="#{msg['permission.table.header.name']}:" />
 									<p:inputText id="perName" class="form-control"
 										value="#{permissionView.newEntity.name}" required="true"
 										requiredMessage="#{msg['required.empty']}" />
 									<p:message id="perNameMsg" for="perName" />
 								</div>
 								<div class="form-group">
-									<p:outputLabel value="#{msg['permission.table.header.component']}:"
+									<p:outputLabel
+										value="#{msg['permission.table.header.component']}:"
 										for="perComp" />
 
 									<p:inputText id="perComp" class="form-control"
-										value="#{permissionView.newEntity.component}"
-										required="true" requiredMessage="#{msg['required.empty']}" />
+										value="#{permissionView.newEntity.component}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
 
 									<p:message id="perCompMsg" for="perComp" />
 
@@ -101,7 +110,7 @@
 									process="permission:newPermissionPanel"
 									update="permission:permissionTable,permission:newPermissionPanel"
 									action="#{permissionView.save}"
-									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newPermissionDialog').hide()"/>
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newPermissionDialog').hide()" />
 								<p:spacer width="10" />
 								<p:commandButton icon="fa fa-eraser"
 									value="#{msg['button.clear']}" styleClass="btn-info"
@@ -115,12 +124,13 @@
 
 						</p:outputPanel>
 					</p:dialog>
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-warning">
-                        <p:commandButton value="#{msg['button.yes']}" type="button" styleClass="btn-primary ui-confirmdialog-yes"
-                                         icon="fa fa-check"/>
-                        <p:commandButton value="#{msg['button.no']}" type="button" styleClass="btn-danger ui-confirmdialog-no"
-                                         icon="fa fa-close"/>
-                    </p:confirmDialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
 				</div>
 			</div>
 		</h:form>

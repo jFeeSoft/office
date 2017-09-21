@@ -18,11 +18,11 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="pages/index.xhtml"><b>Admin</b>LTE</a>
+    <a href="pages/index.xhtml"><b>#{msg['application.login.in']}</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">#{msg['application.login.info']}</p>
 
     <form action="${request.contextPath}/appLogin" method="POST">
       <div class="form-group has-feedback">

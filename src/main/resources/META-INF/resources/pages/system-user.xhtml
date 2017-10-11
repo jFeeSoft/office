@@ -31,8 +31,7 @@
 						value="#{systemUserView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="systemUserTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
-						rowsPerPageTemplate="25,50,100" lazy="true"
-						draggableColumns="true" resizableColumns="true">
+						rowsPerPageTemplate="25,50,100" lazy="true" resizableColumns="true">
 
 						<p:column headerText="#{msg['systemuser.table.header.firstname']}"
 							sortBy="#{systemUser.firstName}"
@@ -74,7 +73,7 @@
 							</p:commandButton>
 						</p:column>
 						<f:facet name="{Exporters}">
-				            <h:commandLink>
+				            <h:commandLink immediate="true">
 				                <p:graphicImage name="/images/pdf.png" width="24" />
 				                <p:dataExporter type="pdf" target="systemUserTable"
 									fileName="systemUsers" />

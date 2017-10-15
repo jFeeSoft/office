@@ -1,8 +1,14 @@
 package com.jfeesoft.office.model;
 
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,9 +23,15 @@ public class Permission extends GenericEntity {
 	@Column(name = "name", nullable = false, length = 64)
 	private String name;
 
-	// TODO Association
 	@Column(name = "component", length = 64)
 	private String component;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
+	private Permission parent;
+
+	@OneToMany(mappedBy = "parent")
+	private List<Permission> children;
 
 	public String getName() {
 		return name;
@@ -35,6 +47,22 @@ public class Permission extends GenericEntity {
 
 	public void setComponent(String component) {
 		this.component = component;
+	}
+
+	public Permission getParent() {
+		return parent;
+	}
+
+	public void setParent(Permission parent) {
+		this.parent = parent;
+	}
+
+	public List<Permission> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Permission> children) {
+		this.children = children;
 	}
 
 }

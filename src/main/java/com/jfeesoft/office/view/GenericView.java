@@ -13,22 +13,15 @@ import com.jfeesoft.office.model.GenericEntity;
 import com.jfeesoft.office.service.GenericService;
 import com.jfeesoft.office.view.utils.Utils;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public abstract class GenericView<T> {
 
 	protected final ResourceBundle messagesBundle;
 
 	@Autowired
-	@Getter
-	@Setter
 	protected LazyDataModel<T> genericLazyModel;
 
 	protected GenericService genericSerivice;
 
-	@Getter
-	@Setter
 	protected T newEntity;
 
 	public GenericView(GenericService genericService) {
@@ -53,5 +46,21 @@ public abstract class GenericView<T> {
 	}
 
 	public abstract void add();
+
+	public LazyDataModel<T> getGenericLazyModel() {
+		return genericLazyModel;
+	}
+
+	public void setGenericLazyModel(LazyDataModel<T> genericLazyModel) {
+		this.genericLazyModel = genericLazyModel;
+	}
+
+	public T getNewEntity() {
+		return newEntity;
+	}
+
+	public void setNewEntity(T newEntity) {
+		this.newEntity = newEntity;
+	}
 
 }

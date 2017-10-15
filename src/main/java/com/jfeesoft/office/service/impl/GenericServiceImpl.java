@@ -11,14 +11,14 @@ import com.jfeesoft.office.service.GenericService;
 
 public abstract class GenericServiceImpl<T, K extends Serializable> implements GenericService<T, K> {
 
-	protected GenericRepository<T, K> repository;
+	protected GenericRepository repository;
 
 	public GenericServiceImpl(GenericRepository organisationRepository) {
 		this.repository = organisationRepository;
 	}
 
 	public T save(T entity) {
-		return repository.save(entity);
+		return (T) repository.save(entity);
 	}
 
 	public void delete(T entity) {

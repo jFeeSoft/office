@@ -18,17 +18,12 @@ import com.jfeesoft.office.service.PermissionService;
 import com.jfeesoft.office.service.RoleService;
 import com.jfeesoft.office.view.utils.Utils;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Component("roleView")
 @Scope("view")
 public class RoleView extends GenericView<Role> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	@Setter
 	private DualListModel<Permission> permissions;
 
 	@Autowired
@@ -68,6 +63,14 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		newEntity.getPermissions().addAll(permissions.getTarget());
 		newEntity = (Role) genericSerivice.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+	}
+
+	public DualListModel<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(DualListModel<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 }

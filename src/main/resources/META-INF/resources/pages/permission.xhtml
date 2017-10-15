@@ -27,7 +27,7 @@
 		<h:form id="permission">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<p:dataTable id="permissionTable" var="permission"
+					<!-- p:dataTable id="permissionTable" var="permission"
 						value="#{permissionView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="permissionTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
@@ -71,7 +71,16 @@
 								resetValues="true" style="float:right" />
 
 						</f:facet>
-					</p:dataTable>
+					</p:dataTable-->
+		
+					<p:treeTable id="permissionTable" value="#{permissionView.root}" var="permission">
+						<p:column headerText="#{msg['permission.table.header.name']}">
+							<h:outputText value="#{permission.name}" />
+						</p:column>
+						<p:column headerText="#{msg['permission.table.header.component']}">
+							<h:outputText value="#{permission.component}" />
+						</p:column>
+					</p:treeTable>
 
 					<p:dialog id="perDial" header="#{msg['permission.new']}"
 						showEffect="fade" widgetVar="newPermissionDialog" modal="true"

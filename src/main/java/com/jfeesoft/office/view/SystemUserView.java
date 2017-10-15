@@ -16,17 +16,12 @@ import com.jfeesoft.office.model.SystemUser;
 import com.jfeesoft.office.service.RoleService;
 import com.jfeesoft.office.service.SystemUserService;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Component("systemUserView")
 @Scope("view")
 public class SystemUserView extends GenericView<SystemUser> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter
-	@Setter
 	private DualListModel<Role> roles;
 
 	private List<Role> roleSource;
@@ -60,6 +55,14 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		roles.getSource().addAll(roleSource);
 		roles.getSource().removeAll(entity.getRoles());
 		newEntity = entity;
+	}
+
+	public DualListModel<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(DualListModel<Role> roles) {
+		this.roles = roles;
 	}
 
 }

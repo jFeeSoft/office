@@ -1,5 +1,7 @@
 package com.jfeesoft.office.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,11 @@ public class PermissionServiceImpl extends GenericServiceImpl<Permission, Long> 
 	@Autowired
 	public PermissionServiceImpl(PermissionRepository permissionRepository) {
 		super(permissionRepository);
-
 	}
+
+	@Override
+	public List<Permission> findAllPermission() {
+		return ((PermissionRepository) repository).findAllPermission();
+	}
+
 }

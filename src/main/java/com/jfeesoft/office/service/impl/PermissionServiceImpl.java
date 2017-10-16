@@ -20,7 +20,12 @@ public class PermissionServiceImpl extends GenericServiceImpl<Permission, Long> 
 	}
 
 	@Override
-	public List<Permission> findAllPermission() {
+	public List<Permission> findAllRootPermission() {
+		return ((PermissionRepository) repository).findAllRootPermission();
+	}
+
+	@Override
+	public List<Permission> findAllOrderByNameAsc() {
 		return ((PermissionRepository) repository).findAllPermission();
 	}
 

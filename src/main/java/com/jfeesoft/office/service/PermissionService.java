@@ -6,5 +6,7 @@ import com.jfeesoft.office.model.Permission;
 
 public interface PermissionService extends GenericService<Permission, Long> {
 
-	public List<Permission> findAllPermission();
+	public List<Permission> findAllRootPermission();
+
+	public List<Permission> findAllOrderByNameAsc();
 }

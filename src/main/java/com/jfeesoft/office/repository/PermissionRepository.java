@@ -9,5 +9,9 @@ import com.jfeesoft.office.model.Permission;
 public interface PermissionRepository extends GenericRepository<Permission, Integer>, PermissionRepositoryCustom {
 
 	@Query(value = "FROM Permission per LEFT JOIN FETCH per.children WHERE per.parent IS NULL ")
+	List<Permission> findAllRootPermission();
+
+	@Query(value = "FROM Permission per ORDER BY per.name ASC")
 	List<Permission> findAllPermission();
+
 }

@@ -15,36 +15,43 @@
         </style>
     </ui:define>
 
-    <ui:define name="title">
+	<ui:define name="title">
         #{msg['page.index.title']}
     </ui:define>
 
-    <ui:define name="description">
+	<ui:define name="description">
         #{msg['page.index.description']}
     </ui:define>
 
-    <ui:define name="body">
+	<ui:define name="body">
 		<h:form id="role">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<p:dataTable id="roleTable" var="role"
-						value="#{roleView.genericLazyModel}" paginator="true"
-						rows="25" widgetVar="roleTable" paginatorPosition="bottom"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						rowsPerPageTemplate="25,50,100" lazy="true"
-						draggableColumns="true" resizableColumns="true">
-					
-						<p:column headerText="#{msg['role.table.header.name']}"
-							sortBy="#{role.name}" filterBy="#{role.name}">
-							<h:outputText value="#{role.name}" />
-							<p:spacer height="2" />
-						</p:column>
-						<p:column headerText="#{msg['role.table.header.permission']}"
-							sortBy="#{role.component}"
-							filterBy="#{role.component}">
-							<h:outputText value="#{role.permissionsStr}" />
-						</p:column>
-						<p:column style="text-align: right">
+					<div id="main-buttons" class=" hidden-sm hidden-xs">
+						<p:commandButton id="roleAddButton" action="#{roleView.add}"
+							update="role:newRolePanel" process="@this"
+							oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
+							value="#{msg['button.add']}" styleClass="btn-primary"
+							resetValues="true" />
+					</div>
+					<p:separator />
+					<div class="ui-g">
+						<div class="ui-g-4">
+							<p:dataTable id="roleTable" var="role"
+								value="#{roleView.genericLazyModel}" paginator="true" rows="25"
+								widgetVar="roleTable" paginatorPosition="bottom"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="25,50,100" lazy="true">
+
+								<f:facet name="header">
+									<b>List of Cars</b>
+								</f:facet>
+								<p:column headerText="#{msg['role.table.header.name']}"
+									sortBy="#{role.name}" filterBy="#{role.name}">
+									<h:outputText value="#{role.name}" />
+									<p:spacer height="2" />
+								</p:column>
+								<!-- p:column style="text-align: right">
 							<p:commandButton id="edit" value="#{msg['button.editDetails']}"
 								process="@this" action="#{roleView.edit(role)}"
 								resetValues="true" update="role:newRolePanel"
@@ -63,8 +70,48 @@
 								value="#{msg['button.add']}" styleClass="btn-primary"
 								resetValues="true" style="float:right"/>
 							
-						</f:facet>
-					</p:dataTable>
+						</f:facet-->
+							</p:dataTable>
+						</div>
+						<div class="ui-g-8" id="treeDiv">
+							<p:treeTable id="permissionTable" value="#{permissionView.root}"
+								var="permission" editable="true"
+								selectionMode="checkbox" selection="#{permissionView.selectedNodes}">
+								<p:ajax event="rowEdit"
+									listener="#{permissionView.permissionEdit}"
+									update="permissionTable" />
+								<p:ajax event="rowEditCancel"
+									listener="#{permissionView.permissionEditCancel}"
+									update="permissionTable" />
+
+								<f:facet name="header">
+            <b>Document Viewer</b>
+        </f:facet>
+								<p:column headerText="#{msg['permission.table.header.name']}">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{permission.name}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{permission.name}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column
+									headerText="#{msg['permission.table.header.component']}">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{permission.component}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{permission.component}"
+												style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:treeTable>
+						</div>
+					</div>
 
 					<p:dialog id="roleDialog" header="#{msg['role.new']}"
 						showEffect="fade" widgetVar="newRoleDialog" modal="true"
@@ -73,24 +120,25 @@
 							<div class="box-body">
 								<div class="form-group">
 
-									<p:outputLabel for="roleName" value="#{msg['role.table.header.name']}:" />
+									<p:outputLabel for="roleName"
+										value="#{msg['role.table.header.name']}:" />
 									<p:inputText id="roleName" class="form-control"
 										value="#{roleView.newEntity.name}" required="true"
 										requiredMessage="#{msg['required.empty']}" />
 									<p:message id="roleNameMsg" for="roleName" />
 								</div>
-								
-									<p:outputLabel value="#{msg['role.table.header.permission']}:"
-										for="rolePickList" />
-									<p:pickList id="rolePickList" value="#{roleView.permissions}"
-										var="permission" itemLabel="#{permission.name}"
-										itemValue="#{permission}" converter="#{genericEntityConverter}">
-											<f:facet name="sourceCaption">#{msg['role.permission.available']}</f:facet>
-        									<f:facet name="targetCaption">#{msg['role.permission.choose']}</f:facet>
-        									
-									</p:pickList>
 
-								
+								<p:outputLabel value="#{msg['role.table.header.permission']}:"
+									for="rolePickList" />
+								<p:pickList id="rolePickList" value="#{roleView.permissions}"
+									var="permission" itemLabel="#{permission.name}"
+									itemValue="#{permission}" converter="#{genericEntityConverter}">
+									<f:facet name="sourceCaption">#{msg['role.permission.available']}</f:facet>
+									<f:facet name="targetCaption">#{msg['role.permission.choose']}</f:facet>
+
+								</p:pickList>
+
+
 
 							</div>
 
@@ -98,16 +146,15 @@
 							<p:separator />
 							<div id="save-buttons" class="hidden-sm hidden-xs">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
-									styleClass="btn-danger btn-primary"
-									process="role:newRolePanel"
+									styleClass="btn-danger btn-primary" process="role:newRolePanel"
 									update="role:roleTable,role:newRolePanel"
 									action="#{roleView.save}"
-									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newRoleDialog').hide()"/>
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newRoleDialog').hide()" />
 								<p:spacer width="10" />
 								<p:commandButton icon="fa fa-eraser"
 									value="#{msg['button.clear']}" styleClass="btn-info"
-									process="@this" update="role:newRolePanel"
-									resetValues="true" actionListener="#{roleView.add}" />
+									process="@this" update="role:newRolePanel" resetValues="true"
+									actionListener="#{roleView.add}" />
 								<p:spacer width="10" />
 								<p:commandButton oncomplete="PF('newRoleDialog').hide()"
 									icon="fa fa-close" value="#{msg['button.cancel']}"
@@ -116,16 +163,16 @@
 
 						</p:outputPanel>
 					</p:dialog>
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-warning">
-                        <p:commandButton value="#{msg['button.yes']}" type="button" styleClass="btn-primary ui-confirmdialog-yes"
-                                         icon="fa fa-check"/>
-                        <p:commandButton value="#{msg['button.no']}" type="button" styleClass="btn-danger ui-confirmdialog-no"
-                                         icon="fa fa-close"/>
-                    </p:confirmDialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
 				</div>
 			</div>
 		</h:form>
 	</ui:define>
-
 
 </ui:composition>

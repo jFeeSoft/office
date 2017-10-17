@@ -28,6 +28,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 	private TreeNode root;
 	private HashMap<Long, Permission> permissionRoot;
 	private Integer idPermission;
+	private TreeNode[] selectedNodes;
 
 	public PermissionView(PermissionService genericService) {
 		super(genericService);
@@ -56,7 +57,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 	}
 
 	private void createPermissionTree(TreeNode root, Permission permission) {
-		TreeNode node = new CheckboxTreeNode(permission, root);
+		CheckboxTreeNode node = new CheckboxTreeNode(permission, root);
 		if (permission.getChildren() != null) {
 			for (Permission permissionChild : permission.getChildren()) {
 				createPermissionTree(node, permissionChild);
@@ -97,6 +98,14 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 
 	public void setIdPermission(Integer idPermission) {
 		this.idPermission = idPermission;
+	}
+
+	public TreeNode[] getSelectedNodes() {
+		return selectedNodes;
+	}
+
+	public void setSelectedNodes(TreeNode[] selectedNodes) {
+		this.selectedNodes = selectedNodes;
 	}
 
 }

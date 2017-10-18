@@ -1,13 +1,15 @@
 package com.jfeesoft.office.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
-import org.primefaces.model.DualListModel;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.CheckboxTreeNode;
+import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -24,12 +26,15 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private DualListModel<Permission> permissions;
-
 	@Autowired
 	private PermissionService permissionService;
 
-	private List<Permission> permissionSource;
+	private TreeNode rootPermission;
+
+	private List<Role> roleSource;
+	private Long idRoleParent;
+	private Role selectedRole;
+	private TreeNode[] selectedPermission;
 
 	public RoleView(RoleService genericService) {
 		super(genericService);
@@ -37,40 +42,111 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		permissionSource = (List<Permission>) permissionService.findAll();
-		permissions = new DualListModel<Permission>(new ArrayList<Permission>(), new ArrayList<Permission>());
+		roleSource = (List<Role>) genericSerivice.findAll();
+		List<Permission> permissionRootAll = permissionService.findAllRootPermission();
+		if (roleSource.size() > 0) {
+			selectedRole = roleSource.get(0);
+		}
+		rootPermission = new CheckboxTreeNode(new Permission(), null);
+		for (Permission permission : permissionRootAll) {
+			createPermissionTree(rootPermission, permission);
+		}
+		checkPermission(selectedRole.getPermissions(), rootPermission);
+	}
 
+	private void createPermissionTree(TreeNode root, Permission permission) {
+		CheckboxTreeNode node = new CheckboxTreeNode(permission, root);
+		node.setExpanded(true);
+		if (permission.getChildren() != null) {
+			for (Permission permissionChild : permission.getChildren()) {
+				createPermissionTree(node, permissionChild);
+			}
+		}
 	}
 
 	public void add() {
 		newEntity = new Role();
-		permissions.getTarget().clear();
-		permissions.getSource().clear();
-		permissions.getSource().addAll(permissionSource);
 	}
 
 	public void edit(Role entity) {
-		permissions.getTarget().clear();
-		permissions.getSource().clear();
-		permissions.getTarget().addAll(entity.getPermissions());
-		permissions.getSource().addAll(permissionSource);
-		permissions.getSource().removeAll(entity.getPermissions());
 		newEntity = entity;
 	}
 
 	public void save() {
 		newEntity.getPermissions().clear();
-		newEntity.getPermissions().addAll(permissions.getTarget());
 		newEntity = (Role) genericSerivice.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
-	public DualListModel<Permission> getPermissions() {
-		return permissions;
+	public void savePermission() {
+		if (selectedRole != null) {
+			selectedRole.getPermissions().clear();
+			for (TreeNode node : selectedPermission) {
+				selectedRole.getPermissions().add((Permission) node.getData());
+			}
+			newEntity = (Role) genericSerivice.save(selectedRole);
+		}
+		// newEntity = (Role) genericSerivice.save(newEntity);
+		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
-	public void setPermissions(DualListModel<Permission> permissions) {
-		this.permissions = permissions;
+	public void onRowSelect(SelectEvent event) {
+		Role role = (Role) event.getObject();
+		checkPermission(role.getPermissions(), rootPermission);
+		// Utils.addDetailMessage(messagesBundle.getString("info.select"),
+		// FacesMessage.SEVERITY_INFO);
+	}
+
+	private void checkPermission(Set<Permission> permissions, TreeNode rootNode) {
+		for (TreeNode node : rootNode.getChildren()) {
+			Permission permissionNode = (Permission) node.getData();
+			boolean selected = permissions.contains(permissionNode);
+			node.setSelected(selected);
+
+			if (!node.isLeaf() && !selected) {
+				checkPermission(permissions, node);
+			}
+		}
+	}
+
+	public List<Role> getRoleSource() {
+		return roleSource;
+	}
+
+	public void setRoleSource(List<Role> roleSource) {
+		this.roleSource = roleSource;
+	}
+
+	public Long getIdRoleParent() {
+		return idRoleParent;
+	}
+
+	public void setIdRoleParent(Long idRoleParent) {
+		this.idRoleParent = idRoleParent;
+	}
+
+	public TreeNode getRootPermission() {
+		return rootPermission;
+	}
+
+	public void setRootPermission(TreeNode root) {
+		this.rootPermission = root;
+	}
+
+	public Role getSelectedRole() {
+		return selectedRole;
+	}
+
+	public void setSelectedRole(Role selectedRole) {
+		this.selectedRole = selectedRole;
+	}
+
+	public TreeNode[] getSelectedPermission() {
+		return selectedPermission;
+	}
+
+	public void setSelectedPermission(TreeNode[] selectedPermission) {
+		this.selectedPermission = selectedPermission;
 	}
 
 }

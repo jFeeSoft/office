@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/pages/template/template.xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/template/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-        <ui:define name="head-end">
-        <style type="text/css">
-            .ui-datatable .ui-datatable-header {
-                text-align: right !important;
-            }
-
-        </style>
-    </ui:define>
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
 
 	<ui:define name="title">
         #{msg['page.index.title']}
@@ -33,6 +32,10 @@
 							oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
 							resetValues="true" />
+						<p:commandButton id="roleSaveButton" action="#{roleView.savePermission}"
+							process="@this" icon="fa fa-floppy-o"
+							value="#{msg['button.save']}" styleClass="btn-warning"
+							resetValues="true" style="float:right" />
 					</div>
 					<p:separator />
 					<div class="ui-g">
@@ -41,15 +44,32 @@
 								value="#{roleView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="roleTable" paginatorPosition="bottom"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-								rowsPerPageTemplate="25,50,100" lazy="true">
+								rowsPerPageTemplate="25,50,100" lazy="true"
+								selectionMode="single" selection="#{roleView.selectedRole}" rowKey="#{role.id}">
+								
+								<p:ajax event="rowSelect" listener="#{roleView.onRowSelect}" update="role:permissionTree" />
 
 								<f:facet name="header">
-									<b>List of Cars</b>
+									<b>#{msg['role.table.header']}</b>
 								</f:facet>
 								<p:column headerText="#{msg['role.table.header.name']}"
 									sortBy="#{role.name}" filterBy="#{role.name}">
 									<h:outputText value="#{role.name}" />
 									<p:spacer height="2" />
+								</p:column>
+								<p:column exportable="false" style="width:25%">
+									<p:commandButton id="edit"
+										process="@this" action="#{roleView.edit(role)}"
+										resetValues="true" update="role:newRolePanel"
+										oncomplete="PF('newRoleDialog').show()"
+										styleClass="btn-primary" icon="fa fa-search"/>
+									<p:spacer width="5" />
+									<p:commandButton id="delete" process="@this"
+										action="#{roleView.delete(role)}" update="role:roleTable"
+										styleClass="btn-danger" icon="fa fa-trash">
+										<p:confirm header="#{msg['confirmation.header']}"
+											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+									</p:commandButton>
 								</p:column>
 								<!-- p:column style="text-align: right">
 							<p:commandButton id="edit" value="#{msg['button.editDetails']}"
@@ -74,19 +94,13 @@
 							</p:dataTable>
 						</div>
 						<div class="ui-g-8" id="treeDiv">
-							<p:treeTable id="permissionTable" value="#{permissionView.root}"
-								var="permission" editable="true"
-								selectionMode="checkbox" selection="#{permissionView.selectedNodes}">
-								<p:ajax event="rowEdit"
-									listener="#{permissionView.permissionEdit}"
-									update="permissionTable" />
-								<p:ajax event="rowEditCancel"
-									listener="#{permissionView.permissionEditCancel}"
-									update="permissionTable" />
+							<p:treeTable id="permissionTree" value="#{roleView.rootPermission}"
+								var="permission" editable="true" selectionMode="checkbox"
+								selection="#{roleView.selectedPermission}">
 
 								<f:facet name="header">
-            <b>Document Viewer</b>
-        </f:facet>
+									<b>#{msg['role.permission.available']}</b>
+								</f:facet>
 								<p:column headerText="#{msg['permission.table.header.name']}">
 									<p:cellEditor>
 										<f:facet name="output">
@@ -128,18 +142,15 @@
 									<p:message id="roleNameMsg" for="roleName" />
 								</div>
 
-								<p:outputLabel value="#{msg['role.table.header.permission']}:"
-									for="rolePickList" />
-								<p:pickList id="rolePickList" value="#{roleView.permissions}"
-									var="permission" itemLabel="#{permission.name}"
-									itemValue="#{permission}" converter="#{genericEntityConverter}">
-									<f:facet name="sourceCaption">#{msg['role.permission.available']}</f:facet>
-									<f:facet name="targetCaption">#{msg['role.permission.choose']}</f:facet>
-
-								</p:pickList>
-
-
-
+								<p:outputLabel value="#{msg['role.permission.parent']}:"
+									for="roleParentList" />
+								<p:selectOneMenu id="roleParentList"
+									value="#{roleView.idRoleParent}">
+									<f:selectItem itemLabel="#{msg['select.default']}"
+										itemValue="#{null}" />
+									<f:selectItems value="#{roleView.roleSource}" var="role"
+										itemLabel="#{role.name}" itemValue="#{role.id}" />
+								</p:selectOneMenu>
 							</div>
 
 

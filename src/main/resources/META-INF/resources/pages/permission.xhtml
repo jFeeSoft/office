@@ -116,10 +116,10 @@
 								resetValues="true" update="permission:newPermissionPanel"
 								oncomplete="PF('newPermissionDialog').show()"
 								styleClass="btn-primary" icon="fa fa-search"/>
-							<p:spacer width="10" />
+							<p:spacer width="5" />
 							<p:commandButton id="delete" 
 								process="@this" action="#{permissionView.delete(permission)}"
-								update="permission:permissionTable" styleClass="btn-warning" icon="fa fa-trash">
+								update="permission:permissionTable" styleClass="btn-danger" icon="fa fa-trash">
 								<p:confirm header="#{msg['confirmation.header']}"
 									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 							</p:commandButton>

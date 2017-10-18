@@ -47,7 +47,6 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 
 		for (Permission permission : permissionAll) {
 			permissionRoot.put(permission.getId(), permission);
-
 		}
 
 		root = new CheckboxTreeNode(new Permission(), null);

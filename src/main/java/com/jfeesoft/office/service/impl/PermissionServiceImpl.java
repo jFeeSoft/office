@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.jfeesoft.office.model.Permission;
 import com.jfeesoft.office.repository.PermissionRepository;
 import com.jfeesoft.office.service.PermissionService;
@@ -21,7 +22,7 @@ public class PermissionServiceImpl extends GenericServiceImpl<Permission, Long> 
 
 	@Override
 	public List<Permission> findAllRootPermission() {
-		return ((PermissionRepository) repository).findAllRootPermission();
+		return Lists.newArrayList(((PermissionRepository) repository).findAllRootPermission());
 	}
 
 	@Override

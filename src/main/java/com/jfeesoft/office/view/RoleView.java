@@ -18,6 +18,7 @@ import com.jfeesoft.office.model.Permission;
 import com.jfeesoft.office.model.Role;
 import com.jfeesoft.office.service.PermissionService;
 import com.jfeesoft.office.service.RoleService;
+import com.jfeesoft.office.view.utils.DialogMode;
 import com.jfeesoft.office.view.utils.Utils;
 
 @Component("roleView")
@@ -35,6 +36,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 	private Long idRoleParent;
 	private Role selectedRole;
 	private TreeNode[] selectedPermission;
+	private String dialogMode;
 
 	public RoleView(RoleService genericService) {
 		super(genericService);
@@ -42,6 +44,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		dialogMode = DialogMode.ADD.name();
 		roleSource = (List<Role>) genericSerivice.findAll();
 		List<Permission> permissionRootAll = permissionService.findAllRootPermission();
 		if (roleSource.size() > 0) {
@@ -74,6 +77,10 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	public void save() {
 		newEntity.getPermissions().clear();
+		if (idRoleParent != null) {
+			Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
+			newEntity.setPermissions(parentRole.getPermissions());
+		}
 		newEntity = (Role) genericSerivice.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
@@ -81,20 +88,27 @@ public class RoleView extends GenericView<Role> implements Serializable {
 	public void savePermission() {
 		if (selectedRole != null) {
 			selectedRole.getPermissions().clear();
-			for (TreeNode node : selectedPermission) {
-				selectedRole.getPermissions().add((Permission) node.getData());
-			}
+			collectCheckedPermission(selectedRole.getPermissions(), rootPermission);
 			newEntity = (Role) genericSerivice.save(selectedRole);
 		}
-		// newEntity = (Role) genericSerivice.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void onRowSelect(SelectEvent event) {
 		Role role = (Role) event.getObject();
 		checkPermission(role.getPermissions(), rootPermission);
-		// Utils.addDetailMessage(messagesBundle.getString("info.select"),
-		// FacesMessage.SEVERITY_INFO);
+	}
+
+	private void collectCheckedPermission(Set<Permission> permissions, TreeNode rootNode) {
+		for (TreeNode node : rootNode.getChildren()) {
+			if (node.isSelected()) {
+				permissions.add((Permission) node.getData());
+			}
+			if (!node.isLeaf()) {
+				collectCheckedPermission(permissions, node);
+			}
+
+		}
 	}
 
 	private void checkPermission(Set<Permission> permissions, TreeNode rootNode) {
@@ -102,7 +116,6 @@ public class RoleView extends GenericView<Role> implements Serializable {
 			Permission permissionNode = (Permission) node.getData();
 			boolean selected = permissions.contains(permissionNode);
 			node.setSelected(selected);
-
 			if (!node.isLeaf() && !selected) {
 				checkPermission(permissions, node);
 			}
@@ -147,6 +160,14 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	public void setSelectedPermission(TreeNode[] selectedPermission) {
 		this.selectedPermission = selectedPermission;
+	}
+
+	public String getDialogMode() {
+		return dialogMode;
+	}
+
+	public void setDialogMode(String dialogMode) {
+		this.dialogMode = dialogMode;
 	}
 
 }

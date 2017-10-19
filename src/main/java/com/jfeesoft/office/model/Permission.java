@@ -71,7 +71,6 @@ public class Permission extends GenericEntity {
 		int result = super.hashCode();
 		result = prime * result + ((component == null) ? 0 : component.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
 		return result;
 	}
 
@@ -93,11 +92,6 @@ public class Permission extends GenericEntity {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (parent == null) {
-			if (other.parent != null)
-				return false;
-		} else if (!parent.equals(other.parent))
 			return false;
 		return true;
 	}

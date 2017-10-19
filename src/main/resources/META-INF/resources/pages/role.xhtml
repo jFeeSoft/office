@@ -31,11 +31,15 @@
 							update="role:newRolePanel" process="@this"
 							oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
-							resetValues="true" />
-						<p:commandButton id="roleSaveButton" action="#{roleView.savePermission}"
-							process="@this" icon="fa fa-floppy-o"
-							value="#{msg['button.save']}" styleClass="btn-warning"
-							resetValues="true" style="float:right" />
+							resetValues="true">
+							<f:setPropertyActionListener value="ADD"
+								target="#{roleView.dialogMode}" />
+						</p:commandButton>
+						<p:commandButton id="roleSaveButton"
+							action="#{roleView.savePermission}"
+							process="@this role:permissionTree" icon="fa fa-floppy-o"
+							update="role:roleTable" value="#{msg['button.permission.save']}"
+							styleClass="btn-warning" resetValues="false" style="float:right" />
 					</div>
 					<p:separator />
 					<div class="ui-g">
@@ -45,9 +49,11 @@
 								widgetVar="roleTable" paginatorPosition="bottom"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
-								selectionMode="single" selection="#{roleView.selectedRole}" rowKey="#{role.id}">
-								
-								<p:ajax event="rowSelect" listener="#{roleView.onRowSelect}" update="role:permissionTree" />
+								selectionMode="single" selection="#{roleView.selectedRole}"
+								rowKey="#{role.id}">
+
+								<p:ajax event="rowSelect" listener="#{roleView.onRowSelect}"
+									update="role:permissionTree" />
 
 								<f:facet name="header">
 									<b>#{msg['role.table.header']}</b>
@@ -58,44 +64,31 @@
 									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
-									<p:commandButton id="edit"
+									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}"
 										process="@this" action="#{roleView.edit(role)}"
 										resetValues="true" update="role:newRolePanel"
 										oncomplete="PF('newRoleDialog').show()"
-										styleClass="btn-primary" icon="fa fa-search"/>
-									<p:spacer width="5" />
+										styleClass="btn-primary" icon="fa fa-search">
+										<f:setPropertyActionListener value="VIEW"
+											target="#{roleView.dialogMode}" />
+									</p:commandButton>
+									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" />
 									<p:commandButton id="delete" process="@this"
+										rendered="#{role.name ne 'DEFAULT'}"
 										action="#{roleView.delete(role)}" update="role:roleTable"
 										styleClass="btn-danger" icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 									</p:commandButton>
+
 								</p:column>
-								<!-- p:column style="text-align: right">
-							<p:commandButton id="edit" value="#{msg['button.editDetails']}"
-								process="@this" action="#{roleView.edit(role)}"
-								resetValues="true" update="role:newRolePanel"
-								oncomplete="PF('newRoleDialog').show()" styleClass="btn-primary"/>
-								<p:spacer width="10"/>
-							<p:commandButton id="delete" value="#{msg['button.delete']}"
-								process="@this" action="#{roleView.delete(role)}"
-								update="role:roleTable" styleClass="btn-info" >
-								<p:confirm header="#{msg['confirmation.header']}" message="#{msg['confirmation.delete']}" icon="ui-icon-alert"/>
-							</p:commandButton>
-						</p:column>
-						<f:facet name="footer">
-							<p:commandButton id="roleAddButton" action="#{roleView.add}"
-								update="role:newRolePanel" process="@this"
-								oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
-								value="#{msg['button.add']}" styleClass="btn-primary"
-								resetValues="true" style="float:right"/>
-							
-						</f:facet-->
 							</p:dataTable>
 						</div>
 						<div class="ui-g-8" id="treeDiv">
-							<p:treeTable id="permissionTree" value="#{roleView.rootPermission}"
-								var="permission" editable="true" selectionMode="checkbox"
+							<p:treeTable id="permissionTree"
+								value="#{roleView.rootPermission}" var="permission"
+								editable="true" selectionMode="checkbox"
+								widgetVar="permissionTreeVar"
 								selection="#{roleView.selectedPermission}">
 
 								<f:facet name="header">
@@ -143,10 +136,12 @@
 								</div>
 
 								<p:outputLabel value="#{msg['role.permission.parent']}:"
-									for="roleParentList" />
+									for="roleParentList"
+									rendered="#{roleView.dialogMode ne 'VIEW'}" />
 								<p:selectOneMenu id="roleParentList"
+									rendered="#{roleView.dialogMode ne 'VIEW'}"
 									value="#{roleView.idRoleParent}">
-									<f:selectItem itemLabel="#{msg['select.default']}"
+									<f:selectItem itemLabel="#{msg['select.empty']}"
 										itemValue="#{null}" />
 									<f:selectItems value="#{roleView.roleSource}" var="role"
 										itemLabel="#{role.name}" itemValue="#{role.id}" />

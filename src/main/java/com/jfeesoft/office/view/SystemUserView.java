@@ -26,6 +26,8 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	private List<Role> roleSource;
 
+	private List<String> tags;
+
 	@Autowired
 	private RoleService roleService;
 
@@ -38,7 +40,9 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	public void init() {
 		roleSource = (List<Role>) roleService.findAll();
 		roles = new DualListModel<Role>(new ArrayList<Role>(), new ArrayList<Role>());
-
+		tags = new ArrayList<String>();
+		tags.add("tag1");
+		tags.add("tag2");
 	}
 
 	public void add() {
@@ -63,6 +67,14 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	public void setRoles(DualListModel<Role> roles) {
 		this.roles = roles;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 }

@@ -2,3 +2,18 @@
 .ui-state-highlight {
 	background-color: #00ff00;
 }
+.ui-chips-container {
+    width: 100%;
+}
+ul.ui-chips-container ul.ui-widget-content {
+	border: none;
+}
+
+ul.ui-chips-container.ui-inputfield.ui-state-default.ui-corner-all{
+	border: none;
+}
+.tag-label{
+	position: relative;
+	left: -15px;
+	top: -17px;
+}

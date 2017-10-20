@@ -24,6 +24,9 @@
 
 	<ui:define name="body">
 		<h:form id="role">
+		<f:metadata>
+			<f:viewAction action="#{breadCrumbBean.addElement('Role','/pages/role.xhtml')}"/>
+		</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<div id="main-buttons" class=" hidden-sm hidden-xs">

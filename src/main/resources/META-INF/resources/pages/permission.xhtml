@@ -25,6 +25,9 @@
 
 	<ui:define name="body">
 		<h:form id="permission">
+		<f:metadata>
+			<f:viewAction action="#{breadCrumbBean.addElement('Uprawnienia','/pages/permission.xhtml')}"/>
+		</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<!-- p:dataTable id="permissionTree" var="permission"

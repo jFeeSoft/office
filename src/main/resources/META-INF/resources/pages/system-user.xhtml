@@ -25,6 +25,9 @@
 
 	<ui:define name="body">
 		<h:form id="systemUser">
+		<f:metadata>
+			<f:viewAction action="#{breadCrumbBean.addElement('Uzytkownicy','/pages/system-user.xhtml')}"/>
+		</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<p:dataTable id="systemUserTable" var="systemUser"

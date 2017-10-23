@@ -75,6 +75,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		newEntity = entity;
 	}
 
+	@Override
 	public void save() {
 		newEntity.getPermissions().clear();
 		if (idRoleParent != null) {

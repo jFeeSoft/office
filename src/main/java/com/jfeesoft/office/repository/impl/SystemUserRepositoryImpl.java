@@ -27,6 +27,8 @@ public class SystemUserRepositoryImpl extends GenericRepositoryImpl<SystemUser>
 	@Override
 	void createQuery(Criteria criteria) {
 		criteria.setFetchMode("roles", FetchMode.JOIN);
+		// criteria.setFetchMode("position", FetchMode.JOIN);
+		// criteria.setFetchMode("organizationalUnit", FetchMode.JOIN);
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	}
 

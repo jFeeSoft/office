@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -73,6 +74,14 @@ public class SystemUser extends GenericEntity {
 			joinColumns = { @JoinColumn(name = "system_user_id") }, //
 			inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<Role>(0);
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "position_id", nullable = false)
+	private Position position;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organizational_unit_id", nullable = false)
+	private OrganizationalUnit organizationalUnit;
 
 	public String getPassword() {
 		return password;
@@ -196,6 +205,22 @@ public class SystemUser extends GenericEntity {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public OrganizationalUnit getOrganizationalUnit() {
+		return organizationalUnit;
+	}
+
+	public void setOrganizationalUnit(OrganizationalUnit organizationalUnit) {
+		this.organizationalUnit = organizationalUnit;
 	}
 
 }

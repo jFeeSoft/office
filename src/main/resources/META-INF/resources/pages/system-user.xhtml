@@ -35,7 +35,10 @@
 							update="systemUser:newSystemUserPanel" process="@this"
 							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
-							resetValues="true" />
+							resetValues="true">
+							<f:setPropertyActionListener value="ADD"
+								target="#{systemUserView.dialogMode}" />
+						</p:commandButton>
 					</div>
 					<p:separator />
 					<p:dataTable id="systemUserTable" var="systemUser"
@@ -48,12 +51,6 @@
 							sortBy="#{systemUser.firstName}"
 							filterBy="#{systemUser.firstName}">
 							<h:outputText value="#{systemUser.firstName}" />
-						</p:column>
-						<p:column
-							headerText="#{msg['systemuser.table.header.secondname']}"
-							sortBy="#{systemUser.secondName}"
-							filterBy="#{systemUser.secondName}">
-							<h:outputText value="#{systemUser.secondName}" />
 						</p:column>
 						<p:column headerText="#{msg['systemuser.table.header.surname']}"
 							sortBy="#{systemUser.surname}" filterBy="#{systemUser.surname}">
@@ -69,7 +66,17 @@
 							filterBy="#{systemUser.emailAddress}">
 							<h:outputText value="#{systemUser.emailAddress}" />
 						</p:column>
-						<p:column style="width:15%" headerText="#{msg['table.header.info']}">
+						<p:column headerText="#{msg['systemuser.table.header.position']}"
+							sortBy="#{systemUser.position.name}"
+							filterBy="#{systemUser.position.name}">
+							<h:outputText value="#{systemUser.position.name}" />
+						</p:column>
+						<p:column headerText="#{msg['systemuser.table.header.organizationalUnit']}"
+							sortBy="#{systemUser.organizationalUnit.name}"
+							filterBy="#{systemUser.organizationalUnit.name}">
+							<h:outputText value="#{systemUser.organizationalUnit.name}" />
+						</p:column>
+						<p:column style="width:15%" headerText="#{msg['table.header.info']}" exportable="false">
 							<p:chips id="chips" max="2" maxlength="10" value="#{systemUserView.tags}"/>
 						</p:column>
 						<p:column style="width:17%;text-align: right" exportable="false">
@@ -86,7 +93,10 @@
 							<p:commandButton id="edit"
 								process="@this" action="#{systemUserView.edit(systemUser)}"
 								resetValues="true" update="systemUser:newSystemUserPanel"
-								oncomplete="PF('newSystemUserDialog').show()" styleClass="btn-primary" icon="fa fa-search" />
+								oncomplete="PF('newSystemUserDialog').show()" styleClass="btn-primary" icon="fa fa-search" >
+								<f:setPropertyActionListener value="VIEW"
+								target="#{systemUserView.dialogMode}" />
+							</p:commandButton>
 							<p:spacer width="5" />
 							<p:commandButton id="delete"
 								process="@this" action="#{systemUserView.delete(systemUser)}"
@@ -120,16 +130,12 @@
 											<p:message id="userFirstNameMsg" for="userFirstName" />
 										</div>
 										<div class="form-group">
-											<p:outputLabel for="userSecondName"
-												value="#{msg['systemuser.table.header.secondname']}:" />
-											<p:inputText id="userSecondName" class="form-control"
-												value="#{systemUserView.newEntity.secondName}" />
-										</div>
-										<div class="form-group">
 											<p:outputLabel for="userSurName"
 												value="#{msg['systemuser.table.header.surname']}:" />
 											<p:inputText id="userSurName" class="form-control"
-												value="#{systemUserView.newEntity.surname}" />
+												value="#{systemUserView.newEntity.surname}"
+												required="true" requiredMessage="#{msg['required.empty']}" />
+												<p:message id="userSurNameMsg" for="userSurName" />
 										</div>
 										<div class="form-group">
 											<p:outputLabel for="userPeselNumber"
@@ -137,14 +143,14 @@
 											<p:inputText id="userPeselNumber" class="form-control"
 												value="#{systemUserView.newEntity.peselNumber}" />
 										</div>
-										<!-- div class="form-group">
-									<p:outputLabel for="userPassword"
-										value="#{msg['systemuser.table.header.password']}:" />
-									<p:password id="userPassword" class="form-control"
-										value="#{systemUserView.newEntity.password}" required="true"
-										requiredMessage="#{msg['required.empty']}" />
-									<p:message id="userPasswordMsg" for="userPassword" />
-								</div-->
+										<div class="form-group">
+											<p:outputLabel for="userPassword" rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{msg['systemuser.table.header.password']}:" />
+											<p:password id="userPassword" class="form-control" rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+												value="#{systemUserView.newEntity.password}" required="true"
+												requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userPasswordMsg" for="userPassword" rendered="#{systemUserView.dialogMode ne 'VIEW'}"/>
+										</div>
 										<div class="form-group">
 											<p:outputLabel for="userMail"
 												value="#{msg['systemuser.table.header.email']}:" />
@@ -152,6 +158,28 @@
 												value="#{systemUserView.newEntity.emailAddress}"
 												required="true" requiredMessage="#{msg['required.empty']}" />
 											<p:message id="userMailMsg" for="userMail" />
+										</div>
+									</p:tab>
+									<p:tab title="#{msg['systemuser.table.tab.organization']}">
+										<div class="form-group">
+											<p:outputLabel value="#{msg['systemuser.table.header.position']}:"
+												for="positionList"/>
+											<p:selectOneMenu id="positionList" value="#{systemUserView.idPosition}">
+												<f:selectItem itemLabel="#{msg['select.empty']}"
+													itemValue="#{null}" />
+												<f:selectItems value="#{systemUserView.positions}" var="position"
+													itemLabel="#{position.name}" itemValue="#{position.id}" />
+											</p:selectOneMenu>
+										</div>
+										<div class="form-group">
+											<p:outputLabel value="#{msg['systemuser.table.header.organizationalUnit']}:"
+												for="unitList" />
+											<p:selectOneMenu id="unitList" value="#{systemUserView.idOrganizationUnit}">
+												<f:selectItem itemLabel="#{msg['select.empty']}"
+													itemValue="#{null}" />
+												<f:selectItems value="#{systemUserView.organizationalUnits}" var="unit"
+													itemLabel="#{unit.name}" itemValue="#{unit.id}" />
+											</p:selectOneMenu>
 										</div>
 									</p:tab>
 									<p:tab title="#{msg['systemuser.table.tab.role']}">
@@ -175,7 +203,7 @@
 									styleClass="btn-danger btn-primary"
 									process="systemUser:newSystemUserPanel"
 									update="systemUser:systemUserTable,systemUser:newSystemUserPanel"
-									action="#{permissionView.save}"
+									action="#{systemUserView.save}"
 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newSystemUserDialog').hide()" />
 								<p:spacer width="10" />
 								<p:commandButton icon="fa fa-eraser"

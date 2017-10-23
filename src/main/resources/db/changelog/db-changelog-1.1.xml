@@ -1,64 +1,154 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="twojcicki" id="1503573039371-1">
-        <addColumn schemaName="public" tableName="permission">
-        	<column name="parent_id" type="BIGINT"/>
-    	</addColumn>
-         <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="permission" constraintName="FKl71b9ib2ylhgyby4x7r5bof12" deferrable="false" initiallyDeferred="false" referencedColumnNames="permission_id" referencedTableName="permission"/>
-    </changeSet>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+	<changeSet author="twojcicki" id="1503573039371-1">
+		<addColumn schemaName="public" tableName="permission">
+			<column name="parent_id" type="BIGINT" />
+		</addColumn>
+		<addForeignKeyConstraint baseColumnNames="parent_id"
+			baseTableName="permission" constraintName="FKl71b9ib2ylhgyby4x7r5bof12"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="permission_id"
+			referencedTableName="permission" />
+	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-2">
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="4"/>
+			<column name="permission_id" value="4" />
 			<column name="name" value="PERM_EDIT_1" />
 			<column name="component" value="COMP_EDIT_1" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="3"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="3" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="5"/>
+			<column name="permission_id" value="5" />
 			<column name="name" value="PERM_EDIT_1.1" />
 			<column name="component" value="COMP_EDIT_1.1" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="4"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="4" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="6"/>
+			<column name="permission_id" value="6" />
 			<column name="name" value="PERM_VIEW_1" />
 			<column name="component" value="COMP_VIEW_1" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="2"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="2" />
 		</insert>
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-3">
 		<insert schemaName="public" tableName="role">
-			<column name="role_id" value="3"/>
+			<column name="role_id" value="3" />
 			<column name="name" value="DEFAULT" />
-			<column name="version" value="0"/>
+			<column name="version" value="0" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="7"/>
+			<column name="permission_id" value="7" />
 			<column name="name" value="PERM_EDIT_1.2" />
 			<column name="component" value="COMP_EDIT_1.2" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="4"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="4" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="8"/>
+			<column name="permission_id" value="8" />
 			<column name="name" value="PERM_EDIT_2" />
 			<column name="component" value="COMP_EDIT_2" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="3"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="3" />
 		</insert>
 		<insert schemaName="public" tableName="permission">
-			<column name="permission_id" value="9"/>
+			<column name="permission_id" value="9" />
 			<column name="name" value="PERM_EDIT_1.3" />
 			<column name="component" value="COMP_EDIT_1.3" />
-			<column name="version" value="0"/>
-			<column name="parent_id" value="4"/>
+			<column name="version" value="0" />
+			<column name="parent_id" value="4" />
 		</insert>
 		<insert schemaName="public" tableName="role_permission">
-			<column name="permission_id" value="1"/>
+			<column name="permission_id" value="1" />
 			<column name="role_id" value="3" />
 		</insert>
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-4">
+		<createTable tableName="position">
+			<column name="position_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="name" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="organizational_unit">
+			<column name="organizational_unit_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="name" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<insert schemaName="public" tableName="position">
+			<column name="position_id" value="1" />
+			<column name="name" value="Referent" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="position">
+			<column name="position_id" value="2" />
+			<column name="name" value="Specjalista ds. infrmatyki" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="position">
+			<column name="position_id" value="3" />
+			<column name="name" value="Specjalista ds. kadr" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="organizational_unit">
+			<column name="organizational_unit_id" value="1" />
+			<column name="name" value="Dział organizacyjny" />
+			<column name="version" value="0" />
+		</insert>
+		<insert schemaName="public" tableName="organizational_unit">
+			<column name="organizational_unit_id" value="2" />
+			<column name="name" value="Dział zarządzający" />
+			<column name="version" value="0" />
+		</insert>
+		<addColumn schemaName="public" tableName="system_user">
+			<column name="position_id" type="BIGINT" />
+		</addColumn>
+		<addColumn schemaName="public" tableName="system_user">
+			<column name="organizational_unit_id" type="BIGINT" />
+		</addColumn>
+		<update schemaName="public" tableName="system_user">
+			<column name="position_id" value="1" />
+		</update>
+		<update schemaName="public" tableName="system_user">
+			<column name="organizational_unit_id" value="1" />
+		</update>
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-5">
+		<addPrimaryKey columnNames="organizational_unit_id"
+			constraintName="organizational_unitPK" tableName="organizational_unit" />
+		<addPrimaryKey columnNames="position_id" constraintName="positionPK"
+			tableName="position" />
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-6">
+		<addForeignKeyConstraint baseColumnNames="organizational_unit_id"
+			baseTableName="system_user" constraintName="FKl71b9ib2ylhgyby4x7r5bof14"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="organizational_unit_id"
+			referencedTableName="organizational_unit" />
+		<addForeignKeyConstraint baseColumnNames="position_id"
+			baseTableName="system_user" constraintName="FKl71b9ib2ylhgyby4x7r5bof15"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="position_id"
+			referencedTableName="position" />
+	</changeSet>
+	<changeSet author="twojcicki (generated)" id="1503573039371-7">
+		<createSequence sequenceName="position_seq" startValue="100" />
+		<createSequence sequenceName="organizational_unit_seq"
+			startValue="100" />
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-8">
+		<dropUniqueConstraint 
+            constraintName="uc_system_userpesel_col"
+            schemaName="public"
+            tableName="system_user"
+            uniqueColumns="pesel"/>
 	</changeSet>
 </databaseChangeLog>

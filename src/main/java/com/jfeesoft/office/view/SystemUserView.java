@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -43,6 +44,8 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	private Long idOrganizationUnit;
 	private Map<Long, Position> positions;
 	private Map<Long, OrganizationalUnit> organizationalUnits;
+
+	private Object test;
 
 	@Autowired
 	private RoleService roleService;
@@ -80,6 +83,14 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		roles.getSource().addAll(roleSource);
 	}
 
+	public void addNote() {
+		roleSource.add(new Role());
+	}
+
+	public void deleteNote(Role role) {
+		roleSource.remove(roleSource.size() - 1);
+	}
+
 	@Override
 	public void save() {
 		if (dialogMode.equals(DialogMode.ADD.name())) {
@@ -97,6 +108,16 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		newEntity.setRoles(Sets.newHashSet(roles.getTarget()));
 		newEntity = (SystemUser) genericSerivice.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+	}
+
+	public void saveTag(SelectEvent event) {
+		int a = 0;
+		a++;
+	}
+
+	public void saveTag(SystemUser entity) {
+		int a = 0;
+		a++;
 	}
 
 	@Override
@@ -161,6 +182,22 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	public Collection<OrganizationalUnit> getOrganizationalUnits() {
 		return organizationalUnits.values();
+	}
+
+	public List<Role> getRoleSource() {
+		return roleSource;
+	}
+
+	public void setRoleSource(List<Role> roleSource) {
+		this.roleSource = roleSource;
+	}
+
+	public Object getTest() {
+		return test;
+	}
+
+	public void setTest(Object test) {
+		this.test = test;
 	}
 
 }

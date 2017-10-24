@@ -1,7 +1,9 @@
 package com.jfeesoft.office.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -16,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "system_user")
@@ -82,6 +85,12 @@ public class SystemUser extends GenericEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organizational_unit_id", nullable = false)
 	private OrganizationalUnit organizationalUnit;
+
+	@Transient
+	private List<Tag> tags = new ArrayList<>();
+
+	@Transient
+	private List<Note> notes = new ArrayList<>();
 
 	public String getPassword() {
 		return password;
@@ -221,6 +230,22 @@ public class SystemUser extends GenericEntity {
 
 	public void setOrganizationalUnit(OrganizationalUnit organizationalUnit) {
 		this.organizationalUnit = organizationalUnit;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
 }

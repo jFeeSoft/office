@@ -77,8 +77,9 @@
 							<h:outputText value="#{systemUser.organizationalUnit.name}" />
 						</p:column>
 						<p:column style="width:15%" headerText="#{msg['table.header.info']}" exportable="false">
-							<p:chips id="chips" max="2" maxlength="10" value="#{systemUser.tags}">
-								<p:ajax event="itemSelect"	listener="#{systemUserView.saveTag}" />
+							<p:chips id="chips" max="2" maxlength="10" value="#{systemUser.tags}" >
+								<p:ajax event="itemSelect"	listener="#{systemUserView.saveTag(systemUser)}" />
+								<p:ajax event="itemUnselect"	listener="#{systemUserView.removeTag(systemUser)}" />
 							</p:chips>
 						</p:column>
 						<p:column style="width:17%;text-align: right" exportable="false">
@@ -88,8 +89,8 @@
 								oncomplete="PF('newSystemUserDialog').show()" styleClass="btn-warning" icon="fa fa-paperclip" />
 								<span class="label label-success tag-label">4</span>
 							<p:commandButton id="note"
-								process="@this" action="#{systemUserView.edit(systemUser)}"
-								resetValues="true" update="systemUser:newSystemUserPanel"
+								process="@this" action="#{systemUserView.editNote(systemUser)}"
+								resetValues="true" update="systemUser:notePanel"
 								oncomplete="PF('noteDialog').show()" styleClass="btn-info" icon="fa fa-file-text-o" />
 								<span class="label label-success tag-label">#{systemUser.notes.size()}</span>
 							<p:commandButton id="edit"
@@ -121,8 +122,8 @@
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="notePanel">
 							<div class="box-body">
-								<p:dataGrid var="role" value="#{systemUserView.roleSource}" columns="2"
-									layout="grid" rows="4" paginator="true" id="cars" paginatorPosition="bottom"
+								<p:dataGrid var="note" value="#{systemUserView.notes}" columns="2"
+									layout="grid" rows="4" paginator="true" id="notes" paginatorPosition="bottom"
 									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 									rowsPerPageTemplate="5,10,15">
 									<f:facet name="header">
@@ -136,9 +137,9 @@
 									</f:facet>
 
 							<p:panelGrid columns="2">
-									<p:inputTextarea rows="5" cols="30" queryDelay="750" minQueryLength="4" value="#{role.name}" />
+									<p:inputTextarea rows="5" cols="30" value="#{note.noteText}" />
 							<p:commandButton id="delete"
-								process="@this" action="#{systemUserView.deleteNote(role)}"
+								process="@this" action="#{systemUserView.deleteNote(note)}"
 								update="systemUser:notePanel" styleClass="btn-danger" icon="fa fa-trash">
 								<p:confirm header="#{msg['confirmation.header']}"
 									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -153,15 +154,10 @@
 							<div id="save-buttons" class="hidden-sm hidden-xs">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
 									styleClass="btn-danger btn-primary"
-									process="systemUser:newSystemUserPanel"
-									update="systemUser:systemUserTable,systemUser:newSystemUserPanel"
-									action="#{systemUserView.save}"
-									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newSystemUserDialog').hide()" />
-								<p:spacer width="10" />
-								<p:commandButton icon="fa fa-eraser"
-									value="#{msg['button.clear']}" styleClass="btn-info"
-									process="@this" update="systemUser:newSystemUserPanel"
-									resetValues="true" actionListener="#{systemUserView.add}" />
+									process="systemUser:notePanel"
+									update="systemUser:systemUserTable"
+									action="#{systemUserView.saveNotes}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('noteDialog').hide()" />
 								<p:spacer width="10" />
 								<p:commandButton oncomplete="PF('noteDialog').hide()"
 									icon="fa fa-close" value="#{msg['button.cancel']}"

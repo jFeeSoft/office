@@ -23,6 +23,17 @@ public class Note extends GenericEntity {
 	@Column(name = "note_text")
 	private String noteText;
 
+	public Note(String relation, Long relationId, String noteText) {
+		super();
+		this.relation = relation;
+		this.relationId = relationId;
+		this.noteText = noteText;
+	}
+
+	public Note() {
+		super();
+	}
+
 	public String getRelation() {
 		return relation;
 	}

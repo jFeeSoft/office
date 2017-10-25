@@ -9,14 +9,15 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.jfeesoft.office.model.Note;
 import com.jfeesoft.office.model.OrganizationalUnit;
 import com.jfeesoft.office.model.Position;
 import com.jfeesoft.office.model.Role;
@@ -38,7 +39,7 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	private List<Role> roleSource;
 
-	private List<String> tags;
+	private SystemUser userNotes;
 	private String dialogMode;
 	private Long idPosition;
 	private Long idOrganizationUnit;
@@ -71,9 +72,6 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		positions = positionService.findAllMap();
 		organizationalUnits = organizationalUnitService.findAllMap();
 		roles = new DualListModel<Role>(new ArrayList<Role>(), new ArrayList<Role>());
-		tags = new ArrayList<String>();
-		tags.add("tag1");
-		tags.add("tag2");
 	}
 
 	public void add() {
@@ -84,11 +82,15 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	}
 
 	public void addNote() {
-		roleSource.add(new Role());
+		userNotes.getNotes().add(new Note("systemUser", userNotes.getId(), ""));
 	}
 
-	public void deleteNote(Role role) {
-		roleSource.remove(roleSource.size() - 1);
+	public void deleteNote(Note note) {
+		userNotes.getNotes().remove(note);
+	}
+
+	public void saveNotes() {
+		((SystemUserService) genericSerivice).saveNotes(userNotes);
 	}
 
 	@Override
@@ -110,14 +112,16 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
-	public void saveTag(SelectEvent event) {
-		int a = 0;
-		a++;
+	public void saveTag(SystemUser entity) {
+		((SystemUserService) genericSerivice).addTag(entity);
 	}
 
-	public void saveTag(SystemUser entity) {
-		int a = 0;
-		a++;
+	public void removeTag(SystemUser entity) {
+		((SystemUserService) genericSerivice).removeTag(entity);
+	}
+
+	public void editNote(SystemUser entity) {
+		userNotes = entity;
 	}
 
 	@Override
@@ -142,14 +146,6 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	public void setRoles(DualListModel<Role> roles) {
 		this.roles = roles;
-	}
-
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tags) {
-		this.tags = tags;
 	}
 
 	public String getDialogMode() {
@@ -198,6 +194,17 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	public void setTest(Object test) {
 		this.test = test;
+	}
+
+	public List<Note> getNotes() {
+		if (userNotes == null) {
+			return Lists.newArrayList();
+		}
+		return userNotes.getNotes();
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.userNotes.setNotes(notes);
 	}
 
 }

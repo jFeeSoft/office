@@ -46,4 +46,35 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 		}
 		return users;
 	}
+
+	@Override
+	public void removeTag(SystemUser user) {
+		List<Tag> tags = tagRepository.findByRelationAndRelationId("systemUser", user.getId());
+		if (user.getTags() == null) {
+			for (Tag tag : tags) {
+				tagRepository.delete(tag);
+			}
+		} else {
+			for (Tag tag : tags) {
+				if (!user.getTags().contains(tag.getTagText())) {
+					tagRepository.delete(tag);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void addTag(SystemUser user) {
+		Object obj = user.getTags().get(user.getTags().size() - 1);
+		Tag tag = new Tag("systemUser", user.getId(), obj.toString());
+		tagRepository.save(tag);
+	}
+
+	@Override
+	public void saveNotes(SystemUser user) {
+		noteRepository.deleteByRelationAndRelationId("systemUser", user.getId());
+		noteRepository.save(user.getNotes());
+
+	}
+
 }

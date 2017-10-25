@@ -23,6 +23,17 @@ public class Tag extends GenericEntity {
 	@Column(name = "tag_text")
 	private String tagText;
 
+	public Tag(String relation, Long relationId, String tagText) {
+		super();
+		this.relation = relation;
+		this.relationId = relationId;
+		this.tagText = tagText;
+	}
+
+	public Tag() {
+		super();
+	}
+
 	public String getRelation() {
 		return relation;
 	}
@@ -51,4 +62,5 @@ public class Tag extends GenericEntity {
 	public String toString() {
 		return this.tagText;
 	}
+
 }

@@ -90,9 +90,8 @@
 						<div class="ui-g-8" id="treeDiv">
 							<p:treeTable id="permissionTree"
 								value="#{roleView.rootPermission}" var="permission"
-								editable="true" selectionMode="checkbox"
-								widgetVar="permissionTreeVar"
-								selection="#{roleView.selectedPermission}">
+								editable="true"
+								widgetVar="permissionTreeVar">
 
 								<f:facet name="header">
 									<b>#{msg['role.permission.available']}</b>
@@ -100,10 +99,10 @@
 								<p:column headerText="#{msg['permission.table.header.name']}">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText value="#{permission.name}" />
+											<h:outputText value="#{permission.permission.name}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{permission.name}" style="width:100%" />
+											<p:inputText value="#{permission.permission.name}" style="width:100%" />
 										</f:facet>
 									</p:cellEditor>
 								</p:column>
@@ -111,13 +110,16 @@
 									headerText="#{msg['permission.table.header.component']}">
 									<p:cellEditor>
 										<f:facet name="output">
-											<h:outputText value="#{permission.component}" />
+											<h:outputText value="#{permission.permission.component}" />
 										</f:facet>
 										<f:facet name="input">
-											<p:inputText value="#{permission.component}"
+											<p:inputText value="#{permission.permission.component}"
 												style="width:100%" />
 										</f:facet>
 									</p:cellEditor>
+								</p:column>
+								<p:column headerText="#{msg['permission.table.header.own']}">
+										<p:selectBooleanButton id="checkPer" value="#{permission.check}" onLabel="#{msg['button.yes']}" offLabel="#{msg['button.no']}" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 								</p:column>
 							</p:treeTable>
 						</div>

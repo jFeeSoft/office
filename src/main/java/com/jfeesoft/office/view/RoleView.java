@@ -18,6 +18,7 @@ import com.jfeesoft.office.model.Permission;
 import com.jfeesoft.office.model.Role;
 import com.jfeesoft.office.service.PermissionService;
 import com.jfeesoft.office.service.RoleService;
+import com.jfeesoft.office.view.model.PermissionCheck;
 import com.jfeesoft.office.view.utils.DialogMode;
 import com.jfeesoft.office.view.utils.Utils;
 
@@ -50,7 +51,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		if (roleSource.size() > 0) {
 			selectedRole = roleSource.get(0);
 		}
-		rootPermission = new CheckboxTreeNode(new Permission(), null);
+		rootPermission = new CheckboxTreeNode(new PermissionCheck(), null);
 		for (Permission permission : permissionRootAll) {
 			createPermissionTree(rootPermission, permission);
 		}
@@ -58,7 +59,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 	}
 
 	private void createPermissionTree(TreeNode root, Permission permission) {
-		CheckboxTreeNode node = new CheckboxTreeNode(permission, root);
+		CheckboxTreeNode node = new CheckboxTreeNode(new PermissionCheck(permission, false), root);
 		node.setExpanded(true);
 		if (permission.getChildren() != null) {
 			for (Permission permissionChild : permission.getChildren()) {
@@ -102,8 +103,8 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	private void collectCheckedPermission(Set<Permission> permissions, TreeNode rootNode) {
 		for (TreeNode node : rootNode.getChildren()) {
-			if (node.isSelected()) {
-				permissions.add((Permission) node.getData());
+			if (((PermissionCheck) node.getData()).getCheck()) {
+				permissions.add(((PermissionCheck) node.getData()).getPermission());
 			}
 			if (!node.isLeaf()) {
 				collectCheckedPermission(permissions, node);
@@ -114,10 +115,11 @@ public class RoleView extends GenericView<Role> implements Serializable {
 
 	private void checkPermission(Set<Permission> permissions, TreeNode rootNode) {
 		for (TreeNode node : rootNode.getChildren()) {
-			Permission permissionNode = (Permission) node.getData();
-			boolean selected = permissions.contains(permissionNode);
-			node.setSelected(selected);
-			if (!node.isLeaf() && !selected) {
+			PermissionCheck permissionNode = (PermissionCheck) node.getData();
+			boolean selected = permissions.contains(permissionNode.getPermission());
+			// node.setSelected(selected);
+			permissionNode.setCheck(selected);
+			if (!node.isLeaf()) {// && !selected) {
 				checkPermission(permissions, node);
 			}
 		}

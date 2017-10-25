@@ -3,7 +3,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/pages/template/template.xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 	<ui:define name="title">
         #{msg['page.index.title']}
@@ -15,6 +16,9 @@
 
 	<ui:define name="body">
 		<section class="content container-fluid">
+		<f:metadata>
+			<f:viewAction action="#{breadCrumbBean.addElement('Pulpit','/pages/index.xhtml')}"/>
+		</f:metadata>
 		 Pulpit
 		</section>
 	</ui:define>

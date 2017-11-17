@@ -10,8 +10,8 @@ public class GoalLazyDataModel extends GenericLazyDataModel<Goal> {
 
 	private static final long serialVersionUID = 1L;
 
-	public GoalLazyDataModel(GoalService roleService) {
-		super(roleService);
+	public GoalLazyDataModel(GoalService goalService) {
+		super(goalService);
 	}
 
 }

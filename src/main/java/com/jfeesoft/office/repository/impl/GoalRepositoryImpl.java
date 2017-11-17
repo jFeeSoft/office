@@ -14,8 +14,13 @@ public class GoalRepositoryImpl extends GenericRepositoryImpl<Goal> implements G
 
 	@Override
 	void createQuery(Criteria criteria) {
-		criteria.setFetchMode("permissions", FetchMode.JOIN);
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
 	}
+
+//	@Override
+//	void createQuery(Criteria criteria) {
+//		criteria.setFetchMode("permissions", FetchMode.JOIN);
+//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//	}
 
 }

@@ -29,97 +29,48 @@
 		</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<div id="main-buttons" class=" hidden-sm hidden-xs">
-						<p:commandButton id="roleAddButton" action="#{roleView.add}"
-							update="role:newRolePanel" process="@this"
-							oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
-							value="#{msg['button.add']}" styleClass="btn-primary"
-							resetValues="true">
-							<f:setPropertyActionListener value="ADD"
-								target="#{roleView.dialogMode}" />
-						</p:commandButton>
-						<p:commandButton id="roleSaveButton"
-							action="#{roleView.savePermission}"
-							process="@this role:permissionTree" icon="fa fa-floppy-o"
-							update="role:roleTable" value="#{msg['button.permission.save']}"
-							styleClass="btn-warning" resetValues="false" style="float:right" />
-					</div>
 					<p:separator />
 					<div class="ui-g">
-						<div class="ui-g-4">
-							<p:dataTable id="roleTable" var="role"
-								value="#{roleView.genericLazyModel}" paginator="true" rows="25"
-								widgetVar="roleTable" paginatorPosition="bottom"
+						<div class="ui-g-6">
+							<p:dataTable id="goalTable" var="goal"
+								value="#{goalView.genericLazyModel}" paginator="true" rows="25"
+								widgetVar="goalTable" paginatorPosition="bottom"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
-								selectionMode="single" selection="#{roleView.selectedRole}"
-								rowKey="#{role.id}">
+								selectionMode="single" selection="#{goalView.selectedGoal}"
+								rowKey="#{goal.id}">
 
-								<p:ajax event="rowSelect" listener="#{roleView.onRowSelect}"
+								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}"
 									update="role:permissionTree" />
 
 								<f:facet name="header">
-									<b>#{msg['role.table.header']}</b>
+									<b>#{msg['goal.table.header']}</b>
 								</f:facet>
-								<p:column headerText="#{msg['role.table.header.name']}"
-									sortBy="#{role.name}" filterBy="#{role.name}">
-									<h:outputText value="#{role.name}" />
+								<p:column headerText="#{msg['goal.table.header.name']}"
+									sortBy="#{goal.name}" filterBy="#{goal.name}">
+									<h:outputText value="#{goal.name}" />
 									<p:spacer height="2" />
 								</p:column>
-								<p:column exportable="false" style="width:25%">
-									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}"
-										process="@this" action="#{roleView.edit(role)}"
-										resetValues="true" update="role:newRolePanel"
-										oncomplete="PF('newRoleDialog').show()"
-										styleClass="btn-primary" icon="fa fa-search">
-										<f:setPropertyActionListener value="VIEW"
-											target="#{roleView.dialogMode}" />
-									</p:commandButton>
-									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" />
-									<p:commandButton id="delete" process="@this"
-										rendered="#{role.name ne 'DEFAULT'}"
-										action="#{roleView.delete(role)}" update="role:roleTable"
-										styleClass="btn-danger" icon="fa fa-trash">
-										<p:confirm header="#{msg['confirmation.header']}"
-											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
-									</p:commandButton>
+<!-- 								<p:column exportable="false" style="width:25%"> -->
+<!-- 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}" -->
+<!-- 										process="@this" action="#{roleView.edit(role)}" -->
+<!-- 										resetValues="true" update="role:newRolePanel" -->
+<!-- 										oncomplete="PF('newRoleDialog').show()" -->
+<!-- 										styleClass="btn-primary" icon="fa fa-search"> -->
+<!-- 										<f:setPropertyActionListener value="VIEW" -->
+<!-- 											target="#{roleView.dialogMode}" /> -->
+<!-- 									</p:commandButton> -->
+<!-- 									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" /> -->
+<!-- 									<p:commandButton id="delete" process="@this" -->
+<!-- 										rendered="#{role.name ne 'DEFAULT'}" -->
+<!-- 										action="#{roleView.delete(role)}" update="role:roleTable" -->
+<!-- 										styleClass="btn-danger" icon="fa fa-trash"> -->
+<!-- 										<p:confirm header="#{msg['confirmation.header']}" -->
+<!-- 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" /> -->
+<!-- 									</p:commandButton> -->
 
-								</p:column>
+<!-- 								</p:column> -->
 							</p:dataTable>
-						</div>
-						<div class="ui-g-8" id="treeDiv">
-							<p:treeTable id="permissionTree"
-								value="#{roleView.rootPermission}" var="permission"
-								editable="true" selectionMode="checkbox"
-								widgetVar="permissionTreeVar"
-								selection="#{roleView.selectedPermission}">
-
-								<f:facet name="header">
-									<b>#{msg['role.permission.available']}</b>
-								</f:facet>
-								<p:column headerText="#{msg['permission.table.header.name']}">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{permission.name}" />
-										</f:facet>
-										<f:facet name="input">
-											<p:inputText value="#{permission.name}" style="width:100%" />
-										</f:facet>
-									</p:cellEditor>
-								</p:column>
-								<p:column
-									headerText="#{msg['permission.table.header.component']}">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{permission.component}" />
-										</f:facet>
-										<f:facet name="input">
-											<p:inputText value="#{permission.component}"
-												style="width:100%" />
-										</f:facet>
-									</p:cellEditor>
-								</p:column>
-							</p:treeTable>
 						</div>
 					</div>
 

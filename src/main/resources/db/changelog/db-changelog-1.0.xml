@@ -6,6 +6,9 @@
     <changeSet author="twojcicki (generated)" id="1503573039373-16">
         <createSequence sequenceName="role_seq" startValue="100"/>
     </changeSet>
+    <changeSet author="jrutkowski (generated)" id="1503573039373-17">
+        <createSequence sequenceName="goal_seq" startValue="100"/>
+    </changeSet>
     <changeSet author="twojcicki (generated)" id="1503573039373-18">
         <createSequence sequenceName="system_user_seq" startValue="100"/>
     </changeSet>
@@ -29,6 +32,16 @@
             </column>
             <column name="version" type="BIGINT"/>
             <column name="name" type="VARCHAR(64)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jrutkowski (generated)" id="1503573039373-100">
+        <createTable tableName="goal">
+            <column name="goal_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(64)"/>
+            <column name="date_from" type="date"/>
+            <column name="date_to" type="date"/>
         </createTable>
     </changeSet>
     <changeSet author="twojcicki (generated)" id="1503573039373-39">
@@ -91,6 +104,9 @@
     </changeSet>
     <changeSet author="twojcicki (generated)" id="1503573039373-68">
         <addPrimaryKey columnNames="role_id" constraintName="rolePK" tableName="role"/>
+    </changeSet>
+   	<changeSet author="jrutkowski (generated)" id="1503573039373-101">
+        <addPrimaryKey columnNames="goal_id" constraintName="goalPK" tableName="goal"/>
     </changeSet>
     <changeSet author="twojcicki (generated)" id="1503573039373-70">
         <addPrimaryKey columnNames="system_user_id" constraintName="system_userPK" tableName="system_user"/>

@@ -62,25 +62,38 @@
 									<h:outputText value="#{goal.dateTo}" />
 									<p:spacer height="2" />
 								</p:column>
-								<!-- 								<p:column exportable="false" style="width:25%"> -->
-								<!-- 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}" -->
-								<!-- 										process="@this" action="#{roleView.edit(role)}" -->
-								<!-- 										resetValues="true" update="role:newRolePanel" -->
-								<!-- 										oncomplete="PF('newRoleDialog').show()" -->
-								<!-- 										styleClass="btn-primary" icon="fa fa-search"> -->
-								<!-- 										<f:setPropertyActionListener value="VIEW" -->
-								<!-- 											target="#{roleView.dialogMode}" /> -->
-								<!-- 									</p:commandButton> -->
-								<!-- 									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" /> -->
-								<!-- 									<p:commandButton id="delete" process="@this" -->
-								<!-- 										rendered="#{role.name ne 'DEFAULT'}" -->
-								<!-- 										action="#{roleView.delete(role)}" update="role:roleTable" -->
-								<!-- 										styleClass="btn-danger" icon="fa fa-trash"> -->
-								<!-- 										<p:confirm header="#{msg['confirmation.header']}" -->
-								<!-- 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" /> -->
-								<!-- 									</p:commandButton> -->
+							</p:dataTable>
+						</div>
+						<div class="ui-g-6">
+							<p:dataTable id="taskTable" var="task"
+								value="#{taskView.genericLazyModel}" paginator="true" rows="25"
+								widgetVar="taskTable" paginatorPosition="bottom"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="25,50,100" lazy="true"
+								selectionMode="single" selection="#{taskView.selectedTask}"
+								rowKey="#{task.id}">
 
-								<!-- 								</p:column> -->
+								<!-- 								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}" -->
+								<!-- 									update="role:permissionTree" /> -->
+
+								<f:facet name="header">
+									<b>#{msg['task.table.header']}</b>
+								</f:facet>
+								<p:column headerText="#{msg['task.table.header.name']}"
+									sortBy="#{task.name}" filterBy="#{task.name}">
+									<h:outputText value="#{task.name}" />
+									<p:spacer height="2" />
+								</p:column>
+								<p:column headerText="#{msg['task.table.header.dateFrom']}"
+									sortBy="#{task.dateFrom}" filterBy="#{task.dateFrom}">
+									<h:outputText value="#{task.dateFrom}" />
+									<p:spacer height="2" />
+								</p:column>
+								<p:column headerText="#{msg['task.table.header.dateTo']}"
+									sortBy="#{task.dateTo}" filterBy="#{task.dateTo}">
+									<h:outputText value="#{task.dateTo}" />
+									<p:spacer height="2" />
+								</p:column>
 							</p:dataTable>
 						</div>
 					</div>

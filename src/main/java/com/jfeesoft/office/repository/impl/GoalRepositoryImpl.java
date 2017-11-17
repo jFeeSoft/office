@@ -1,3 +1,4 @@
+
 package com.jfeesoft.office.repository.impl;
 
 import org.hibernate.Criteria;

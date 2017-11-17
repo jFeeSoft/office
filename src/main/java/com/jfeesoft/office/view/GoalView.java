@@ -28,11 +28,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
-	private PermissionService permissionService;
-
-	private TreeNode rootPermission;
-
 	private List<Goal> goalSource;
 	private Long idRoleParent;
 	private Goal selectedGoal;
@@ -43,7 +38,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		super(genericService);
 	}
 
-	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
@@ -124,14 +118,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 
 	public void setIdRoleParent(Long idRoleParent) {
 		this.idRoleParent = idRoleParent;
-	}
-
-	public TreeNode getRootPermission() {
-		return rootPermission;
-	}
-
-	public void setRootPermission(TreeNode root) {
-		this.rootPermission = root;
 	}
 
 	public Goal getSelectedGoal() {

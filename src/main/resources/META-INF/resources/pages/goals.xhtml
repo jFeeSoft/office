@@ -52,6 +52,16 @@
 									<h:outputText value="#{goal.name}" />
 									<p:spacer height="2" />
 								</p:column>
+								<p:column headerText="#{msg['goal.table.header.dateFrom']}"
+									sortBy="#{goal.dateFrom}" filterBy="#{goal.dateFrom}">
+									<h:outputText value="#{goal.dateFrom}" />
+									<p:spacer height="2" />
+								</p:column>
+								<p:column headerText="#{msg['goal.table.header.dateTo']}"
+									sortBy="#{goal.dateTo}" filterBy="#{goal.dateTo}">
+									<h:outputText value="#{goal.dateTo}" />
+									<p:spacer height="2" />
+								</p:column>
 								<!-- 								<p:column exportable="false" style="width:25%"> -->
 								<!-- 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}" -->
 								<!-- 										process="@this" action="#{roleView.edit(role)}" -->
@@ -75,62 +85,62 @@
 						</div>
 					</div>
 
-<!-- 					<p:dialog id="roleDialog" header="#{msg['role.new']}" -->
-<!-- 						showEffect="fade" widgetVar="newRoleDialog" modal="true" -->
-<!-- 						resizable="false" class="box box-primary"> -->
-<!-- 						<p:outputPanel id="newRolePanel"> -->
-<!-- 							<div class="box-body"> -->
-<!-- 								<div class="form-group"> -->
+					<!-- 					<p:dialog id="roleDialog" header="#{msg['role.new']}" -->
+					<!-- 						showEffect="fade" widgetVar="newRoleDialog" modal="true" -->
+					<!-- 						resizable="false" class="box box-primary"> -->
+					<!-- 						<p:outputPanel id="newRolePanel"> -->
+					<!-- 							<div class="box-body"> -->
+					<!-- 								<div class="form-group"> -->
 
-<!-- 									<p:outputLabel for="roleName" -->
-<!-- 										value="#{msg['role.table.header.name']}:" /> -->
-<!-- 									<p:inputText id="roleName" class="form-control" -->
-<!-- 										value="#{roleView.newEntity.name}" required="true" -->
-<!-- 										requiredMessage="#{msg['required.empty']}" /> -->
-<!-- 									<p:message id="roleNameMsg" for="roleName" /> -->
-<!-- 								</div> -->
+					<!-- 									<p:outputLabel for="roleName" -->
+					<!-- 										value="#{msg['role.table.header.name']}:" /> -->
+					<!-- 									<p:inputText id="roleName" class="form-control" -->
+					<!-- 										value="#{roleView.newEntity.name}" required="true" -->
+					<!-- 										requiredMessage="#{msg['required.empty']}" /> -->
+					<!-- 									<p:message id="roleNameMsg" for="roleName" /> -->
+					<!-- 								</div> -->
 
-<!-- 								<p:outputLabel value="#{msg['role.permission.parent']}:" -->
-<!-- 									for="roleParentList" -->
-<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" /> -->
-<!-- 								<p:selectOneMenu id="roleParentList" -->
-<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" -->
-<!-- 									value="#{roleView.idRoleParent}"> -->
-<!-- 									<f:selectItem itemLabel="#{msg['select.empty']}" -->
-<!-- 										itemValue="#{null}" /> -->
-<!-- 									<f:selectItems value="#{roleView.roleSource}" var="role" -->
-<!-- 										itemLabel="#{role.name}" itemValue="#{role.id}" /> -->
-<!-- 								</p:selectOneMenu> -->
-<!-- 							</div> -->
+					<!-- 								<p:outputLabel value="#{msg['role.permission.parent']}:" -->
+					<!-- 									for="roleParentList" -->
+					<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" /> -->
+					<!-- 								<p:selectOneMenu id="roleParentList" -->
+					<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" -->
+					<!-- 									value="#{roleView.idRoleParent}"> -->
+					<!-- 									<f:selectItem itemLabel="#{msg['select.empty']}" -->
+					<!-- 										itemValue="#{null}" /> -->
+					<!-- 									<f:selectItems value="#{roleView.roleSource}" var="role" -->
+					<!-- 										itemLabel="#{role.name}" itemValue="#{role.id}" /> -->
+					<!-- 								</p:selectOneMenu> -->
+					<!-- 							</div> -->
 
 
-<!-- 							<p:separator /> -->
-<!-- 							<div id="save-buttons" class="hidden-sm hidden-xs"> -->
-<!-- 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}" -->
-<!-- 									styleClass="btn-danger btn-primary" process="role:newRolePanel" -->
-<!-- 									update="role:roleTable,role:newRolePanel" -->
-<!-- 									action="#{roleView.save}" -->
-<!-- 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newRoleDialog').hide()" /> -->
-<!-- 								<p:spacer width="10" /> -->
-<!-- 								<p:commandButton icon="fa fa-eraser" -->
-<!-- 									value="#{msg['button.clear']}" styleClass="btn-info" -->
-<!-- 									process="@this" update="role:newRolePanel" resetValues="true" -->
-<!-- 									actionListener="#{roleView.add}" /> -->
-<!-- 								<p:spacer width="10" /> -->
-<!-- 								<p:commandButton oncomplete="PF('newRoleDialog').hide()" -->
-<!-- 									icon="fa fa-close" value="#{msg['button.cancel']}" -->
-<!-- 									styleClass="btn-default" /> -->
-<!-- 							</div> -->
+					<!-- 							<p:separator /> -->
+					<!-- 							<div id="save-buttons" class="hidden-sm hidden-xs"> -->
+					<!-- 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}" -->
+					<!-- 									styleClass="btn-danger btn-primary" process="role:newRolePanel" -->
+					<!-- 									update="role:roleTable,role:newRolePanel" -->
+					<!-- 									action="#{roleView.save}" -->
+					<!-- 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newRoleDialog').hide()" /> -->
+					<!-- 								<p:spacer width="10" /> -->
+					<!-- 								<p:commandButton icon="fa fa-eraser" -->
+					<!-- 									value="#{msg['button.clear']}" styleClass="btn-info" -->
+					<!-- 									process="@this" update="role:newRolePanel" resetValues="true" -->
+					<!-- 									actionListener="#{roleView.add}" /> -->
+					<!-- 								<p:spacer width="10" /> -->
+					<!-- 								<p:commandButton oncomplete="PF('newRoleDialog').hide()" -->
+					<!-- 									icon="fa fa-close" value="#{msg['button.cancel']}" -->
+					<!-- 									styleClass="btn-default" /> -->
+					<!-- 							</div> -->
 
-<!-- 						</p:outputPanel> -->
-<!-- 					</p:dialog> -->
-<!-- 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" -->
-<!-- 						styleClass="box-warning"> -->
-<!-- 						<p:commandButton value="#{msg['button.yes']}" type="button" -->
-<!-- 							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" /> -->
-<!-- 						<p:commandButton value="#{msg['button.no']}" type="button" -->
-<!-- 							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" /> -->
-<!-- 					</p:confirmDialog> -->
+					<!-- 						</p:outputPanel> -->
+					<!-- 					</p:dialog> -->
+					<!-- 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" -->
+					<!-- 						styleClass="box-warning"> -->
+					<!-- 						<p:commandButton value="#{msg['button.yes']}" type="button" -->
+					<!-- 							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" /> -->
+					<!-- 						<p:commandButton value="#{msg['button.no']}" type="button" -->
+					<!-- 							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" /> -->
+					<!-- 					</p:confirmDialog> -->
 				</div>
 			</div>
 		</h:form>

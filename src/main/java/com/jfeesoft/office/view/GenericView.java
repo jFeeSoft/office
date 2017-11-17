@@ -20,7 +20,7 @@ public abstract class GenericView<T> {
 	@Autowired
 	protected LazyDataModel<T> genericLazyModel;
 
-	protected GenericService genericSerivice;
+	protected GenericService genericService;
 
 	protected T newEntity;
 
@@ -28,16 +28,16 @@ public abstract class GenericView<T> {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		this.messagesBundle = application.getResourceBundle(context, "msg");
-		this.genericSerivice = genericService;
+		this.genericService = genericService;
 	}
 
 	public void delete(GenericEntity entity) {
-		genericSerivice.delete(entity);
+		genericService.delete(entity);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void save() {
-		newEntity = (T) genericSerivice.save(newEntity);
+		newEntity = (T) genericService.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 

@@ -43,29 +43,27 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		super(genericService);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
-		goalSource = (List<Goal>) genericSerivice.findAll();
-		List<Permission> permissionRootAll = permissionService.findAllRootPermission();
+		goalSource = (List<Goal>) genericService.findAll();
+
 		if (goalSource.size() > 0) {
 			selectedGoal = goalSource.get(0);
 		}
-		rootPermission = new CheckboxTreeNode(new PermissionCheck(), null);
-		for (Permission permission : permissionRootAll) {
-			createPermissionTree(rootPermission, permission);
-		}
 	}
 
-	private void createPermissionTree(TreeNode root, Permission permission) {
-		CheckboxTreeNode node = new CheckboxTreeNode(new PermissionCheck(permission, false), root);
-		node.setExpanded(true);
-		if (permission.getChildren() != null) {
-			for (Permission permissionChild : permission.getChildren()) {
-				createPermissionTree(node, permissionChild);
-			}
-		}
-	}
+	// private void createPermissionTree(TreeNode root, Permission permission) {
+	// CheckboxTreeNode node = new CheckboxTreeNode(new PermissionCheck(permission,
+	// false), root);
+	// node.setExpanded(true);
+	// if (permission.getChildren() != null) {
+	// for (Permission permissionChild : permission.getChildren()) {
+	// createPermissionTree(node, permissionChild);
+	// }
+	// }
+	// }
 
 	public void add() {
 		newEntity = new Goal();
@@ -75,45 +73,48 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		newEntity = entity;
 	}
 
-//	@Override
-//	public void save() {
-//		newEntity.getPermissions().clear();
-//		if (idRoleParent != null) {
-//			Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
-//			newEntity.setPermissions(parentRole.getPermissions());
-//		}
-//		newEntity = (Role) genericSerivice.save(newEntity);
-//		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
-//	}
+	// @Override
+	// public void save() {
+	// newEntity.getPermissions().clear();
+	// if (idRoleParent != null) {
+	// Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
+	// newEntity.setPermissions(parentRole.getPermissions());
+	// }
+	// newEntity = (Role) genericSerivice.save(newEntity);
+	// Utils.addDetailMessage(messagesBundle.getString("info.edit"),
+	// FacesMessage.SEVERITY_INFO);
+	// }
 
-	public void savePermission() {
-		if (selectedGoal != null) {
-			newEntity = (Goal) genericSerivice.save(selectedGoal);
-		}
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
-	}
+	// public void savePermission() {
+	// if (selectedGoal != null) {
+	// newEntity = (Goal) genericSerivice.save(selectedGoal);
+	// }
+	// Utils.addDetailMessage(messagesBundle.getString("info.edit"),
+	// FacesMessage.SEVERITY_INFO);
+	// }
 
 	public void onRowSelect(SelectEvent event) {
 		Goal goal = (Goal) event.getObject();
 	}
 
-	private void collectCheckedPermission(Set<Permission> permissions, TreeNode rootNode) {
-		for (TreeNode node : rootNode.getChildren()) {
-			if (((PermissionCheck) node.getData()).getCheck()) {
-				permissions.add(((PermissionCheck) node.getData()).getPermission());
-			}
-			if (!node.isLeaf()) {
-				collectCheckedPermission(permissions, node);
-			}
-
-		}
-	}
+	// private void collectCheckedPermission(Set<Permission> permissions, TreeNode
+	// rootNode) {
+	// for (TreeNode node : rootNode.getChildren()) {
+	// if (((PermissionCheck) node.getData()).getCheck()) {
+	// permissions.add(((PermissionCheck) node.getData()).getPermission());
+	// }
+	// if (!node.isLeaf()) {
+	// collectCheckedPermission(permissions, node);
+	// }
+	//
+	// }
+	// }
 
 	public List<Goal> getGoalSource() {
 		return goalSource;
 	}
 
-	public void setgoalSource(List<Goal> goalSource) {
+	public void setGoalSource(List<Goal> goalSource) {
 		this.goalSource = goalSource;
 	}
 

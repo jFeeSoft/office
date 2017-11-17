@@ -47,14 +47,14 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 	}
 
 	private void initPermissionTree() {
-		List<Permission> permissionRootAll = (List<Permission>) ((PermissionService) this.genericSerivice)
+		List<Permission> permissionRootAll = (List<Permission>) ((PermissionService) this.genericService)
 				.findAllRootPermission();
 		root = new CheckboxTreeNode(new Permission(), null);
 		for (Permission permission : permissionRootAll) {
 			createPermissionTree(root, permission);
 		}
 		permissionRoot.clear();
-		List<Permission> permissionAll = (List<Permission>) ((PermissionService) this.genericSerivice)
+		List<Permission> permissionAll = (List<Permission>) ((PermissionService) this.genericService)
 				.findAllOrderByNameAsc();
 
 		for (Permission permission : permissionAll) {
@@ -111,7 +111,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 		} else {
 			newEntity.setParent(null);
 		}
-		genericSerivice.save(newEntity);
+		genericService.save(newEntity);
 		initPermissionTree();
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}

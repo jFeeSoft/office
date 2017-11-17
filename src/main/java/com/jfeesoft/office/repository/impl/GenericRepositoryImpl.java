@@ -42,6 +42,7 @@ public abstract class GenericRepositoryImpl<T> {
 		return (Long) criteria.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> findRepositorySortFilterPage(int first, int pageSize, String sortField, Direction sortOrder,
 			Map<String, Object> filters) {
 		Session session = em.unwrap(Session.class);

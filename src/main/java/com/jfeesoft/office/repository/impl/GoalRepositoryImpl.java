@@ -1,7 +1,6 @@
 package com.jfeesoft.office.repository.impl;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 
 import com.jfeesoft.office.model.Goal;
 import com.jfeesoft.office.repository.GoalRepositoryCustom;

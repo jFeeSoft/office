@@ -24,9 +24,10 @@
 
 	<ui:define name="body">
 		<h:form id="role">
-		<f:metadata>
-			<f:viewAction action="#{breadCrumbBean.addElement('Cele','/pages/goals.xhtml')}"/>
-		</f:metadata>
+			<f:metadata>
+				<f:viewAction
+					action="#{breadCrumbBean.addElement('Cele','/pages/goals.xhtml')}" />
+			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<p:separator />
@@ -40,8 +41,8 @@
 								selectionMode="single" selection="#{goalView.selectedGoal}"
 								rowKey="#{goal.id}">
 
-								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}"
-									update="role:permissionTree" />
+								<!-- 								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}" -->
+								<!-- 									update="role:permissionTree" /> -->
 
 								<f:facet name="header">
 									<b>#{msg['goal.table.header']}</b>
@@ -51,25 +52,25 @@
 									<h:outputText value="#{goal.name}" />
 									<p:spacer height="2" />
 								</p:column>
-<!-- 								<p:column exportable="false" style="width:25%"> -->
-<!-- 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}" -->
-<!-- 										process="@this" action="#{roleView.edit(role)}" -->
-<!-- 										resetValues="true" update="role:newRolePanel" -->
-<!-- 										oncomplete="PF('newRoleDialog').show()" -->
-<!-- 										styleClass="btn-primary" icon="fa fa-search"> -->
-<!-- 										<f:setPropertyActionListener value="VIEW" -->
-<!-- 											target="#{roleView.dialogMode}" /> -->
-<!-- 									</p:commandButton> -->
-<!-- 									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" /> -->
-<!-- 									<p:commandButton id="delete" process="@this" -->
-<!-- 										rendered="#{role.name ne 'DEFAULT'}" -->
-<!-- 										action="#{roleView.delete(role)}" update="role:roleTable" -->
-<!-- 										styleClass="btn-danger" icon="fa fa-trash"> -->
-<!-- 										<p:confirm header="#{msg['confirmation.header']}" -->
-<!-- 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" /> -->
-<!-- 									</p:commandButton> -->
+								<!-- 								<p:column exportable="false" style="width:25%"> -->
+								<!-- 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}" -->
+								<!-- 										process="@this" action="#{roleView.edit(role)}" -->
+								<!-- 										resetValues="true" update="role:newRolePanel" -->
+								<!-- 										oncomplete="PF('newRoleDialog').show()" -->
+								<!-- 										styleClass="btn-primary" icon="fa fa-search"> -->
+								<!-- 										<f:setPropertyActionListener value="VIEW" -->
+								<!-- 											target="#{roleView.dialogMode}" /> -->
+								<!-- 									</p:commandButton> -->
+								<!-- 									<p:spacer width="5" rendered="#{role.name ne 'DEFAULT'}" /> -->
+								<!-- 									<p:commandButton id="delete" process="@this" -->
+								<!-- 										rendered="#{role.name ne 'DEFAULT'}" -->
+								<!-- 										action="#{roleView.delete(role)}" update="role:roleTable" -->
+								<!-- 										styleClass="btn-danger" icon="fa fa-trash"> -->
+								<!-- 										<p:confirm header="#{msg['confirmation.header']}" -->
+								<!-- 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" /> -->
+								<!-- 									</p:commandButton> -->
 
-<!-- 								</p:column> -->
+								<!-- 								</p:column> -->
 							</p:dataTable>
 						</div>
 					</div>

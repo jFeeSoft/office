@@ -46,7 +46,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
-		roleSource = (List<Role>) genericSerivice.findAll();
+		roleSource = (List<Role>) genericService.findAll();
 		List<Permission> permissionRootAll = permissionService.findAllRootPermission();
 		if (roleSource.size() > 0) {
 			selectedRole = roleSource.get(0);
@@ -83,7 +83,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 			Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
 			newEntity.setPermissions(parentRole.getPermissions());
 		}
-		newEntity = (Role) genericSerivice.save(newEntity);
+		newEntity = (Role) genericService.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
@@ -91,7 +91,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		if (selectedRole != null) {
 			selectedRole.getPermissions().clear();
 			collectCheckedPermission(selectedRole.getPermissions(), rootPermission);
-			newEntity = (Role) genericSerivice.save(selectedRole);
+			newEntity = (Role) genericService.save(selectedRole);
 		}
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}

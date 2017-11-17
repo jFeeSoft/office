@@ -100,7 +100,7 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	}
 
 	public void saveNotes() {
-		((SystemUserService) genericSerivice).saveNotes(userNotes);
+		((SystemUserService) genericService).saveNotes(userNotes);
 	}
 
 	@Override
@@ -118,16 +118,16 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 			newEntity.setPosition(position);
 		}
 		newEntity.setRoles(Sets.newHashSet(roles.getTarget()));
-		newEntity = (SystemUser) genericSerivice.save(newEntity);
+		newEntity = (SystemUser) genericService.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void saveTag(SystemUser entity) {
-		((SystemUserService) genericSerivice).addTag(entity);
+		((SystemUserService) genericService).addTag(entity);
 	}
 
 	public void removeTag(SystemUser entity) {
-		((SystemUserService) genericSerivice).removeTag(entity);
+		((SystemUserService) genericService).removeTag(entity);
 	}
 
 	public void editNote(SystemUser entity) {

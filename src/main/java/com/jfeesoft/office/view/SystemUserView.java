@@ -103,6 +103,7 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		((SystemUserService) genericService).saveNotes(userNotes);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void save() {
 		if (dialogMode.equals(DialogMode.ADD.name())) {

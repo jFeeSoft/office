@@ -43,6 +43,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		super(genericService);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
@@ -76,6 +77,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		newEntity = entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void save() {
 		newEntity.getPermissions().clear();
@@ -87,6 +89,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void savePermission() {
 		if (selectedRole != null) {
 			selectedRole.getPermissions().clear();

@@ -15,8 +15,10 @@ public abstract class GenericLazyDataModel<T extends GenericEntity> extends Lazy
 
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("rawtypes")
 	private final GenericService genericService;
 
+	@SuppressWarnings("rawtypes")
 	public GenericLazyDataModel(GenericService genericService) {
 		super();
 		this.genericService = genericService;
@@ -38,6 +40,7 @@ public abstract class GenericLazyDataModel<T extends GenericEntity> extends Lazy
 		return entity.getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 		List<T> entities = genericService.load(first, pageSize, sortField, ProperSortOrder.getDirection(sortOrder),
 				filters);

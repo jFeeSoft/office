@@ -20,10 +20,12 @@ public abstract class GenericView<T> {
 	@Autowired
 	protected LazyDataModel<T> genericLazyModel;
 
+	@SuppressWarnings("rawtypes")
 	protected GenericService genericService;
 
 	protected T newEntity;
 
+	@SuppressWarnings("rawtypes")
 	public GenericView(GenericService genericService) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -31,11 +33,13 @@ public abstract class GenericView<T> {
 		this.genericService = genericService;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void delete(GenericEntity entity) {
 		genericService.delete(entity);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void save() {
 		newEntity = (T) genericService.save(newEntity);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);

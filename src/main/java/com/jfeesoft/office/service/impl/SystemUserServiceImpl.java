@@ -47,6 +47,7 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 		return users;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void removeTag(SystemUser user) {
 		List<Tag> tags = tagRepository.findByRelationAndRelationId("systemUser", user.getId());

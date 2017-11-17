@@ -2,25 +2,17 @@ package com.jfeesoft.office.view;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfeesoft.office.model.Goal;
-import com.jfeesoft.office.model.Permission;
 import com.jfeesoft.office.service.GoalService;
-import com.jfeesoft.office.service.PermissionService;
-import com.jfeesoft.office.view.model.PermissionCheck;
 import com.jfeesoft.office.view.utils.DialogMode;
-import com.jfeesoft.office.view.utils.Utils;
 
 @Component("goalView")
 @Scope("view")
@@ -38,6 +30,7 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		super(genericService);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
@@ -87,6 +80,7 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	// FacesMessage.SEVERITY_INFO);
 	// }
 
+	@SuppressWarnings("unused")
 	public void onRowSelect(SelectEvent event) {
 		Goal goal = (Goal) event.getObject();
 	}

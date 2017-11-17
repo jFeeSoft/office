@@ -102,6 +102,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void save() {
 		Permission permissionTempRoot = null;

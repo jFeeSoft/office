@@ -145,11 +145,8 @@
 			startValue="100" />
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-8">
-		<dropUniqueConstraint 
-            constraintName="uc_system_userpesel_col"
-            schemaName="public"
-            tableName="system_user"
-            uniqueColumns="pesel"/>
+		<dropUniqueConstraint constraintName="uc_system_userpesel_col"
+			schemaName="public" tableName="system_user" uniqueColumns="pesel" />
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-9">
 		<createTable tableName="note">
@@ -163,7 +160,7 @@
 			<column name="relation_id" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="note_text" type="TEXT"/>
+			<column name="note_text" type="TEXT" />
 		</createTable>
 		<createTable tableName="tag">
 			<column name="tag_id" type="BIGINT">
@@ -176,19 +173,18 @@
 			<column name="relation_id" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="tag_text" type="TEXT"/>
+			<column name="tag_text" type="TEXT" />
 		</createTable>
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-10">
-		<addPrimaryKey columnNames="note_id"
-			constraintName="notePK" tableName="note" />
+		<addPrimaryKey columnNames="note_id" constraintName="notePK"
+			tableName="note" />
 		<addPrimaryKey columnNames="tag_id" constraintName="tagPK"
 			tableName="tag" />
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-11">
 		<createSequence sequenceName="note_seq" startValue="100" />
-		<createSequence sequenceName="tag_seq"
-			startValue="100" />
+		<createSequence sequenceName="tag_seq" startValue="100" />
 	</changeSet>
 	<changeSet author="twojcicki" id="1503573039371-12">
 		<insert schemaName="public" tableName="note">

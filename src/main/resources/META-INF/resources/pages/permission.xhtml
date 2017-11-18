@@ -25,9 +25,10 @@
 
 	<ui:define name="body">
 		<h:form id="permission">
-		<f:metadata>
-			<f:viewAction action="#{breadCrumbBean.addElement('Uprawnienia','/pages/permission.xhtml')}"/>
-		</f:metadata>
+			<f:metadata>
+				<f:viewAction
+					action="#{breadCrumbBean.addElement('Uprawnienia','/pages/permission.xhtml')}" />
+			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<!-- p:dataTable id="permissionTree" var="permission"
@@ -114,15 +115,16 @@
 							</p:cellEditor>
 						</p:column>
 						<p:column exportable="false" style="width:10%">
-							<p:commandButton id="edit"
-								process="@this" action="#{permissionView.edit(permission)}"
-								resetValues="true" update="permission:newPermissionPanel"
+							<p:commandButton id="edit" process="@this"
+								action="#{permissionView.edit(permission)}" resetValues="true"
+								update="permission:newPermissionPanel"
 								oncomplete="PF('newPermissionDialog').show()"
-								styleClass="btn-primary" icon="fa fa-search"/>
+								styleClass="btn-primary" icon="fa fa-search" />
 							<p:spacer width="5" />
-							<p:commandButton id="delete" 
-								process="@this" action="#{permissionView.delete(permission)}"
-								update="permission:permissionTree" styleClass="btn-danger" icon="fa fa-trash">
+							<p:commandButton id="delete" process="@this"
+								action="#{permissionView.delete(permission)}"
+								update="permission:permissionTree" styleClass="btn-danger"
+								icon="fa fa-trash">
 								<p:confirm header="#{msg['confirmation.header']}"
 									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 							</p:commandButton>

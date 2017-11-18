@@ -8,94 +8,78 @@
 	<ui:composition>
 		<section class="sidebar"> <!-- Sidebar user panel (optional) -->
 		<ul class="sidebar-menu" data-widget="tree">
-        <li class="header">KOMPONENTY</li>
-        <li>
-          <a href="/pages/index.xhtml">
-            <i class="fa fa-television"></i> <span>Pulpit</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-plug"></i> <span>Administracja</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/pages/system-user.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.user']}</a></li>
-            <li><a href="/pages/role.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.role']}</a></li>
-            <li><a href="/pages/permission.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Słowniki</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Parametry</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Szablony dokumentów</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Definiowanie workflow</a></li>
-          </ul>
-        </li>
-        
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-check-circle-o"></i> <span>Kontrola zarządcza</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="treeview">
-              <a href="#"><i class="fa fa-circle-o"></i>Działalność jednostki<span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/pages/goals.xhtml"><i class="fa fa-circle-o"></i>Cele i zadania</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Harmonogram</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Odpowiedzialność</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Monitorowanie</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Sprawozdania</a></li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Zarządząnie ryzykiem</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Audyt wewnętrzny</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Ocena kontroli zarządczej</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Raporty</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-key"></i> <span>Bezpieczeństwo informacji</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-folder-open-o"></i> <span>Dokumenty wewnętrzne</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-o"></i> <span>Umowy</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-server"></i> <span>Infrastruktura IT</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-lock"></i> <span>Ochrona danych osobowych</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-shopping-cart"></i> <span>Zamówienia publiczne</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-car"></i> <span>Majątek trwały</span>
-          </a>
-        </li>
-        
-        </ul>
+			<li class="header">KOMPONENTY</li>
+			<li><a href="/pages/index.xhtml"> <i
+					class="fa fa-television"></i> <span>Pulpit</span>
+			</a></li>
+			<li class="treeview"><a href="#"> <i class="fa fa-plug"></i>
+					<span>Administracja</span> <span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="/pages/system-user.xhtml"><i
+							class="fa fa-circle-o"></i>#{msg['menu.user']}</a></li>
+					<li><a href="/pages/role.xhtml"><i class="fa fa-circle-o"></i>#{msg['menu.role']}</a></li>
+					<li><a href="/pages/permission.xhtml"><i
+							class="fa fa-circle-o"></i>#{msg['menu.permission']}</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Słowniki</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Parametry</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Szablony
+							dokumentów</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Definiowanie
+							workflow</a></li>
+				</ul></li>
+
+			<li class="treeview"><a href="#"> <i
+					class="fa fa-check-circle-o"></i> <span>Kontrola zarządcza</span> <span
+					class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>Działalność
+							jednostki<span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span> </a>
+						<ul class="treeview-menu">
+							<li><a href="/pages/goals.xhtml"><i
+									class="fa fa-circle-o"></i>Cele i zadania</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i>Harmonogram</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i>Odpowiedzialność</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i>Monitorowanie</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i>Sprawozdania</a></li>
+						</ul></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Zarządząnie
+							ryzykiem</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Audyt
+							wewnętrzny</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Ocena
+							kontroli zarządczej</a></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i>Raporty</a></li>
+				</ul></li>
+			<li><a href="#"> <i class="fa fa-key"></i> <span>Bezpieczeństwo
+						informacji</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-folder-open-o"></i> <span>Dokumenty
+						wewnętrzne</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-file-o"></i> <span>Umowy</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-server"></i> <span>Infrastruktura
+						IT</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-lock"></i> <span>Ochrona
+						danych osobowych</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-shopping-cart"></i> <span>Zamówienia
+						publiczne</span>
+			</a></li>
+			<li><a href="#"> <i class="fa fa-car"></i> <span>Majątek
+						trwały</span>
+			</a></li>
+
+		</ul>
 		</section>
 	</ui:composition>
 </body>

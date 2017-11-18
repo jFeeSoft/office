@@ -25,13 +25,14 @@
 
 	<ui:define name="body">
 		<h:form id="systemUser">
-		<f:metadata>
-			<f:viewAction action="#{breadCrumbBean.addElement('Uzytkownicy','/pages/system-user.xhtml')}"/>
-		</f:metadata>
+			<f:metadata>
+				<f:viewAction
+					action="#{breadCrumbBean.addElement('Uzytkownicy','/pages/system-user.xhtml')}" />
+			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<div id="main-buttons" class=" hidden-sm hidden-xs">
-						<p:commandButton id="userAddButton"	action="#{systemUserView.add}"
+						<p:commandButton id="userAddButton" action="#{systemUserView.add}"
 							update="systemUser:newSystemUserPanel" process="@this"
 							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
@@ -45,7 +46,8 @@
 						value="#{systemUserView.genericLazyModel}" paginator="true"
 						rows="25" widgetVar="systemUserTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
-						rowsPerPageTemplate="25,50,100" lazy="true" resizableColumns="true">
+						rowsPerPageTemplate="25,50,100" lazy="true"
+						resizableColumns="true">
 
 						<p:column headerText="#{msg['systemuser.table.header.firstname']}"
 							sortBy="#{systemUser.firstName}"
@@ -69,37 +71,46 @@
 						<p:column headerText="#{msg['systemuser.table.header.position']}">
 							<h:outputText value="#{systemUser.position.name}" />
 						</p:column>
-						<p:column headerText="#{msg['systemuser.table.header.organizationalUnit']}">
+						<p:column
+							headerText="#{msg['systemuser.table.header.organizationalUnit']}">
 							<h:outputText value="#{systemUser.organizationalUnit.name}" />
 						</p:column>
-						<p:column style="width:15%" headerText="#{msg['table.header.info']}" exportable="false">
-							<p:chips id="chips" max="2" maxlength="10" value="#{systemUser.tags}" >
-								<p:ajax event="itemSelect"	listener="#{systemUserView.saveTag(systemUser)}" />
-								<p:ajax event="itemUnselect"	listener="#{systemUserView.removeTag(systemUser)}" />
+						<p:column style="width:15%"
+							headerText="#{msg['table.header.info']}" exportable="false">
+							<p:chips id="chips" max="2" maxlength="10"
+								value="#{systemUser.tags}">
+								<p:ajax event="itemSelect"
+									listener="#{systemUserView.saveTag(systemUser)}" />
+								<p:ajax event="itemUnselect"
+									listener="#{systemUserView.removeTag(systemUser)}" />
 							</p:chips>
 						</p:column>
 						<p:column style="width:17%;text-align: right" exportable="false">
-							<p:commandButton id="attach"
-								process="@this" action="#{systemUserView.saveAttach}"
-								resetValues="true" update="systemUser:attachPanel"
-								oncomplete="PF('attachDialog').show()" styleClass="btn-warning" icon="fa fa-paperclip" />
-								<span class="label label-success tag-label">0</span>
-							<p:commandButton id="note"
-								process="@this" action="#{systemUserView.editNote(systemUser)}"
+							<p:commandButton id="attach" process="@this"
+								action="#{systemUserView.saveAttach}" resetValues="true"
+								update="systemUser:attachPanel"
+								oncomplete="PF('attachDialog').show()" styleClass="btn-warning"
+								icon="fa fa-paperclip" />
+							<span class="label label-success tag-label">0</span>
+							<p:commandButton id="note" process="@this"
+								action="#{systemUserView.editNote(systemUser)}"
 								resetValues="true" update="systemUser:notePanel"
-								oncomplete="PF('noteDialog').show()" styleClass="btn-info" icon="fa fa-file-text-o" />
-								<span class="label label-success tag-label">#{systemUser.notes.size()}</span>
-							<p:commandButton id="edit"
-								process="@this" action="#{systemUserView.edit(systemUser)}"
-								resetValues="true" update="systemUser:newSystemUserPanel"
-								oncomplete="PF('newSystemUserDialog').show()" styleClass="btn-primary" icon="fa fa-search" >
+								oncomplete="PF('noteDialog').show()" styleClass="btn-info"
+								icon="fa fa-file-text-o" />
+							<span class="label label-success tag-label">#{systemUser.notes.size()}</span>
+							<p:commandButton id="edit" process="@this"
+								action="#{systemUserView.edit(systemUser)}" resetValues="true"
+								update="systemUser:newSystemUserPanel"
+								oncomplete="PF('newSystemUserDialog').show()"
+								styleClass="btn-primary" icon="fa fa-search">
 								<f:setPropertyActionListener value="VIEW"
-								target="#{systemUserView.dialogMode}" />
+									target="#{systemUserView.dialogMode}" />
 							</p:commandButton>
 							<p:spacer width="5" />
-							<p:commandButton id="delete"
-								process="@this" action="#{systemUserView.delete(systemUser)}"
-								update="systemUser:systemUserTable" styleClass="btn-danger" icon="fa fa-trash">
+							<p:commandButton id="delete" process="@this"
+								action="#{systemUserView.delete(systemUser)}"
+								update="systemUser:systemUserTable" styleClass="btn-danger"
+								icon="fa fa-trash">
 								<p:confirm header="#{msg['confirmation.header']}"
 									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 							</p:commandButton>
@@ -116,22 +127,27 @@
 									fileName="systemUsers" />
 				            </h:commandLink>
 							<h:commandLink immediate="true">
-				                <p:graphicImage name="/images/printer.png" width="24" />
+				                <p:graphicImage name="/images/printer.png"
+									width="24" />
 				                <p:printer target="systemUserTable" />
 				            </h:commandLink>
 				        </f:facet>
 					</p:dataTable>
-					
+
 					<p:dialog id="attachDial" header="#{msg['attach.dialog.header']}"
 						showEffect="fade" widgetVar="attachDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="attachPanel">
 							<div class="box-body">
-								<p:fileUpload fileUploadListener="#{systemUserView.handleFileUpload}" 
-									mode="advanced" dragDropSupport="false" uploadLabel="#{msg['button.load']}" cancelLabel="#{msg['button.delete']}" label="#{msg['button.choose']}"/>
-								
+								<p:fileUpload
+									fileUploadListener="#{systemUserView.handleFileUpload}"
+									mode="advanced" dragDropSupport="false"
+									uploadLabel="#{msg['button.load']}"
+									cancelLabel="#{msg['button.delete']}"
+									label="#{msg['button.choose']}" />
+
 							</div>
-							
+
 							<p:separator />
 							<div id="save-buttons" class="hidden-sm hidden-xs">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
@@ -147,40 +163,42 @@
 							</div>
 						</p:outputPanel>
 					</p:dialog>
-					
+
 					<p:dialog id="noteDial" header="#{msg['note.dialog.header']}"
 						showEffect="fade" widgetVar="noteDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="notePanel">
 							<div class="box-body">
-								<p:dataGrid var="note" value="#{systemUserView.notes}" columns="2"
-									layout="grid" rows="4" paginator="true" id="notes" paginatorPosition="bottom"
+								<p:dataGrid var="note" value="#{systemUserView.notes}"
+									columns="2" layout="grid" rows="4" paginator="true" id="notes"
+									paginatorPosition="bottom"
 									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 									rowsPerPageTemplate="5,10,15">
 									<f:facet name="header">
 										<div id="main-buttons" class=" hidden-sm hidden-xs">
-										<p:commandButton process="@this"
-											action="#{systemUserView.addNote}"
-											update="systemUser:notePanel" resetValues="true"
-											icon="fa fa-plus" value="#{msg['button.add.note']}"
-											styleClass="btn-primary"/>
-											</div>
+											<p:commandButton process="@this"
+												action="#{systemUserView.addNote}"
+												update="systemUser:notePanel" resetValues="true"
+												icon="fa fa-plus" value="#{msg['button.add.note']}"
+												styleClass="btn-primary" />
+										</div>
 									</f:facet>
 
-							<p:panelGrid columns="2">
-									<p:inputTextarea rows="5" cols="30" value="#{note.noteText}" />
-							<p:commandButton id="delete"
-								process="@this" action="#{systemUserView.deleteNote(note)}"
-								update="systemUser:notePanel" styleClass="btn-danger" icon="fa fa-trash">
-								<p:confirm header="#{msg['confirmation.header']}"
-									message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
-							</p:commandButton>
-							</p:panelGrid>
-									
+									<p:panelGrid columns="2">
+										<p:inputTextarea rows="5" cols="30" value="#{note.noteText}" />
+										<p:commandButton id="delete" process="@this"
+											action="#{systemUserView.deleteNote(note)}"
+											update="systemUser:notePanel" styleClass="btn-danger"
+											icon="fa fa-trash">
+											<p:confirm header="#{msg['confirmation.header']}"
+												message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+										</p:commandButton>
+									</p:panelGrid>
+
 
 								</p:dataGrid>
 							</div>
-							
+
 							<p:separator />
 							<div id="save-buttons" class="hidden-sm hidden-xs">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
@@ -216,9 +234,9 @@
 											<p:outputLabel for="userSurName"
 												value="#{msg['systemuser.table.header.surname']}:" />
 											<p:inputText id="userSurName" class="form-control"
-												value="#{systemUserView.newEntity.surname}"
-												required="true" requiredMessage="#{msg['required.empty']}" />
-												<p:message id="userSurNameMsg" for="userSurName" />
+												value="#{systemUserView.newEntity.surname}" required="true"
+												requiredMessage="#{msg['required.empty']}" />
+											<p:message id="userSurNameMsg" for="userSurName" />
 										</div>
 										<div class="form-group">
 											<p:outputLabel for="userPeselNumber"
@@ -227,12 +245,15 @@
 												value="#{systemUserView.newEntity.peselNumber}" />
 										</div>
 										<div class="form-group">
-											<p:outputLabel for="userPassword" rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+											<p:outputLabel for="userPassword"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{msg['systemuser.table.header.password']}:" />
-											<p:password id="userPassword" class="form-control" rendered="#{systemUserView.dialogMode ne 'VIEW'}"
+											<p:password id="userPassword" class="form-control"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{systemUserView.newEntity.password}" required="true"
 												requiredMessage="#{msg['required.empty']}" />
-											<p:message id="userPasswordMsg" for="userPassword" rendered="#{systemUserView.dialogMode ne 'VIEW'}"/>
+											<p:message id="userPasswordMsg" for="userPassword"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}" />
 										</div>
 										<div class="form-group">
 											<p:outputLabel for="userMail"
@@ -245,23 +266,28 @@
 									</p:tab>
 									<p:tab title="#{msg['systemuser.table.tab.organization']}">
 										<div class="form-group">
-											<p:outputLabel value="#{msg['systemuser.table.header.position']}:"
-												for="positionList"/>
-											<p:selectOneMenu id="positionList" value="#{systemUserView.idPosition}">
+											<p:outputLabel
+												value="#{msg['systemuser.table.header.position']}:"
+												for="positionList" />
+											<p:selectOneMenu id="positionList"
+												value="#{systemUserView.idPosition}">
 												<f:selectItem itemLabel="#{msg['select.empty']}"
 													itemValue="#{null}" />
-												<f:selectItems value="#{systemUserView.positions}" var="position"
-													itemLabel="#{position.name}" itemValue="#{position.id}" />
+												<f:selectItems value="#{systemUserView.positions}"
+													var="position" itemLabel="#{position.name}"
+													itemValue="#{position.id}" />
 											</p:selectOneMenu>
 										</div>
 										<div class="form-group">
-											<p:outputLabel value="#{msg['systemuser.table.header.organizationalUnit']}:"
+											<p:outputLabel
+												value="#{msg['systemuser.table.header.organizationalUnit']}:"
 												for="unitList" />
-											<p:selectOneMenu id="unitList" value="#{systemUserView.idOrganizationUnit}">
+											<p:selectOneMenu id="unitList"
+												value="#{systemUserView.idOrganizationUnit}">
 												<f:selectItem itemLabel="#{msg['select.empty']}"
 													itemValue="#{null}" />
-												<f:selectItems value="#{systemUserView.organizationalUnits}" var="unit"
-													itemLabel="#{unit.name}" itemValue="#{unit.id}" />
+												<f:selectItems value="#{systemUserView.organizationalUnits}"
+													var="unit" itemLabel="#{unit.name}" itemValue="#{unit.id}" />
 											</p:selectOneMenu>
 										</div>
 									</p:tab>

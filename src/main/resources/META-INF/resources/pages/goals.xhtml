@@ -30,6 +30,22 @@
 			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
+					<div id="main-buttons" class=" hidden-sm hidden-xs">
+						<p:commandButton id="goalAddButton" action="#{goalView.add}"
+							update="goal:goalDialog" process="@this"
+							oncomplete="PF('newGoalDialog').show()" icon="fa fa-plus"
+							value="#{msg['button.add.goal']}" styleClass="btn-primary"
+							resetValues="true" >
+							<f:setPropertyActionListener value="ADD"
+								target="#{goalView.dialogMode}" />
+						</p:commandButton>
+						<p:spacer width="5"/>
+						<p:commandButton id="taskAddButton" action="#{taskView.add}"
+							update="goal:newTaskPanel" process="@this"
+							oncomplete="PF('newTaskDialog').show()" icon="fa fa-plus"
+							value="#{msg['button.add.task']}" styleClass="btn-primary"
+							resetValues="true" />
+					</div>
 					<p:separator />
 					<div class="ui-g">
 						<div class="ui-g-6">
@@ -62,6 +78,28 @@
 									<h:outputText value="#{goal.dateTo}" />
 									<p:spacer height="2" />
 								</p:column>
+								<p:column headerText="#{msg['goal.table.header.status']}"
+									sortBy="#{goal.status}" filterBy="#{goal.status}">
+									<h:outputText value="#{goal.status}" />
+									<p:spacer height="2" />
+								</p:column>
+								<p:column exportable="false" style="width:25%">
+									<p:commandButton id="edit"
+										process="@this" action="#{goalView.edit(goal)}"
+										resetValues="true" update="goal:goalDialog"
+										oncomplete="PF('newGoalDialog').show()"
+										styleClass="btn-primary" icon="fa fa-search">
+										<f:setPropertyActionListener value="VIEW"
+											target="#{goalView.dialogMode}" />
+									</p:commandButton>
+									<p:spacer width="5"/>
+									<p:commandButton id="delete" process="@this"
+										action="#{goalView.delete(goal)}" update="goal:goalTable"
+										styleClass="btn-danger" icon="fa fa-trash">
+										<p:confirm header="#{msg['confirmation.header']}"
+											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
 							</p:dataTable>
 						</div>
 						<div class="ui-g-6">
@@ -69,9 +107,7 @@
 								value="#{taskView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="taskTable" paginatorPosition="bottom"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-								rowsPerPageTemplate="25,50,100" lazy="true"
-								selectionMode="single" selection="#{taskView.selectedTask}"
-								rowKey="#{task.id}">
+								rowsPerPageTemplate="25,50,100" lazy="true"	rowKey="#{task.id}">
 
 								<!-- 								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}" -->
 								<!-- 									update="role:permissionTree" /> -->
@@ -94,65 +130,158 @@
 									<h:outputText value="#{task.dateTo}" />
 									<p:spacer height="2" />
 								</p:column>
+								<p:column headerText="#{msg['task.table.header.status']}"
+									sortBy="#{task.status}" filterBy="#{task.status}">
+									<h:outputText value="#{task.status}" />
+									<p:spacer height="2" />
+								</p:column>
+								<p:column exportable="false" style="width:25%">
+									<p:commandButton id="edit"
+										process="@this" action="#{taskView.edit(task)}"
+										resetValues="true" update="goal:newTaskPanel"
+										oncomplete="PF('newTaskDialog').show()"
+										styleClass="btn-primary" icon="fa fa-search">
+										<f:setPropertyActionListener value="VIEW"
+											target="#{taskView.dialogMode}" />
+									</p:commandButton>
+									<p:spacer width="5"/>
+									<p:commandButton id="delete" process="@this"
+										action="#{taskView.delete(task)}" update="goal:taskTable"
+										styleClass="btn-danger" icon="fa fa-trash">
+										<p:confirm header="#{msg['confirmation.header']}"
+											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
 							</p:dataTable>
 						</div>
 					</div>
+					<p:dialog id="goalDialog" header="#{goalView.dialogMode ne 'VIEW' ? msg['goal.new'] : msg['goal.edit']}"
+						showEffect="fade" widgetVar="newGoalDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="newGoalPanel">
+							<div class="box-body">
+								<div class="form-group">
+									<p:outputLabel for="goalName"
+										value="#{msg['goal.table.header.name']}:" />
+									<p:inputText id="goalName" class="form-control"
+										value="#{goalView.newEntity.name}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="goalNameMsg" for="goalName" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel for="goalDateFrom"
+										value="#{msg['goal.table.header.dateFrom']}:" />
+									<p:inputText id="goalDateFrom" class="form-control"
+										value="#{goalView.newEntity.dateFrom}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="goalDateFromMsg" for="goalDateFrom" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel for="goalDataTo"
+										value="#{msg['goal.table.header.dateTo']}:" />
+									<p:inputText id="goalDataTo" class="form-control"
+										value="#{goalView.newEntity.dateTo}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="goalDataToMsg" for="goalDataTo" />
+								</div>
+								<p:outputLabel value="#{msg['goal.table.header.status']}:"
+									for="goalStatusList"/>
+								<p:selectOneMenu id="goalStatusList"
+									value="#{goalView.idRoleParent}">
+									<f:selectItem itemLabel="#{msg['select.empty']}"
+										itemValue="#{null}" />
+									<f:selectItems value="#{goalView.goalSource}" var="goal"
+										itemLabel="#{goal.status}" itemValue="#{goal.id}" />
+								</p:selectOneMenu>
+							</div>
 
-					<!-- 					<p:dialog id="roleDialog" header="#{msg['role.new']}" -->
-					<!-- 						showEffect="fade" widgetVar="newRoleDialog" modal="true" -->
-					<!-- 						resizable="false" class="box box-primary"> -->
-					<!-- 						<p:outputPanel id="newRolePanel"> -->
-					<!-- 							<div class="box-body"> -->
-					<!-- 								<div class="form-group"> -->
 
-					<!-- 									<p:outputLabel for="roleName" -->
-					<!-- 										value="#{msg['role.table.header.name']}:" /> -->
-					<!-- 									<p:inputText id="roleName" class="form-control" -->
-					<!-- 										value="#{roleView.newEntity.name}" required="true" -->
-					<!-- 										requiredMessage="#{msg['required.empty']}" /> -->
-					<!-- 									<p:message id="roleNameMsg" for="roleName" /> -->
-					<!-- 								</div> -->
+							<p:separator />
+							<div id="save-buttons" class="hidden-sm hidden-xs">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
+									styleClass="btn-danger btn-primary" process="goal:newGoalPanel"
+									update="goal:taskTable,goal:taskTable"
+									action="#{goalView.save}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newGoalDialog').hide()" />
+								<p:spacer width="10" />
+								<p:commandButton icon="fa fa-eraser"
+									value="#{msg['button.clear']}" styleClass="btn-info"
+									process="@this" update="goal:newGoalPanel" resetValues="true"
+									actionListener="#{goalView.add}" />
+								<p:spacer width="10" />
+								<p:commandButton oncomplete="PF('newGoalDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.cancel']}"
+									styleClass="btn-default" />
+							</div>
+						</p:outputPanel>
+					</p:dialog>
+					<p:dialog id="taskDialog" header="#{msg['task.new']}"
+						showEffect="fade" widgetVar="newTaskDialog" modal="true"
+						resizable="false" class="box box-primary">
+						<p:outputPanel id="newTaskPanel">
+							<div class="box-body">
+								<div class="form-group">
+									<p:outputLabel for="taskName"
+										value="#{msg['task.table.header.name']}:" />
+									<p:inputText id="taskName" class="form-control"
+										value="#{taskView.newEntity.name}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="taskNameMsg" for="taskName" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel for="taskDateFrom"
+										value="#{msg['task.table.header.dateFrom']}:" />
+									<p:inputText id="taskDateFrom" class="form-control"
+										value="#{taskView.newEntity.dateFrom}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="taskDateFromMsg" for="taskDateFrom" />
+								</div>
+								<div class="form-group">
+									<p:outputLabel for="taskDataTo"
+										value="#{msg['task.table.header.dateTo']}:" />
+									<p:inputText id="taskDataTo" class="form-control"
+										value="#{taskView.newEntity.dateTo}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
+									<p:message id="taskDataToMsg" for="taskDataTo" />
+								</div>
+								<p:outputLabel value="#{msg['task.table.header.status']}:"
+									for="taskStatusList"/>
+								<p:selectOneMenu id="taskStatusList"
+									value="#{goalView.idRoleParent}">
+									<f:selectItem itemLabel="#{msg['select.empty']}"
+										itemValue="#{null}" />
+									<f:selectItems value="#{goalView.goalSource}" var="goal"
+										itemLabel="#{goal.status}" itemValue="#{goal.id}" />
+								</p:selectOneMenu>
+							</div>
 
-					<!-- 								<p:outputLabel value="#{msg['role.permission.parent']}:" -->
-					<!-- 									for="roleParentList" -->
-					<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" /> -->
-					<!-- 								<p:selectOneMenu id="roleParentList" -->
-					<!-- 									rendered="#{roleView.dialogMode ne 'VIEW'}" -->
-					<!-- 									value="#{roleView.idRoleParent}"> -->
-					<!-- 									<f:selectItem itemLabel="#{msg['select.empty']}" -->
-					<!-- 										itemValue="#{null}" /> -->
-					<!-- 									<f:selectItems value="#{roleView.roleSource}" var="role" -->
-					<!-- 										itemLabel="#{role.name}" itemValue="#{role.id}" /> -->
-					<!-- 								</p:selectOneMenu> -->
-					<!-- 							</div> -->
 
-					<!-- 							<p:separator /> -->
-					<!-- 							<div id="save-buttons" class="hidden-sm hidden-xs"> -->
-					<!-- 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}" -->
-					<!-- 									styleClass="btn-danger btn-primary" process="role:newRolePanel" -->
-					<!-- 									update="role:roleTable,role:newRolePanel" -->
-					<!-- 									action="#{roleView.save}" -->
-					<!-- 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newRoleDialog').hide()" /> -->
-					<!-- 								<p:spacer width="10" /> -->
-					<!-- 								<p:commandButton icon="fa fa-eraser" -->
-					<!-- 									value="#{msg['button.clear']}" styleClass="btn-info" -->
-					<!-- 									process="@this" update="role:newRolePanel" resetValues="true" -->
-					<!-- 									actionListener="#{roleView.add}" /> -->
-					<!-- 								<p:spacer width="10" /> -->
-					<!-- 								<p:commandButton oncomplete="PF('newRoleDialog').hide()" -->
-					<!-- 									icon="fa fa-close" value="#{msg['button.cancel']}" -->
-					<!-- 									styleClass="btn-default" /> -->
-					<!-- 							</div> -->
-
-					<!-- 						</p:outputPanel> -->
-					<!-- 					</p:dialog> -->
-					<!-- 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" -->
-					<!-- 						styleClass="box-warning"> -->
-					<!-- 						<p:commandButton value="#{msg['button.yes']}" type="button" -->
-					<!-- 							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" /> -->
-					<!-- 						<p:commandButton value="#{msg['button.no']}" type="button" -->
-					<!-- 							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" /> -->
-					<!-- 					</p:confirmDialog> -->
+							<p:separator />
+							<div id="save-buttons" class="hidden-sm hidden-xs">
+								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
+									styleClass="btn-danger btn-primary" process="goal:newGoalPanel"
+									update="goal:taskTable,goal:goalTable"
+									action="#{goalView.save}"
+									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newGoalDialog').hide()" />
+								<p:spacer width="10" />
+								<p:commandButton icon="fa fa-eraser"
+									value="#{msg['button.clear']}" styleClass="btn-info"
+									process="@this" update="goal:newGoalPanel" resetValues="true"
+									actionListener="#{goalView.add}" />
+								<p:spacer width="10" />
+								<p:commandButton oncomplete="PF('newGoalDialog').hide()"
+									icon="fa fa-close" value="#{msg['button.cancel']}"
+									styleClass="btn-default" />
+							</div>
+						</p:outputPanel>
+					</p:dialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
 				</div>
 			</div>
 		</h:form>

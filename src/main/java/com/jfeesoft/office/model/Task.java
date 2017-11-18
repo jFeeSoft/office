@@ -5,6 +5,11 @@ import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,17 +25,23 @@ public class Task extends GenericEntity {
 
 	@Column(name = "name", length = 64)
 	private String name;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_from", length = 13)
 	private Date dateFrom;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_to", length = 13)
 	private Date dateTo;
 
-	//TODO: realization state
-	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", length = 16)
+	private Status status;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "goal_id", nullable = false)
+	private Goal goal;
+
 	public String getName() {
 		return name;
 	}
@@ -54,4 +65,21 @@ public class Task extends GenericEntity {
 	public void setDateTo(Date dateTo) {
 		this.dateTo = dateTo;
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Goal goal) {
+		this.goal = goal;
+	}
+
 }

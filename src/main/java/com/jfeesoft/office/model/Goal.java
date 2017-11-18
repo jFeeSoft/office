@@ -1,10 +1,16 @@
 package com.jfeesoft.office.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,17 +26,22 @@ public class Goal extends GenericEntity {
 
 	@Column(name = "name", length = 64)
 	private String name;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_from", length = 13)
 	private Date dateFrom;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_to", length = 13)
 	private Date dateTo;
 
-	//TODO: realization state
-	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", length = 16)
+	private Status status;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "goal")
+	private Set<Task> tasks = new HashSet<>(0);
+
 	public String getName() {
 		return name;
 	}
@@ -54,4 +65,21 @@ public class Goal extends GenericEntity {
 	public void setDateTo(Date dateTo) {
 		this.dateTo = dateTo;
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 }

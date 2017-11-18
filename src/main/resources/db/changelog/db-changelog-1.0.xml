@@ -58,26 +58,14 @@
         </createTable>
     </changeSet>
     <changeSet author="jrutkowski (generated)" id="1503573039373-105">
-        <createTable tableName="goal">
-            <column name="goal_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="version" type="BIGINT"/>
-            <column name="name" type="VARCHAR(64)"/>
-            <column name="date_from" type="date"/>
-            <column name="date_to" type="date"/>
-        </createTable>
+    	<addColumn schemaName="public" tableName="goal">
+        	<column name="version" type="BIGINT"/>
+    	</addColumn>
     </changeSet>
     <changeSet author="jrutkowski (generated)" id="1503573039373-106">
-        <createTable tableName="task">
-            <column name="task_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="version" type="BIGINT"/>
-            <column name="name" type="VARCHAR(64)"/>
-            <column name="date_from" type="date"/>
-            <column name="date_to" type="date"/>
-        </createTable>
+    	<addColumn schemaName="public" tableName="task">
+        	<column name="version" type="BIGINT"/>
+    	</addColumn>
     </changeSet>
     <changeSet author="twojcicki (generated)" id="1503573039373-39">
         <createTable tableName="role_permission">
@@ -301,44 +289,55 @@
 			<column name="date_to" valueDate="1980-02-02T00:00:00" />
 		</insert>
 	</changeSet>
-		<changeSet id="1496828081377-107" author="jrutkowski">
-		<insert schemaName="public" tableName="goal">
-			<column name="goal_id" value="1"/>
-			<column name="name" value="First goal" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
-		<insert schemaName="public" tableName="goal">
-			<column name="goal_id" value="2"/>
-			<column name="name" value="Second goal" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
-		<insert schemaName="public" tableName="goal">
-			<column name="goal_id" value="3"/>
-			<column name="name" value="Third goal" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
+	<changeSet id="1496828081377-107" author="twojcicki">
+		<addColumn schemaName="public" tableName="goal">
+        	<column name="status" type="VARCHAR(16)"/>
+    	</addColumn>
+    	<addColumn schemaName="public" tableName="task">
+        	<column name="status" type="VARCHAR(16)"/>
+    	</addColumn>
+    	<addColumn schemaName="public" tableName="task">
+        	<column name="goal_id" type="BIGINT"/>
+    	</addColumn>
+    	<update schemaName="public" tableName="goal">
+        	<column name="status" value="NOWY"/>
+        	<where>goal_id=1</where>
+    	</update>	
+    	<update schemaName="public" tableName="goal">
+        	<column name="status" value="NOWY"/>
+        	<where>goal_id=2</where>
+    	</update>
+    	<update schemaName="public" tableName="goal">
+        	<column name="status" value="NOWY"/>
+        	<where>goal_id=3</where>
+    	</update>
+    </changeSet>
+    <changeSet id="1496828081377-108" author="twojcicki">
+    	<update schemaName="public" tableName="task">
+        	<column name="status" value="NOWY"/>
+        	<column name="goal_id" value="1"/>
+        	<where>task_id=1</where>
+    	</update>
+    	<update schemaName="public" tableName="task">
+        	<column name="status" value="NOWY"/>
+        	<column name="goal_id" value="1"/>
+        	<where>task_id=2</where>
+    	</update>
+    	<update schemaName="public" tableName="task">
+        	<column name="status" value="NOWY"/>
+        	<column name="goal_id" value="2"/>
+        	<where>task_id=3</where>
+    	</update>
+    	<addForeignKeyConstraint baseColumnNames="goal_id"
+            baseTableName="task"
+            constraintName="fk_task_goal"
+            referencedColumnNames="goal_id"
+            referencedTableName="goal"/>
 	</changeSet>
-	<changeSet id="1496828081377-108" author="jrutkowski">
-		<insert schemaName="public" tableName="task">
-			<column name="task_id" value="1"/>
-			<column name="name" value="First task" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
-		<insert schemaName="public" tableName="task">
-			<column name="task_id" value="2"/>
-			<column name="name" value="Second task" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
-		<insert schemaName="public" tableName="task">
-			<column name="task_id" value="3"/>
-			<column name="name" value="Third task" />
-			<column name="date_from" valueDate="1980-02-02T00:00:00" />
-			<column name="date_to" valueDate="1980-02-02T00:00:00" />
-		</insert>
-	</changeSet>
+	<changeSet id="1496828081377-109" author="twojcicki">
+		<addNotNullConstraint 
+            columnName="goal_id"
+            schemaName="public"
+            tableName="task"/>
+	</changeSet>	
 </databaseChangeLog>

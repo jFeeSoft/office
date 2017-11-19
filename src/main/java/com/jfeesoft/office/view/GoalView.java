@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.TreeNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.jfeesoft.office.model.Goal;
+import com.jfeesoft.office.model.Status;
+import com.jfeesoft.office.model.Task;
 import com.jfeesoft.office.service.GoalService;
+import com.jfeesoft.office.service.TaskService;
 import com.jfeesoft.office.view.utils.DialogMode;
+import com.jfeesoft.office.view.utils.Utils;
 
 @Component("goalView")
 @Scope("view")
@@ -20,11 +25,14 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Goal> goalSource;
-	private Long idRoleParent;
+	private List<Task> taskSelected;
+	private String selectedStatus;
 	private Goal selectedGoal;
-	private TreeNode[] selectedPermission;
 	private String dialogMode;
+	private Task newTask;
+
+	@Autowired
+	private TaskService taskService;
 
 	public GoalView(GoalService genericService) {
 		super(genericService);
@@ -34,84 +42,56 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
-		goalSource = (List<Goal>) genericService.findAll();
-
-		if (goalSource.size() > 0) {
-			selectedGoal = goalSource.get(0);
+		if (selectedGoal != null) {
+			taskSelected = selectedGoal.getTasks();
 		}
 	}
 
-	// private void createPermissionTree(TreeNode root, Permission permission) {
-	// CheckboxTreeNode node = new CheckboxTreeNode(new PermissionCheck(permission,
-	// false), root);
-	// node.setExpanded(true);
-	// if (permission.getChildren() != null) {
-	// for (Permission permissionChild : permission.getChildren()) {
-	// createPermissionTree(node, permissionChild);
-	// }
-	// }
-	// }
-
 	public void add() {
 		newEntity = new Goal();
+	}
+
+	public void addTask() {
+		newTask = new Task();
 	}
 
 	public void edit(Goal entity) {
 		newEntity = entity;
 	}
 
-	// @Override
-	// public void save() {
-	// newEntity.getPermissions().clear();
-	// if (idRoleParent != null) {
-	// Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
-	// newEntity.setPermissions(parentRole.getPermissions());
-	// }
-	// newEntity = (Role) genericSerivice.save(newEntity);
-	// Utils.addDetailMessage(messagesBundle.getString("info.edit"),
-	// FacesMessage.SEVERITY_INFO);
-	// }
+	public void editTask(Task entity) {
+		newTask = entity;
+	}
 
-	// public void savePermission() {
-	// if (selectedGoal != null) {
-	// newEntity = (Goal) genericSerivice.save(selectedGoal);
-	// }
-	// Utils.addDetailMessage(messagesBundle.getString("info.edit"),
-	// FacesMessage.SEVERITY_INFO);
-	// }
+	public Status[] getStatus() {
+		return Status.values();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void save() {
+		newEntity.setStatus(Status.valueOf(selectedStatus));
+		newEntity = (Goal) genericService.save(newEntity);
+		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+	}
+
+	public void saveTask() {
+		newTask.setGoalId(selectedGoal.getId());
+		newTask.setStatus(Status.valueOf(selectedStatus));
+		taskService.save(newTask);
+		selectedGoal = null;
+		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+	}
+
+	public void deleteTask(Task entity) {
+		taskService.delete(entity);
+		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
+	}
 
 	@SuppressWarnings("unused")
 	public void onRowSelect(SelectEvent event) {
-		Goal goal = (Goal) event.getObject();
-	}
-
-	// private void collectCheckedPermission(Set<Permission> permissions, TreeNode
-	// rootNode) {
-	// for (TreeNode node : rootNode.getChildren()) {
-	// if (((PermissionCheck) node.getData()).getCheck()) {
-	// permissions.add(((PermissionCheck) node.getData()).getPermission());
-	// }
-	// if (!node.isLeaf()) {
-	// collectCheckedPermission(permissions, node);
-	// }
-	//
-	// }
-	// }
-
-	public List<Goal> getGoalSource() {
-		return goalSource;
-	}
-
-	public void setGoalSource(List<Goal> goalSource) {
-		this.goalSource = goalSource;
-	}
-
-	public Long getIdRoleParent() {
-		return idRoleParent;
-	}
-
-	public void setIdRoleParent(Long idRoleParent) {
-		this.idRoleParent = idRoleParent;
+		selectedGoal = (Goal) event.getObject();
+		taskSelected = selectedGoal.getTasks();
 	}
 
 	public Goal getSelectedGoal() {
@@ -122,20 +102,40 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		this.selectedGoal = selectedGoal;
 	}
 
-	public TreeNode[] getSelectedPermission() {
-		return selectedPermission;
-	}
-
-	public void setSelectedPermission(TreeNode[] selectedPermission) {
-		this.selectedPermission = selectedPermission;
-	}
-
 	public String getDialogMode() {
 		return dialogMode;
 	}
 
 	public void setDialogMode(String dialogMode) {
 		this.dialogMode = dialogMode;
+	}
+
+	public List<Task> getTaskSelected() {
+		return taskSelected;
+	}
+
+	public void setTaskSelected(List<Task> taskSelected) {
+		this.taskSelected = taskSelected;
+	}
+
+	public String getSelectedStatus() {
+		return selectedStatus;
+	}
+
+	public void setSelectedStatus(String selectedStatus) {
+		this.selectedStatus = selectedStatus;
+	}
+
+	public void setSelectedGoal(Goal selectedGoal) {
+		this.selectedGoal = selectedGoal;
+	}
+
+	public Task getNewTask() {
+		return newTask;
+	}
+
+	public void setNewTask(Task newTask) {
+		this.newTask = newTask;
 	}
 
 }

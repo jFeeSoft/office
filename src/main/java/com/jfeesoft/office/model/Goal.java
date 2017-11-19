@@ -1,15 +1,15 @@
 package com.jfeesoft.office.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -39,8 +39,9 @@ public class Goal extends GenericEntity {
 	@Column(name = "status", length = 16)
 	private Status status;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "goal")
-	private Set<Task> tasks = new HashSet<>(0);
+	@OneToMany(orphanRemoval = true)
+	@JoinColumn(name = "goal_id")
+	private List<Task> tasks = new ArrayList<>(0);
 
 	public String getName() {
 		return name;
@@ -74,11 +75,11 @@ public class Goal extends GenericEntity {
 		this.status = status;
 	}
 
-	public Set<Task> getTasks() {
+	public List<Task> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(Set<Task> tasks) {
+	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
 

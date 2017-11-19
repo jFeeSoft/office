@@ -7,9 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -38,9 +35,8 @@ public class Task extends GenericEntity {
 	@Column(name = "status", length = 16)
 	private Status status;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "goal_id", nullable = false)
-	private Goal goal;
+	@Column(name = "goal_id")
+	private Long goalId;
 
 	public String getName() {
 		return name;
@@ -74,12 +70,12 @@ public class Task extends GenericEntity {
 		this.status = status;
 	}
 
-	public Goal getGoal() {
-		return goal;
+	public Long getGoalId() {
+		return goalId;
 	}
 
-	public void setGoal(Goal goal) {
-		this.goal = goal;
+	public void setGoalId(Long goalId) {
+		this.goalId = goalId;
 	}
 
 }

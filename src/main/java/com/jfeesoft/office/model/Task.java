@@ -35,8 +35,9 @@ public class Task extends GenericEntity {
 	@Column(name = "status", length = 16)
 	private Status status;
 
-	@Column(name = "goal_id")
-	private Long goalId;
+	// @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// @JoinColumn(name = "goal_id")
+	// private Goal goal;
 
 	public String getName() {
 		return name;
@@ -70,12 +71,10 @@ public class Task extends GenericEntity {
 		this.status = status;
 	}
 
-	public Long getGoalId() {
-		return goalId;
-	}
-
-	public void setGoalId(Long goalId) {
-		this.goalId = goalId;
-	}
+	/*
+	 * public Goal getGoal() { return goal; }
+	 * 
+	 * public void setGoal(Goal goal) { this.goal = goal; }
+	 */
 
 }

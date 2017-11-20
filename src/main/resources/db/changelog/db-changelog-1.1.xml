@@ -202,4 +202,8 @@
 			<column name="tag_text" value="uwaga" />
 		</insert>
 	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-13">
+		<dropNotNullConstraint columnName="goal_id"
+			schemaName="public" tableName="task" />
+	</changeSet>
 </databaseChangeLog>

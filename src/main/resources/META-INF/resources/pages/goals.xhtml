@@ -151,7 +151,7 @@
 									</p:commandButton>
 									<p:spacer width="5"/>
 									<p:commandButton id="delete" process="@this"
-										action="#{goalView.deleteTask(task)}" update="goal:taskTable"
+										action="#{goalView.deleteTask(task)}" update="goal:taskTable, goal:goalTable"
 										styleClass="btn-danger" icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -267,7 +267,7 @@
 							<div id="save-buttons" class="hidden-sm hidden-xs">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
 									styleClass="btn-danger btn-primary" process="goal:newTaskPanel"
-									update="goal:goalTable"
+									update="goal:taskTable, goal:goalTable"
 									action="#{goalView.saveTask}"
 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newTaskDialog').hide()" />
 								<p:spacer width="10" />

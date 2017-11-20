@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.jfeesoft.office.model.GenericEntity;
 import com.jfeesoft.office.model.Goal;
 import com.jfeesoft.office.model.Status;
 import com.jfeesoft.office.model.Task;
@@ -75,16 +76,24 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
-	public void saveTask() {
-		newTask.setGoalId(selectedGoal.getId());
-		newTask.setStatus(Status.valueOf(selectedStatus));
-		taskService.save(newTask);
+	@SuppressWarnings("unchecked")
+	public void delete(GenericEntity entity) {
+		genericService.delete(entity);
 		selectedGoal = null;
+		taskSelected.clear();
+		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
+	}
+
+	public void saveTask() {
+		newTask.setStatus(Status.valueOf(selectedStatus));
+		selectedGoal.getTasks().add(newTask);
+		selectedGoal = (Goal) genericService.save(selectedGoal);
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void deleteTask(Task entity) {
-		taskService.delete(entity);
+		selectedGoal.getTasks().remove(entity);
+		selectedGoal = (Goal) genericService.save(selectedGoal);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 

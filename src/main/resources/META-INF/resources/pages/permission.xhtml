@@ -31,7 +31,7 @@
 			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<div id="main-buttons" class=" hidden-sm hidden-xs">
+					<div id="main-buttons" >
 						<p:commandButton id="perAddButton" action="#{permissionView.add}"
 							update="permission:newPermissionPanel" process="@this"
 							oncomplete="PF('newPermissionDialog').show()" icon="fa fa-plus"
@@ -122,7 +122,7 @@
 								</div>
 							</div>
 							<p:separator />
-							<div id="save-buttons" class="hidden-sm hidden-xs">
+							<div id="save-buttons">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
 									styleClass="btn-danger btn-primary"
 									process="permission:newPermissionPanel"

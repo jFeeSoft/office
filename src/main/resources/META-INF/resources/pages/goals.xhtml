@@ -55,7 +55,7 @@
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
 								selectionMode="single" selection="#{goalView.selectedGoal}"
-								rowKey="#{goal.id}">
+								rowKey="#{goal.id}" emptyMessage="#{msg['table.empty']}">
 
 								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}" update="goal:taskTable, goal:taskAddButton" />
 
@@ -110,7 +110,8 @@
 								value="#{goalView.taskSelected}" paginator="true" rows="25"
 								widgetVar="taskTable" paginatorPosition="bottom"
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-								rowsPerPageTemplate="25,50,100" rowKey="#{task.id}">
+								rowsPerPageTemplate="25,50,100" rowKey="#{task.id}"
+								emptyMessage="#{msg['table.empty']}">
 
 								<f:facet name="header">
 									<b>#{msg['task.table.header']}</b>

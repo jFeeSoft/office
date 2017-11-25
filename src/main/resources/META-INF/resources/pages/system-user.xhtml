@@ -47,7 +47,7 @@
 						rows="25" widgetVar="systemUserTable" paginatorPosition="bottom"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
 						rowsPerPageTemplate="25,50,100" lazy="true"
-						resizableColumns="true">
+						resizableColumns="true" emptyMessage="#{msg['table.empty']}">
 
 						<p:column headerText="#{msg['systemuser.table.header.firstname']}"
 							sortBy="#{systemUser.firstName}"

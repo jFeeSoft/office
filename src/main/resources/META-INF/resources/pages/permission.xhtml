@@ -40,7 +40,7 @@
 					</div>
 					<p:separator />
 					<p:treeTable id="permissionTree" value="#{permissionView.root}"
-						var="permission" editable="true">
+						var="permission" editable="true" emptyMessage="#{msg['table.empty']}">
 						<p:ajax event="rowEdit"
 							listener="#{permissionView.permissionEdit}"
 							update="permissionTree" />

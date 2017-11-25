@@ -54,7 +54,7 @@
 								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
 								selectionMode="single" selection="#{roleView.selectedRole}"
-								rowKey="#{role.id}">
+								rowKey="#{role.id}" emptyMessage="#{msg['table.empty']}">
 
 								<p:ajax event="rowSelect" listener="#{roleView.onRowSelect}"
 									update="role:permissionTree" />
@@ -90,7 +90,7 @@
 						<div class="ui-g-8" id="treeDiv">
 							<p:treeTable id="permissionTree"
 								value="#{roleView.rootPermission}" var="permission"
-								editable="true" widgetVar="permissionTreeVar">
+								editable="true" widgetVar="permissionTreeVar" emptyMessage="#{msg['table.empty']}">
 
 								<f:facet name="header">
 									<b>#{msg['role.permission.available']}</b>

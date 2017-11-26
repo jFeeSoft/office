@@ -9,4 +9,6 @@ public interface SystemUserService extends GenericService<SystemUser, Long> {
 	void addTag(SystemUser user);
 
 	void saveNotes(SystemUser user);
+
+	boolean existEmail(String emial);
 }

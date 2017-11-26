@@ -260,7 +260,9 @@
 												value="#{msg['systemuser.table.header.email']}:" />
 											<p:inputText id="userMail" class="form-control"
 												value="#{systemUserView.newEntity.emailAddress}"
-												required="true" requiredMessage="#{msg['required.empty']}" />
+												required="true" requiredMessage="#{msg['required.empty']}">
+												<f:validator binding="#{emailValidator}" />
+											</p:inputText>
 											<p:message id="userMailMsg" for="userMail" />
 										</div>
 									</p:tab>

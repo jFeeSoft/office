@@ -27,6 +27,9 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 	private NoteRepository noteRepository;
 
 	@Autowired
+	private SystemUserRepository userRepository;
+
+	@Autowired
 	public SystemUserServiceImpl(SystemUserRepository systemUserRepository) {
 		super(systemUserRepository);
 
@@ -76,6 +79,11 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 		noteRepository.deleteByRelationAndRelationId("systemUser", user.getId());
 		noteRepository.save(user.getNotes());
 
+	}
+
+	@Override
+	public boolean existEmail(String emial) {
+		return userRepository.existEmail(emial) > 0;
 	}
 
 }

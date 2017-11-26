@@ -32,6 +32,7 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	private String dialogMode;
 	private Task newTask;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private TaskService taskService;
 
@@ -39,7 +40,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		super(genericService);
 	}
 
-	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		dialogMode = DialogMode.ADD.name();
@@ -84,6 +84,7 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void saveTask() {
 		newTask.setStatus(Status.valueOf(selectedStatus));
 		selectedGoal.getTasks().add(newTask);
@@ -91,13 +92,13 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void deleteTask(Task entity) {
 		selectedGoal.getTasks().remove(entity);
 		selectedGoal = (Goal) genericService.save(selectedGoal);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
-	@SuppressWarnings("unused")
 	public void onRowSelect(SelectEvent event) {
 		selectedGoal = (Goal) event.getObject();
 		taskSelected = selectedGoal.getTasks();

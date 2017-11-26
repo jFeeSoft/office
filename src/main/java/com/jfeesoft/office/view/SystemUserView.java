@@ -14,6 +14,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -119,8 +120,17 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 			newEntity.setPosition(position);
 		}
 		newEntity.setRoles(Sets.newHashSet(roles.getTarget()));
-		newEntity = (SystemUser) genericService.save(newEntity);
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+
+		try {
+			newEntity = (SystemUser) genericService.save(newEntity);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (DataIntegrityViolationException e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.emailConstraintViolation"),
+					FacesMessage.SEVERITY_ERROR);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSystemUserAddition"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	public void saveTag(SystemUser entity) {

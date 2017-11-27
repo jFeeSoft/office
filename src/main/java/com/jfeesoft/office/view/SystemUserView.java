@@ -14,7 +14,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -101,7 +100,12 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	}
 
 	public void saveNotes() {
-		((SystemUserService) genericService).saveNotes(userNotes);
+		try {
+			((SystemUserService) genericService).saveNotes(userNotes);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,17 +128,19 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		try {
 			newEntity = (SystemUser) genericService.save(newEntity);
 			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
-		} catch (DataIntegrityViolationException e) {
-			Utils.addDetailMessage(messagesBundle.getString("message.error.emailConstraintViolation"),
-					FacesMessage.SEVERITY_ERROR);
 		} catch (Exception e) {
-			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSystemUserAddition"),
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
 					FacesMessage.SEVERITY_ERROR);
 		}
 	}
 
 	public void saveTag(SystemUser entity) {
-		((SystemUserService) genericService).addTag(entity);
+		try {
+			((SystemUserService) genericService).addTag(entity);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	public void removeTag(SystemUser entity) {

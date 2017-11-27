@@ -112,9 +112,14 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 		} else {
 			newEntity.setParent(null);
 		}
-		genericService.save(newEntity);
+		try {
+			genericService.save(newEntity);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 		initPermissionTree();
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public TreeNode getRoot() {

@@ -85,8 +85,13 @@ public class RoleView extends GenericView<Role> implements Serializable {
 			Role parentRole = genericLazyModel.getRowData(idRoleParent.toString());
 			newEntity.setPermissions(parentRole.getPermissions());
 		}
-		newEntity = (Role) genericService.save(newEntity);
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		try {
+			newEntity = (Role) genericService.save(newEntity);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,9 +99,14 @@ public class RoleView extends GenericView<Role> implements Serializable {
 		if (selectedRole != null) {
 			selectedRole.getPermissions().clear();
 			collectCheckedPermission(selectedRole.getPermissions(), rootPermission);
-			newEntity = (Role) genericService.save(selectedRole);
+			try {
+				newEntity = (Role) genericService.save(selectedRole);
+				Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+			} catch (Exception e) {
+				Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+						FacesMessage.SEVERITY_ERROR);
+			}
 		}
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void onRowSelect(SelectEvent event) {

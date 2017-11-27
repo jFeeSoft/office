@@ -41,8 +41,13 @@ public abstract class GenericView<T> {
 
 	@SuppressWarnings("unchecked")
 	public void save() {
-		newEntity = (T) genericService.save(newEntity);
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		try {
+			newEntity = (T) genericService.save(newEntity);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	public void edit(T entity) {

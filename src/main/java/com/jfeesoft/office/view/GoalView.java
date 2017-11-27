@@ -72,8 +72,13 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	@Override
 	public void save() {
 		newEntity.setStatus(Status.valueOf(selectedStatus));
-		newEntity = (Goal) genericService.save(newEntity);
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		try {
+			newEntity = (Goal) genericService.save(newEntity);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,8 +93,13 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	public void saveTask() {
 		newTask.setStatus(Status.valueOf(selectedStatus));
 		selectedGoal.getTasks().add(newTask);
-		selectedGoal = (Goal) genericService.save(selectedGoal);
-		Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		try {
+			selectedGoal = (Goal) genericService.save(selectedGoal);
+			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
+					FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -206,4 +206,30 @@
 		<dropNotNullConstraint columnName="goal_id"
 			schemaName="public" tableName="task" />
 	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-14">
+		<update schemaName="public" tableName="task">
+			<column name="version" value="0" />
+			<where>task_id=1</where>
+		</update>
+		<update schemaName="public" tableName="task">
+			<column name="version" value="0" />
+			<where>task_id=2</where>
+		</update>
+		<update schemaName="public" tableName="task">
+			<column name="version" value="0" />
+			<where>task_id=3</where>
+		</update>
+		<update schemaName="public" tableName="goal">
+			<column name="version" value="0" />
+			<where>goal_id=1</where>
+		</update>
+		<update schemaName="public" tableName="goal">
+			<column name="version" value="0" />
+			<where>goal_id=2</where>
+		</update>
+		<update schemaName="public" tableName="goal">
+			<column name="version" value="0" />
+			<where>goal_id=3</where>
+		</update>
+	</changeSet>
 </databaseChangeLog>

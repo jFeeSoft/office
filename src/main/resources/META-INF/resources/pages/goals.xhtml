@@ -97,7 +97,7 @@
 									</p:commandButton>
 									<p:spacer width="5"/>
 									<p:commandButton id="delete" process="@this"
-										action="#{goalView.delete(goal)}" update="goal:goalTable"
+										action="#{goalView.delete(goal)}" update="goal:goalTable, goal:taskTable"
 										styleClass="btn-danger" icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -256,8 +256,6 @@
 									for="taskStatusList"/>
 								<p:selectOneMenu id="taskStatusList"
 									value="#{goalView.selectedStatus}">
-									<f:selectItem itemLabel="#{msg['select.empty']}"
-										itemValue="#{null}" />
 									<f:selectItems value="#{goalView.status}" var="status"
 										itemLabel="#{status}" itemValue="#{status}" />
 								</p:selectOneMenu>
@@ -275,7 +273,7 @@
 								<p:commandButton icon="fa fa-eraser"
 									value="#{msg['button.clear']}" styleClass="btn-info"
 									process="@this" update="goal:newTaskPanel" resetValues="true"
-									actionListener="#{goalView.add}" />
+									actionListener="#{goalView.addTask}" />
 								<p:spacer width="10" />
 								<p:commandButton oncomplete="PF('newTaskDialog').hide()"
 									icon="fa fa-close" value="#{msg['button.cancel']}"

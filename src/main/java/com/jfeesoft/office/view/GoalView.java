@@ -32,7 +32,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	private String dialogMode;
 	private Task newTask;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private TaskService taskService;
 
@@ -46,22 +45,28 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		if (selectedGoal != null) {
 			taskSelected = selectedGoal.getTasks();
 		}
+		newEntity = new Goal();
+		newTask = new Task();
 	}
 
 	public void add() {
 		newEntity = new Goal();
+		selectedStatus = Status.NOWY.name();
 	}
 
 	public void addTask() {
 		newTask = new Task();
+		selectedStatus = Status.NOWY.name();
 	}
 
 	public void edit(Goal entity) {
 		newEntity = entity;
+		selectedStatus = entity.getStatus().name();
 	}
 
 	public void editTask(Task entity) {
 		newTask = entity;
+		selectedStatus = entity.getStatus().name();
 	}
 
 	public Status[] getStatus() {
@@ -92,9 +97,11 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 	@SuppressWarnings("unchecked")
 	public void saveTask() {
 		newTask.setStatus(Status.valueOf(selectedStatus));
-		selectedGoal.getTasks().add(newTask);
+		newTask.setGoalId(selectedGoal.getId());
 		try {
-			selectedGoal = (Goal) genericService.save(selectedGoal);
+			newTask = (Task) taskService.save(newTask);
+			taskSelected.removeIf(task -> task.getId().intValue() == newTask.getId().intValue());
+			taskSelected.add(newTask);
 			Utils.addDetailMessage(messagesBundle.getString("info.edit"), FacesMessage.SEVERITY_INFO);
 		} catch (Exception e) {
 			Utils.addDetailMessage(messagesBundle.getString("message.error.undefinedSaveException"),
@@ -104,8 +111,8 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public void deleteTask(Task entity) {
-		selectedGoal.getTasks().remove(entity);
-		selectedGoal = (Goal) genericService.save(selectedGoal);
+		taskSelected.remove(entity);
+		taskService.delete(entity);
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 

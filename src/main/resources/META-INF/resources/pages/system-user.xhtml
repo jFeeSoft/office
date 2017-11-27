@@ -257,8 +257,10 @@
 										</div>
 										<div class="form-group">
 											<p:outputLabel for="userMail"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{msg['systemuser.table.header.email']}:" />
 											<p:inputText id="userMail" class="form-control"
+												rendered="#{systemUserView.dialogMode ne 'VIEW'}"
 												value="#{systemUserView.newEntity.emailAddress}"
 												required="true" requiredMessage="#{msg['required.empty']}">
 												<f:validator binding="#{emailValidator}" />

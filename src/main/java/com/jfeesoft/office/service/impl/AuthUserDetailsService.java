@@ -26,13 +26,18 @@ public class AuthUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User userdetails = null;
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 		SystemUser systemUser = systemUserRepository.findByEmailAddress(userName);
 
-		User userdetails = new User(systemUser.getSurname(), systemUser.getPassword(), systemUser.getIsActive(),
-				accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(systemUser.getRoles()));
+		if (systemUser != null) {
+			userdetails = new User(systemUser.getSurname(), systemUser.getPassword(), systemUser.getIsActive(),
+					accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(systemUser.getRoles()));
+		} else {
+			throw new UsernameNotFoundException(userName);
+		}
 
 		return userdetails;
 	}

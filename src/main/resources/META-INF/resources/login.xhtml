@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -27,6 +27,9 @@
 		<!-- /.login-logo -->
 		<div class="login-box-body">
 			<p class="login-box-msg">#{msg['application.login.info']}</p>
+			<c:if test="#{param.error != null}">
+	   				 <p class="login-box-msg" style="color: red; padding: 0 5px 5px 5px;">#{msg['message.error.badLogin']}</p>
+				</c:if>
 
 			<form action="${request.contextPath}/appLogin" method="POST">
 				<div class="form-group has-feedback">

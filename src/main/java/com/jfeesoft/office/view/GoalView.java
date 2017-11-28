@@ -94,7 +94,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void saveTask() {
 		newTask.setStatus(Status.valueOf(selectedStatus));
 		newTask.setGoalId(selectedGoal.getId());
@@ -109,7 +108,6 @@ public class GoalView extends GenericView<Goal> implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void deleteTask(Task entity) {
 		taskSelected.remove(entity);
 		taskService.delete(entity);

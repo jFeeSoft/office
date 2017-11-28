@@ -30,25 +30,30 @@
 			</f:metadata>
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<div id="main-buttons" >
+					<div id="main-buttons">
 						<p:commandButton id="goalAddButton" action="#{goalView.add}"
 							update="goal:goalDialog" process="@this"
 							oncomplete="PF('newGoalDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add.goal']}" styleClass="btn-primary"
-							resetValues="true" >
+							resetValues="true">
 							<f:setPropertyActionListener value="ADD"
 								target="#{goalView.dialogMode}" />
 						</p:commandButton>
-						<p:spacer width="5"/>
+						<p:spacer width="5" />
 						<p:commandButton id="taskAddButton" action="#{goalView.addTask}"
-							update="goal:newTaskPanel" process="@this" disabled="#{goalView.selectedGoal eq null}"
+							update="goal:newTaskPanel" process="@this"
+							disabled="#{goalView.selectedGoal eq null}"
 							oncomplete="PF('newTaskDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add.task']}" styleClass="btn-primary"
-							resetValues="true" style="float:right"/>
+							resetValues="true" style="float:right" />
 					</div>
 					<p:separator />
 					<div class="ui-g">
 						<div class="ui-g-6">
+							<p:commandButton onclick="PF('goalTable').clearFilters()"
+								icon="fa fa-times-circle" value="#{msg['button.clearFilters']}"
+								styleClass="btn-primary" />
+							<p />
 							<p:dataTable id="goalTable" var="goal"
 								value="#{goalView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="goalTable" paginatorPosition="bottom"
@@ -57,7 +62,8 @@
 								selectionMode="single" selection="#{goalView.selectedGoal}"
 								rowKey="#{goal.id}" emptyMessage="#{msg['table.empty']}">
 
-								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}" update="goal:taskTable, goal:taskAddButton" />
+								<p:ajax event="rowSelect" listener="#{goalView.onRowSelect}"
+									update="goal:taskTable, goal:taskAddButton" />
 
 								<f:facet name="header">
 									<b>#{msg['goal.table.header']}</b>
@@ -68,7 +74,7 @@
 									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['goal.table.header.dateFrom']}"
-									sortBy="#{goal.dateFrom}" >
+									sortBy="#{goal.dateFrom}">
 									<h:outputText value="#{goal.dateFrom}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
@@ -76,7 +82,7 @@
 								</p:column>
 								<p:column headerText="#{msg['goal.table.header.dateTo']}"
 									sortBy="#{goal.dateTo}">
-									<h:outputText value="#{goal.dateTo}" >
+									<h:outputText value="#{goal.dateTo}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
 									<p:spacer height="2" />
@@ -87,17 +93,18 @@
 									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
-									<p:commandButton id="edit"
-										process="@this" action="#{goalView.edit(goal)}"
-										resetValues="true" update="goal:goalDialog"
+									<p:commandButton id="edit" process="@this"
+										action="#{goalView.edit(goal)}" resetValues="true"
+										update="goal:goalDialog"
 										oncomplete="PF('newGoalDialog').show()"
 										styleClass="btn-primary" icon="fa fa-search">
 										<f:setPropertyActionListener value="VIEW"
 											target="#{goalView.dialogMode}" />
 									</p:commandButton>
-									<p:spacer width="5"/>
+									<p:spacer width="5" />
 									<p:commandButton id="delete" process="@this"
-										action="#{goalView.delete(goal)}" update="goal:goalTable, goal:taskTable"
+										action="#{goalView.delete(goal)}"
+										update="goal:goalTable, goal:taskTable"
 										styleClass="btn-danger" icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -124,14 +131,14 @@
 								</p:column>
 								<p:column headerText="#{msg['task.table.header.dateFrom']}"
 									sortBy="#{task.dateFrom}">
-									<h:outputText value="#{task.dateFrom}" >
+									<h:outputText value="#{task.dateFrom}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
 									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['task.table.header.dateTo']}"
 									sortBy="#{task.dateTo}">
-									<h:outputText value="#{task.dateTo}" >
+									<h:outputText value="#{task.dateTo}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
 									<p:spacer height="2" />
@@ -142,17 +149,18 @@
 									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
-									<p:commandButton id="edit"
-										process="@this" action="#{goalView.editTask(task)}"
-										resetValues="true" update="goal:newTaskPanel"
+									<p:commandButton id="edit" process="@this"
+										action="#{goalView.editTask(task)}" resetValues="true"
+										update="goal:newTaskPanel"
 										oncomplete="PF('newTaskDialog').show()"
 										styleClass="btn-primary" icon="fa fa-search">
 										<f:setPropertyActionListener value="VIEW"
 											target="#{goalView.dialogMode}" />
 									</p:commandButton>
-									<p:spacer width="5"/>
+									<p:spacer width="5" />
 									<p:commandButton id="delete" process="@this"
-										action="#{goalView.deleteTask(task)}" update="goal:taskTable, goal:goalTable"
+										action="#{goalView.deleteTask(task)}"
+										update="goal:taskTable, goal:goalTable"
 										styleClass="btn-danger" icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -161,7 +169,8 @@
 							</p:dataTable>
 						</div>
 					</div>
-					<p:dialog id="goalDialog" header="#{goalView.dialogMode ne 'VIEW' ? msg['goal.new'] : msg['goal.edit']}"
+					<p:dialog id="goalDialog"
+						header="#{goalView.dialogMode ne 'VIEW' ? msg['goal.new'] : msg['goal.edit']}"
 						showEffect="fade" widgetVar="newGoalDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="newGoalPanel">
@@ -177,23 +186,23 @@
 								<div class="form-group">
 									<p:outputLabel for="goalDateFrom"
 										value="#{msg['goal.table.header.dateFrom']}:" />
-									<br/>
-									<p:calendar id="goalDateFrom" showOn="both" pattern="dd-MM-yyyy"
-										value="#{goalView.newEntity.dateFrom}"
-										required="true"	requiredMessage="#{msg['required.empty']}"/>
+									<br />
+									<p:calendar id="goalDateFrom" showOn="both"
+										pattern="dd-MM-yyyy" value="#{goalView.newEntity.dateFrom}"
+										required="true" requiredMessage="#{msg['required.empty']}" />
 									<p:message id="goalDateFromMsg" for="goalDateFrom" />
 								</div>
 								<div class="form-group">
 									<p:outputLabel for="goalDateTo"
 										value="#{msg['goal.table.header.dateTo']}:" />
-										<br/>
+									<br />
 									<p:calendar id="goalDateTo" showOn="both" pattern="dd-MM-yyyy"
-									value="#{goalView.newEntity.dateTo}"
-									required="true"	requiredMessage="#{msg['required.empty']}"/>
+										value="#{goalView.newEntity.dateTo}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
 									<p:message id="goalDateToMsg" for="goalDateTo" />
 								</div>
 								<p:outputLabel value="#{msg['goal.table.header.status']}:"
-									for="goalStatusList"/>
+									for="goalStatusList" />
 								<p:selectOneMenu id="goalStatusList"
 									value="#{goalView.selectedStatus}">
 									<f:selectItems value="#{goalView.status}" var="status"
@@ -206,8 +215,7 @@
 							<div id="save-buttons">
 								<p:commandButton icon="fa fa-plus" value="#{msg['button.save']}"
 									styleClass="btn-danger btn-primary" process="goal:newGoalPanel"
-									update="goal:goalTable"
-									action="#{goalView.save}"
+									update="goal:goalTable" action="#{goalView.save}"
 									oncomplete="if (args &amp;&amp; !args.validationFailed) PF('newGoalDialog').hide()" />
 								<p:spacer width="10" />
 								<p:commandButton icon="fa fa-eraser"
@@ -237,23 +245,23 @@
 								<div class="form-group">
 									<p:outputLabel for="taskDateFrom"
 										value="#{msg['task.table.header.dateFrom']}:" />
-										<br/>
-									<p:calendar id="taskDateFrom" showOn="both" pattern="dd-MM-yyyy"
-										value="#{goalView.newTask.dateFrom}"
-										required="true"	requiredMessage="#{msg['required.empty']}"/>
+									<br />
+									<p:calendar id="taskDateFrom" showOn="both"
+										pattern="dd-MM-yyyy" value="#{goalView.newTask.dateFrom}"
+										required="true" requiredMessage="#{msg['required.empty']}" />
 									<p:message id="taskDateFromMsg" for="taskDateFrom" />
 								</div>
 								<div class="form-group">
 									<p:outputLabel for="taskDateTo"
 										value="#{msg['task.table.header.dateTo']}:" />
-										<br/>
+									<br />
 									<p:calendar id="taskDateTo" showOn="both" pattern="dd-MM-yyyy"
-										value="#{goalView.newTask.dateTo}"
-										required="true"	requiredMessage="#{msg['required.empty']}"/>
+										value="#{goalView.newTask.dateTo}" required="true"
+										requiredMessage="#{msg['required.empty']}" />
 									<p:message id="taskDateToMsg" for="taskDateTo" />
 								</div>
 								<p:outputLabel value="#{msg['task.table.header.status']}:"
-									for="taskStatusList"/>
+									for="taskStatusList" />
 								<p:selectOneMenu id="taskStatusList"
 									value="#{goalView.selectedStatus}">
 									<f:selectItems value="#{goalView.status}" var="status"

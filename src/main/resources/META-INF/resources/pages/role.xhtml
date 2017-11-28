@@ -48,6 +48,10 @@
 					<p:separator />
 					<div class="ui-g">
 						<div class="ui-g-4">
+							<p:commandButton onclick="PF('roleTable').clearFilters()"
+								icon="fa fa-times-circle" value="#{msg['button.clearFilters']}"
+								styleClass="btn-primary" />
+							<p />
 							<p:dataTable id="roleTable" var="role"
 								value="#{roleView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="roleTable" paginatorPosition="bottom"
@@ -90,8 +94,8 @@
 						<div class="ui-g-8" id="treeDiv">
 							<p:treeTable id="permissionTree"
 								value="#{roleView.rootPermission}" var="permission"
-								editable="true" widgetVar="permissionTreeVar" emptyMessage="#{msg['table.empty']}">
-
+								editable="true" widgetVar="permissionTreeVar"
+								emptyMessage="#{msg['table.empty']}">
 								<f:facet name="header">
 									<b>#{msg['role.permission.available']}</b>
 								</f:facet>

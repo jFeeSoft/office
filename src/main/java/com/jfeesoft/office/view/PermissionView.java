@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.jfeesoft.office.model.GenericEntity;
 import com.jfeesoft.office.model.Permission;
 import com.jfeesoft.office.service.PermissionService;
+import com.jfeesoft.office.view.utils.DialogMode;
 import com.jfeesoft.office.view.utils.Utils;
 
 @Component("permissionView")
@@ -31,6 +32,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 	private HashMap<Long, Permission> permissionRoot;
 	private Long idPermission;
 	private TreeNode[] selectedNodes;
+	private String dialogMode;
 
 	public PermissionView(PermissionService genericService) {
 		super(genericService);
@@ -43,7 +45,7 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 	public void init() {
 		permissionRoot = Maps.newLinkedHashMap();
 		initPermissionTree();
-
+		dialogMode = DialogMode.ADD.name();
 	}
 
 	private void initPermissionTree() {
@@ -148,6 +150,14 @@ public class PermissionView extends GenericView<Permission> implements Serializa
 
 	public void setSelectedNodes(TreeNode[] selectedNodes) {
 		this.selectedNodes = selectedNodes;
+	}
+
+	public String getDialogMode() {
+		return dialogMode;
+	}
+
+	public void setDialogMode(String dialogMode) {
+		this.dialogMode = dialogMode;
 	}
 
 }

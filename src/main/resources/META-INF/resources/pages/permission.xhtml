@@ -33,10 +33,13 @@
 				<div class="box-header with-border">
 					<div id="main-buttons" >
 						<p:commandButton id="perAddButton" action="#{permissionView.add}"
-							update="permission:newPermissionPanel" process="@this"
+							update="permission:perDial" process="@this"
 							oncomplete="PF('newPermissionDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
-							resetValues="true" />
+							resetValues="true">
+							<f:setPropertyActionListener value="ADD"
+								target="#{permissionView.dialogMode}" />	
+						</p:commandButton>
 					</div>
 					<p:separator />
 					<p:treeTable id="permissionTree" value="#{permissionView.root}"
@@ -71,9 +74,12 @@
 						<p:column exportable="false" style="width:10%">
 							<p:commandButton id="edit" process="@this"
 								action="#{permissionView.edit(permission)}" resetValues="true"
-								update="permission:newPermissionPanel"
+								update="permission:perDial"
 								oncomplete="PF('newPermissionDialog').show()"
-								styleClass="btn-primary" icon="fa fa-search" />
+								styleClass="btn-primary" icon="fa fa-search">
+								<f:setPropertyActionListener value="VIEW"
+											target="#{permissionView.dialogMode}" />
+							</p:commandButton>
 							<p:spacer width="5" />
 							<p:commandButton id="delete" process="@this"
 								action="#{permissionView.delete(permission)}"
@@ -86,7 +92,8 @@
 					</p:treeTable>
 
 
-					<p:dialog id="perDial" header="#{msg['permission.new']}"
+					<p:dialog id="perDial"
+						header="#{permissionView.dialogMode ne 'VIEW' ? msg['permission.new'] : msg['permission.edit']}"
 						showEffect="fade" widgetVar="newPermissionDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="newPermissionPanel">

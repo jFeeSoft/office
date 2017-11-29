@@ -32,7 +32,7 @@
 				<div class="box-header with-border">
 					<div id="main-buttons">
 						<p:commandButton id="roleAddButton" action="#{roleView.add}"
-							update="role:newRolePanel" process="@this"
+							update="role:roleDialog" process="@this"
 							oncomplete="PF('newRoleDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
 							resetValues="true">
@@ -74,7 +74,7 @@
 								<p:column exportable="false" style="width:25%">
 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}"
 										process="@this" action="#{roleView.edit(role)}"
-										resetValues="true" update="role:newRolePanel"
+										resetValues="true" update="role:roleDialog"
 										oncomplete="PF('newRoleDialog').show()"
 										styleClass="btn-primary" icon="fa fa-search">
 										<f:setPropertyActionListener value="VIEW"
@@ -132,7 +132,8 @@
 						</div>
 					</div>
 
-					<p:dialog id="roleDialog" header="#{msg['role.new']}"
+					<p:dialog id="roleDialog"
+						header="#{roleView.dialogMode ne 'VIEW' ? msg['role.new'] : msg['role.edit']}"
 						showEffect="fade" widgetVar="newRoleDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="newRolePanel">

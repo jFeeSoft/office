@@ -33,7 +33,7 @@
 				<div class="box-header with-border">
 					<div id="main-buttons">
 						<p:commandButton id="userAddButton" action="#{systemUserView.add}"
-							update="systemUser:newSystemUserPanel" process="@this"
+							update="systemUser:perDial" process="@this"
 							oncomplete="PF('newSystemUserDialog').show()" icon="fa fa-plus"
 							value="#{msg['button.add']}" styleClass="btn-primary"
 							resetValues="true">
@@ -104,7 +104,7 @@
 							<span class="label label-success tag-label">#{systemUser.notes.size()}</span>
 							<p:commandButton id="edit" process="@this"
 								action="#{systemUserView.edit(systemUser)}" resetValues="true"
-								update="systemUser:newSystemUserPanel"
+								update="systemUser:perDial"
 								oncomplete="PF('newSystemUserDialog').show()"
 								styleClass="btn-primary" icon="fa fa-search">
 								<f:setPropertyActionListener value="VIEW"
@@ -219,7 +219,8 @@
 						</p:outputPanel>
 					</p:dialog>
 
-					<p:dialog id="perDial" header="#{msg['systemuser.new']}"
+					<p:dialog id="perDial" 
+						header="#{systemUserView.dialogMode ne 'VIEW' ? msg['systemuser.new'] : msg['systemuser.edit']}"
 						showEffect="fade" widgetVar="newSystemUserDialog" modal="true"
 						resizable="false" class="box box-primary">
 						<p:outputPanel id="newSystemUserPanel">

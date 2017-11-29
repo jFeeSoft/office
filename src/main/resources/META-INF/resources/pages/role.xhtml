@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/pages/template/template.xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -55,7 +56,7 @@
 							<p:dataTable id="roleTable" var="role"
 								value="#{roleView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="roleTable" paginatorPosition="bottom"
-								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
 								selectionMode="single" selection="#{roleView.selectedRole}"
 								rowKey="#{role.id}" emptyMessage="#{msg['table.empty']}">
@@ -69,7 +70,6 @@
 								<p:column headerText="#{msg['role.table.header.name']}"
 									sortBy="#{role.name}" filterBy="#{role.name}">
 									<h:outputText value="#{role.name}" />
-									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
 									<p:commandButton id="edit" rendered="#{role.name ne 'DEFAULT'}"
@@ -89,6 +89,18 @@
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 									</p:commandButton>
 								</p:column>
+								<f:facet name="{Exporters}">
+						            <h:commandLink immediate="true">
+						                <p:graphicImage name="/images/pdf.png" width="24" />
+						                <p:dataExporter type="pdf" target="roleTable"
+													fileName="roles" encoding="CP1250" />
+						            </h:commandLink>
+											<h:commandLink immediate="true">
+						                <p:graphicImage name="/images/excel.png" width="24" />
+						                <p:dataExporter type="xls" target="roleTable"
+													fileName="roles" />
+						            </h:commandLink>
+						        </f:facet>
 							</p:dataTable>
 						</div>
 						<div class="ui-g-8" id="treeDiv">

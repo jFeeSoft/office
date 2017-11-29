@@ -57,7 +57,7 @@
 							<p:dataTable id="goalTable" var="goal"
 								value="#{goalView.genericLazyModel}" paginator="true" rows="25"
 								widgetVar="goalTable" paginatorPosition="bottom"
-								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
 								rowsPerPageTemplate="25,50,100" lazy="true"
 								selectionMode="single" selection="#{goalView.selectedGoal}"
 								rowKey="#{goal.id}" emptyMessage="#{msg['table.empty']}">
@@ -71,26 +71,22 @@
 								<p:column headerText="#{msg['goal.table.header.name']}"
 									sortBy="#{goal.name}" filterBy="#{goal.name}">
 									<h:outputText value="#{goal.name}" />
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['goal.table.header.dateFrom']}"
 									sortBy="#{goal.dateFrom}">
 									<h:outputText value="#{goal.dateFrom}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['goal.table.header.dateTo']}"
 									sortBy="#{goal.dateTo}">
 									<h:outputText value="#{goal.dateTo}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['goal.table.header.status']}"
 									sortBy="#{goal.status}">
 									<h:outputText value="#{goal.status}" />
-									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
 									<p:commandButton id="edit" process="@this"
@@ -110,13 +106,25 @@
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 									</p:commandButton>
 								</p:column>
+								<f:facet name="{Exporters}">
+						            <h:commandLink immediate="true">
+						                <p:graphicImage name="/images/pdf.png" width="24" />
+						                <p:dataExporter type="pdf" target="goalTable"
+													fileName="goals" encoding="CP1250" />
+						            </h:commandLink>
+											<h:commandLink immediate="true">
+						                <p:graphicImage name="/images/excel.png" width="24" />
+						                <p:dataExporter type="xls" target="goalTable"
+													fileName="goals" />
+						            </h:commandLink>
+						        </f:facet>
 							</p:dataTable>
 						</div>
 						<div class="ui-g-6">
 							<p:dataTable id="taskTable" var="task"
 								value="#{goalView.taskSelected}" paginator="true" rows="25"
 								widgetVar="taskTable" paginatorPosition="bottom"
-								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
 								rowsPerPageTemplate="25,50,100" rowKey="#{task.id}"
 								emptyMessage="#{msg['table.empty']}">
 
@@ -127,26 +135,22 @@
 								<p:column headerText="#{msg['task.table.header.name']}"
 									sortBy="#{task.name}">
 									<h:outputText value="#{task.name}" />
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['task.table.header.dateFrom']}"
 									sortBy="#{task.dateFrom}">
 									<h:outputText value="#{task.dateFrom}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['task.table.header.dateTo']}"
 									sortBy="#{task.dateTo}">
 									<h:outputText value="#{task.dateTo}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
-									<p:spacer height="2" />
 								</p:column>
 								<p:column headerText="#{msg['task.table.header.status']}"
 									sortBy="#{task.status}">
 									<h:outputText value="#{task.status}" />
-									<p:spacer height="2" />
 								</p:column>
 								<p:column exportable="false" style="width:25%">
 									<p:commandButton id="edit" process="@this"
@@ -166,6 +170,18 @@
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
 									</p:commandButton>
 								</p:column>
+								<f:facet name="{Exporters}">
+						            <h:commandLink immediate="true">
+						                <p:graphicImage name="/images/pdf.png" width="24" />
+						                <p:dataExporter type="pdf" target="taskTable"
+													fileName="tasks" encoding="CP1250" />
+						            </h:commandLink>
+											<h:commandLink immediate="true">
+						                <p:graphicImage name="/images/excel.png" width="24" />
+						                <p:dataExporter type="xls" target="taskTable"
+													fileName="tasks" />
+						            </h:commandLink>
+						        </f:facet>
 							</p:dataTable>
 						</div>
 					</div>

@@ -1,5 +1,6 @@
 package com.jfeesoft.office.view;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,11 +22,13 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.jfeesoft.office.model.File;
 import com.jfeesoft.office.model.Note;
 import com.jfeesoft.office.model.OrganizationalUnit;
 import com.jfeesoft.office.model.Position;
 import com.jfeesoft.office.model.Role;
 import com.jfeesoft.office.model.SystemUser;
+import com.jfeesoft.office.service.FileService;
 import com.jfeesoft.office.service.OrganizationalUnitService;
 import com.jfeesoft.office.service.PositionService;
 import com.jfeesoft.office.service.RoleService;
@@ -40,15 +45,17 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	private DualListModel<Role> roles;
 
 	private List<Role> roleSource;
+	private List<File> attachList;
 
 	private SystemUser userNotes;
 	private String dialogMode;
 	private Long idPosition;
 	private Long idOrganizationUnit;
+	private Long idUser;
 	private Map<Long, Position> positions;
 	private Map<Long, OrganizationalUnit> organizationalUnits;
 
-	private Object test;
+	private StreamedContent file;
 
 	@Autowired
 	private RoleService roleService;
@@ -60,6 +67,9 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	private OrganizationalUnitService organizationalUnitService;
 
 	@Autowired
+	private FileService fileService;
+
+	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
 
 	public SystemUserView(SystemUserService genericService) {
@@ -69,6 +79,7 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	@PostConstruct
 	public void init() {
+		attachList = Lists.newArrayList();
 		dialogMode = DialogMode.ADD.name();
 		roleSource = (List<Role>) roleService.findAll();
 		positions = positionService.findAllMap();
@@ -91,12 +102,31 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		userNotes.getNotes().remove(note);
 	}
 
-	public void saveAttach() {
+	public void saveAttach(Long userId) {
+		idUser = userId;
+		List<File> files = fileService.findByUserId(userId);
+		attachList.clear();
+		attachList.addAll(files);
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
+		File file = new File();
+		file.setFileName(event.getFile().getFileName());
+		file.setContent(event.getFile().getContents());
+		file.setContentType(event.getFile().getContentType());
+		file.setUserId(idUser);
+		fileService.save(file);
 		FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public void deleteFile(File attach) {
+		fileService.delete(attach);
+	}
+
+	public void download(File attach) {
+		ByteArrayInputStream bis = new ByteArrayInputStream(attach.getContent());
+		file = new DefaultStreamedContent(bis, attach.getContentType(), attach.getFileName());
 	}
 
 	public void saveNotes() {
@@ -215,14 +245,6 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		this.roleSource = roleSource;
 	}
 
-	public Object getTest() {
-		return test;
-	}
-
-	public void setTest(Object test) {
-		this.test = test;
-	}
-
 	public List<Note> getNotes() {
 		if (userNotes == null) {
 			return Lists.newArrayList();
@@ -232,6 +254,14 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 
 	public void setNotes(List<Note> notes) {
 		this.userNotes.setNotes(notes);
+	}
+
+	public List<File> getAttachList() {
+		return attachList;
+	}
+
+	public void setAttachList(List<File> attachList) {
+		this.attachList = attachList;
 	}
 
 }

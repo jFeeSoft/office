@@ -45,6 +45,6 @@ public class JsfConfiguration extends WebMvcConfigurerAdapter implements Servlet
 		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
 		servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
 		servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
-		servletContext.setInitParameter("primefaces.UPLOADER", "commons");
+		servletContext.setInitParameter("primefaces.UPLOADER", "native");
 	}
 }

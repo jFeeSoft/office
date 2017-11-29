@@ -232,4 +232,32 @@
 			<where>goal_id=3</where>
 		</update>
 	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-15">
+		<createTable tableName="file">
+			<column name="file_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="BIGINT" />
+			<column name="file_name" type="VARCHAR(64)"/>
+			<column name="content" type="bytea"/>
+			<column name="user_id" type="BIGINT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-16">
+		<addPrimaryKey columnNames="file_id" constraintName="filePK"
+			tableName="file" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="file" constraintName="user_id_fk"
+			deferrable="false" initiallyDeferred="false" referencedColumnNames="system_user_id"
+			referencedTableName="system_user" />
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-17">
+		<createSequence sequenceName="file_seq" startValue="100" />
+	</changeSet>
+	<changeSet author="twojcicki" id="1503573039371-18">
+		<addColumn schemaName="public"
+            tableName="file">
+        <column name="content_type" type="varchar(128)"/>
+    </addColumn>
+	</changeSet>
 </databaseChangeLog>

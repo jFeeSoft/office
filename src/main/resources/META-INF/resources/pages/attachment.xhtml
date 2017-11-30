@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/pages/template/template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        #{msg['page.permission.title']}
+    </ui:define>
+
+	<ui:define name="description">
+        #{msg['page.permission.description']}
+    </ui:define>
+
+	<ui:define name="body">
+		<h:form id="attach">
+			<f:metadata>
+				<f:viewParam name="id" value="#{attachmentView.idUser}" />
+				<f:viewAction
+					action="#{breadCrumbBean.addElementNext('Załączniki','/pages/attachment.xhtml')}" />
+			</f:metadata>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<p:outputPanel id="attachPanel">
+							<div class="box-body">
+								<p:fileUpload
+									fileUploadListener="#{attachmentView.handleFileUpload}"
+									mode="advanced" dragDropSupport="false"
+									uploadLabel="#{msg['button.load']}"
+									cancelLabel="#{msg['button.delete']}"
+									label="#{msg['button.choose']}" />
+							</div>
+							<p:dataTable id="attachTable" var="attach"
+								value="#{attachmentView.attachList}"
+								emptyMessage="#{msg['table.empty']}">
+								<p:column headerText="#{msg['file.table.header.name']}">
+										<h:outputText value="#{attach.fileName}" />
+								</p:column>
+
+								<p:column style="width:17%;text-align: right" exportable="false">
+									<p:commandButton actionListener="#{attachmentView.download(attach)}"
+										styleClass="btn-primary" icon="fa fa-download" ajax="false">
+        								<p:fileDownload value="#{attachmentView.file}" />
+    								</p:commandButton>
+									<p:spacer width="5" />
+									<p:commandButton id="delete" process="@this"
+										action="#{attachmentView.deleteFile(attach)}"
+										update="attach:attachPanel" styleClass="btn-danger"
+										icon="fa fa-trash">
+										<p:confirm header="#{msg['confirmation.header']}"
+											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+
+							<p:separator />
+							<div id="save-buttons">
+								<p:commandButton icon="fa fa-close" value="#{msg['button.cancel']}" 
+								action="system-user?faces-redirect=true" styleClass="btn-default" />
+							</div>
+						</p:outputPanel>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

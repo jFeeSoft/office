@@ -32,6 +32,13 @@ public class BreadCrumbBean {
 		model.addElement(item);
 	}
 
+	public void addElementNext(String name, String href) {
+		DefaultMenuItem item = new DefaultMenuItem();
+		item.setHref(href);
+		item.setValue(name);
+		model.addElement(item);
+	}
+
 	public MenuModel getModel() {
 		return model;
 	}

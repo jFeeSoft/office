@@ -91,10 +91,8 @@
 						</p:column>
 						<p:column style="width:17%;text-align: right" exportable="false">
 							<p:commandButton id="attach" process="@this"
-								action="#{systemUserView.saveAttach(systemUser.id)}" resetValues="true"
-								update="systemUser:attachDial"
-								oncomplete="PF('attachDialog').show()" styleClass="btn-warning"
-								icon="fa fa-paperclip" />
+								action="#{systemUserView.goToAttachment(systemUser)}" resetValues="true" 
+								styleClass="btn-warning" icon="fa fa-paperclip" />
 							<span class="label label-success tag-label">#{systemUser.attachCount}</span>
 							<p:commandButton id="note" process="@this"
 								action="#{systemUserView.editNote(systemUser)}"
@@ -137,50 +135,6 @@
 				            </h:commandLink>
 				        </f:facet>
 					</p:dataTable>
-
-					<p:dialog id="attachDial" header="#{msg['attach.dialog.header']}"
-						showEffect="fade" widgetVar="attachDialog" modal="true"
-						resizable="false" class="box box-primary">
-						<p:outputPanel id="attachPanel">
-							<div class="box-body">
-								<p:fileUpload
-									fileUploadListener="#{systemUserView.handleFileUpload}"
-									mode="advanced" dragDropSupport="false"
-									uploadLabel="#{msg['button.load']}"
-									cancelLabel="#{msg['button.delete']}"
-									label="#{msg['button.choose']}" />
-							</div>
-							<p:dataTable id="attachTable" var="attach"
-								value="#{systemUserView.attachList}"
-								emptyMessage="#{msg['table.empty']}">
-								<p:column headerText="#{msg['file.table.header.name']}">
-										<h:outputText value="#{attach.fileName}" />
-								</p:column>
-
-								<p:column style="width:17%;text-align: right" exportable="false">
-									<p:commandButton action="#{systemUserView.download(attach)}"
-										styleClass="btn-primary" icon="fa fa-download">
-        								<p:fileDownload value="#{systemUserView.file}" />
-    								</p:commandButton>
-									<p:spacer width="5" />
-									<p:commandButton id="delete" process="@this"
-										action="#{systemUserView.deleteFile(attach)}"
-										update="systemUser:attachTable" styleClass="btn-danger"
-										icon="fa fa-trash">
-										<p:confirm header="#{msg['confirmation.header']}"
-											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
-									</p:commandButton>
-								</p:column>
-							</p:dataTable>
-
-							<p:separator />
-							<div id="save-buttons">
-								<p:commandButton oncomplete="PF('attachDialog').hide()"
-									icon="fa fa-close" value="#{msg['button.cancel']}"
-									update="systemUser:systemUserTable" styleClass="btn-default" />
-							</div>
-						</p:outputPanel>
-					</p:dialog>
 
 					<p:dialog id="noteDial" header="#{msg['note.dialog.header']}"
 						showEffect="fade" widgetVar="noteDialog" modal="true"

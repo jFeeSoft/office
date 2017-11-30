@@ -21,3 +21,13 @@ ul.ui-chips-container.ui-inputfield.ui-state-default.ui-corner-all {
 	left: -15px;
 	top: -17px;
 }
+
+.center-navbar{
+  display: block; 
+  text-align: center; 
+  color: white; 
+  padding: 15px; 
+  /* adjust based on your layout */
+  margin-left: 50px; 
+  margin-right: 300px;
+}

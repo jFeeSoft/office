@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jfeesoft.office.model.Note;
 import com.jfeesoft.office.model.SystemUser;
 import com.jfeesoft.office.model.Tag;
+import com.jfeesoft.office.repository.FileRepository;
 import com.jfeesoft.office.repository.NoteRepository;
 import com.jfeesoft.office.repository.SystemUserRepository;
 import com.jfeesoft.office.repository.TagRepository;
@@ -30,6 +31,9 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 	private SystemUserRepository userRepository;
 
 	@Autowired
+	private FileRepository fileRepository;
+
+	@Autowired
 	public SystemUserServiceImpl(SystemUserRepository systemUserRepository) {
 		super(systemUserRepository);
 
@@ -44,8 +48,10 @@ public class SystemUserServiceImpl extends GenericServiceImpl<SystemUser, Long> 
 		for (SystemUser user : users) {
 			List<Note> notes = noteRepository.findByRelationAndRelationId("systemUser", user.getId());
 			List<Tag> tags = tagRepository.findByRelationAndRelationId("systemUser", user.getId());
+			Long file = fileRepository.countByUserId(user.getId());
 			user.setTags(tags);
 			user.setNotes(notes);
+			user.setAttachCount(file);
 		}
 		return users;
 	}

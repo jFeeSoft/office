@@ -92,6 +92,9 @@ public class SystemUser extends GenericEntity {
 	@Transient
 	private List<Note> notes = new ArrayList<>();
 
+	@Transient
+	private Long attachCount;
+
 	public String getPassword() {
 		return password;
 	}
@@ -246,6 +249,14 @@ public class SystemUser extends GenericEntity {
 
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
+	}
+
+	public Long getAttachCount() {
+		return attachCount;
+	}
+
+	public void setAttachCount(Long attachCount) {
+		this.attachCount = attachCount;
 	}
 
 }

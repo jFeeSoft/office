@@ -95,7 +95,7 @@
 								update="systemUser:attachDial"
 								oncomplete="PF('attachDialog').show()" styleClass="btn-warning"
 								icon="fa fa-paperclip" />
-							<span class="label label-success tag-label">0</span>
+							<span class="label label-success tag-label">#{systemUser.attachCount}</span>
 							<p:commandButton id="note" process="@this"
 								action="#{systemUserView.editNote(systemUser)}"
 								resetValues="true" update="systemUser:notePanel"
@@ -177,7 +177,7 @@
 							<div id="save-buttons">
 								<p:commandButton oncomplete="PF('attachDialog').hide()"
 									icon="fa fa-close" value="#{msg['button.cancel']}"
-									styleClass="btn-default" />
+									update="systemUser:systemUserTable" styleClass="btn-default" />
 							</div>
 						</p:outputPanel>
 					</p:dialog>

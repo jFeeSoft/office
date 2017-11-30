@@ -46,6 +46,7 @@ public class RoleView extends GenericView<Role> implements Serializable {
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
+		newEntity = new Role();
 		dialogMode = DialogMode.ADD.name();
 		roleSource = (List<Role>) genericService.findAll();
 		List<Permission> permissionRootAll = permissionService.findAllRootPermission();

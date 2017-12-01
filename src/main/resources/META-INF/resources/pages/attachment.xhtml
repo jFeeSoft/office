@@ -16,11 +16,11 @@
 	</ui:define>
 
 	<ui:define name="title">
-        #{msg['page.permission.title']}
+        #{msg['page.attach.title']}
     </ui:define>
 
 	<ui:define name="description">
-        #{msg['page.permission.description']}
+        #{msg['page.attach.description']}
     </ui:define>
 
 	<ui:define name="body">
@@ -39,7 +39,8 @@
 									mode="advanced" dragDropSupport="false"
 									uploadLabel="#{msg['button.load']}"
 									cancelLabel="#{msg['button.delete']}"
-									label="#{msg['button.choose']}" />
+									label="#{msg['button.choose']}"
+									update="attach:attachTable" />
 							</div>
 							<p:dataTable id="attachTable" var="attach"
 								value="#{attachmentView.attachList}"
@@ -56,7 +57,7 @@
 									<p:spacer width="5" />
 									<p:commandButton id="delete" process="@this"
 										action="#{attachmentView.deleteFile(attach)}"
-										update="attach:attachPanel" styleClass="btn-danger"
+										update="attach:attachTable" styleClass="btn-danger"
 										icon="fa fa-trash">
 										<p:confirm header="#{msg['confirmation.header']}"
 											message="#{msg['confirmation.delete']}" icon="ui-icon-alert" />
@@ -70,6 +71,13 @@
 								action="system-user?faces-redirect=true" styleClass="btn-default" />
 							</div>
 						</p:outputPanel>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						styleClass="box-warning">
+						<p:commandButton value="#{msg['button.yes']}" type="button"
+							styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="#{msg['button.no']}" type="button"
+							styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+					</p:confirmDialog>
 				</div>
 			</div>
 		</h:form>

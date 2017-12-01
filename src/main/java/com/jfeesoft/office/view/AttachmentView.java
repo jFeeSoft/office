@@ -3,8 +3,10 @@ package com.jfeesoft.office.view;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.jfeesoft.office.model.File;
 import com.jfeesoft.office.service.FileService;
+import com.jfeesoft.office.view.utils.Utils;
 
 @Component("attachmentView")
 @Scope("view")
@@ -29,12 +32,16 @@ public class AttachmentView implements Serializable {
 	private Long idUser;
 
 	private StreamedContent file;
+	protected ResourceBundle messagesBundle;
 
 	@Autowired
 	private FileService fileService;
 
 	@PostConstruct
 	public void init() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		this.messagesBundle = application.getResourceBundle(context, "msg");
 		attachList = Lists.newArrayList();
 		if (idUser != null) {
 			attachList = fileService.findByUserId(idUser);
@@ -54,13 +61,15 @@ public class AttachmentView implements Serializable {
 		file.setContent(event.getFile().getContents());
 		file.setContentType(event.getFile().getContentType());
 		file.setUserId(idUser);
-		fileService.save(file);
-		FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		file = fileService.save(file);
+		attachList.add(file);
+		Utils.addDetailMessage(messagesBundle.getString("info.upload"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void deleteFile(File attach) {
 		fileService.delete(attach);
+		attachList.remove(attach);
+		Utils.addDetailMessage(messagesBundle.getString("info.delete"), FacesMessage.SEVERITY_INFO);
 	}
 
 	public void download(File attach) {

@@ -18,7 +18,7 @@ public class BreadCrumbBean {
 	public void init() {
 		model = new DefaultMenuModel();
 		homeItem = new DefaultMenuItem();
-		homeItem.setHref("/");
+		homeItem.setHref("/pages/index.xhtml");
 		homeItem.setIcon("ui-icon-home");
 		model.addElement(homeItem);
 	}

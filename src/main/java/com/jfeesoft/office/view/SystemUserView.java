@@ -45,6 +45,7 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 	private String dialogMode;
 	private Long idPosition;
 	private Long idOrganizationUnit;
+	@SuppressWarnings("unused")
 	private Long idUser;
 	private Map<Long, Position> positions;
 	private Map<Long, OrganizationalUnit> organizationalUnits;

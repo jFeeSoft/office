@@ -4,59 +4,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <body>
 	<ui:composition>
-		<!-- Logo -->
-		<a href="index.xhtml" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
-			<span class="logo-mini"></span> <!-- logo for regular state and mobile devices -->
-			<span class="logo-lg">#{msg['application.name.mini']}</span>
-		</a>
+		<h:form id="abc">
+			<!-- Logo -->
+			<a href="index.xhtml" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"></span> <!-- logo for regular state and mobile devices -->
+				<span class="logo-lg">#{msg['application.name.mini']}</span>
+			</a>
 
-		<!-- Header Navbar -->
-		<nav class="navbar navbar-static-top" role="navigation"> <!-- Sidebar toggle button-->
-		<a href="#" class="sidebar-toggle" data-toggle="push-menu"
-			role="button"><span class="sr-only">Toggle navigation</span> </a> <!-- Navbar Right Menu -->
+			<!-- Header Navbar -->
+			<nav class="navbar navbar-static-top" role="navigation"> <!-- Sidebar toggle button-->
+			<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+				role="button"><span class="sr-only">Toggle navigation</span> </a> <!-- Navbar Right Menu -->
 
-		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
-				<!-- Messages: style can be found in dropdown.less-->
-				<li class="dropdown messages-menu"><a href="#"
-					class="dropdown-toggle" data-toggle="dropdown"> <i
-						class="fa fa-envelope-o" /> <span class="label label-success">4</span>
-				</a>
-					<ul class="dropdown-menu">
-						<li class="header">Masz 4 nowe wiadomości</li>
-						<li>
-							<!-- inner menu: contains the messages -->
-							<ul class="menu">
-								<li>
-									<!-- start message --> <a href="#">
-										<h4>
-											WUP Wrocław <small><i class="fa fa-clock-o"></i> 5
-												mins</small>
-										</h4> <!-- The message -->
-										<p>Zmiana prawna w art. 11</p>
-								</a>
-								</li>
-								<!-- end message -->
-							</ul> <!-- /.menu -->
-						</li>
-						<li class="footer"><a href="#">Zobacz wszystkie
-								wiadomości</a></li>
-					</ul></li>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- Messages: style can be found in dropdown.less-->
+					<li class="dropdown messages-menu"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"> <i
+							class="fa fa-envelope-o" /> <span class="label label-success">4</span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="header">Masz 4 nowe wiadomości</li>
+							<li>
+								<!-- inner menu: contains the messages -->
+								<ul class="menu">
+									<li>
+										<!-- start message --> <a href="#">
+											<h4>
+												WUP Wrocław <small><i class="fa fa-clock-o"></i> 5
+													mins</small>
+											</h4> <!-- The message -->
+											<p>Zmiana prawna w art. 11</p>
+									</a>
+									</li>
+									<!-- end message -->
+								</ul> <!-- /.menu -->
+							</li>
+							<li class="footer"><a href="#">Zobacz wszystkie
+									wiadomości</a></li>
+						</ul></li>
 
-				<li class="user user-menu"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <span class="hidden-xs">Jan
-							Kowalski</span>
-				</a></li>
-				<li><a href="#" data-toggle="control-sidebar"><i
-						class="fa fa-gears"></i></a></li>
-				<li><a href="/appLogout"><i class="fa fa-sign-out"></i></a></li>
-			</ul>
-		</div>
-		<div class="center-navbar">#{msg['application.name']}</div>
-		</nav>
+					<li class="user user-menu"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <span class="hidden-xs">Jan
+								Kowalski</span>
+					</a></li>
+					<li><a href="#" data-toggle="control-sidebar"><i
+							class="fa fa-gears"></i></a></li>
+					<li><p:commandLink
+							action="#{systemUserView.logout()}" class="fa fa-sign-out">
+							<p:confirm header="#{msg['confirmation.header']}"
+								message="#{msg['confirmation.logout']}" icon="ui-icon-alert" />
+						</p:commandLink></li>
+				</ul>
+			</div>
+			<div class="center-navbar">#{msg['application.name']}</div>
+			</nav>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				styleClass="box-warning">
+				<p:commandButton value="#{msg['button.yes']}" type="button"
+					styleClass="btn-primary ui-confirmdialog-yes" icon="fa fa-check" />
+				<p:commandButton value="#{msg['button.no']}" type="button"
+					styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</h:form>
 	</ui:composition>
 </body>
 </html>

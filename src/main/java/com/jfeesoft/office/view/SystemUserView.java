@@ -165,6 +165,10 @@ public class SystemUserView extends GenericView<SystemUser> implements Serializa
 		}
 	}
 
+	public void logout() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/appLogout");
+	}
+
 	public DualListModel<Role> getRoles() {
 		return roles;
 	}

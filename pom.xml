@@ -98,6 +98,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>office</finalName>
 		<filters>
 			<filter>src/main/resources/profiles/${build.profile.id}/application.properties</filter>
 		</filters>
